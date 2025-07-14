@@ -1,7 +1,25 @@
-import React from "react"
+import LatestTransactions from "./LatestTransactions"
+import TopProducts from "./TopProducts"
+import Stats from "./Stats"
+import ChartRevenue from "./ChartRevenue"
+import ExpenseSummary from "./ExpenseSummary"
 
 function Dashboard() {
-  return <div>Dashboard</div>
+  return (
+    <div className="space-y-4">
+      <Stats />
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <ChartRevenue />
+        <TopProducts />
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <LatestTransactions />
+        <ExpenseSummary />
+      </div>
+    </div>
+  )
 }
 
 export default Dashboard

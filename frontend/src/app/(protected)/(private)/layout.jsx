@@ -7,7 +7,7 @@ function LayoutPrivate({ children }) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="w-full">
+      <main className="w-full px-4 pb-4">
         <Navbar />
         {children}
       </main>
