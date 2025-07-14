@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Calendar,
   LayoutDashboard,
@@ -24,6 +26,7 @@ import {
 import { Separator } from "./ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 const navLinks = [
   {
@@ -32,7 +35,7 @@ const navLinks = [
       {
         label: "",
         title: "Dashboard",
-        url: "#",
+        url: "/dashboard",
         icon: LayoutDashboard,
       },
     ],
@@ -63,6 +66,8 @@ const navLinks = [
 ]
 
 export function AppSidebar() {
+  const pathname = usePathname()
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -73,7 +78,7 @@ export function AppSidebar() {
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-              <span>Inventra</span>
+              <span className="font-medium">Inventra</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -89,7 +94,13 @@ export function AppSidebar() {
               <SidebarMenu>
                 {group.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
+                    <SidebarMenuButton
+                      asChild
+                      className={
+                        pathname.includes(item.url) &&
+                        "bg-sidebar-accent text-sidebar-accent-foreground"
+                      }
+                    >
                       <Link href={item.url}>
                         <item.icon />
                         <span>{item.title}</span>
