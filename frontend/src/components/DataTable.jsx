@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/table"
 import FloatingSelectionActions from "./FloatingSelectionActions"
 
-export function DataTable({ columns, data }) {
+export function DataTable({ columns, data, onBulkAction }) {
   const table = useReactTable({
     data,
     columns,
@@ -35,6 +35,7 @@ export function DataTable({ columns, data }) {
       <FloatingSelectionActions
         selectedCount={selectedRowCount}
         onClear={handleClearSelection}
+        onBulkAction={onBulkAction}
       />
 
       <div className="rounded-md border">

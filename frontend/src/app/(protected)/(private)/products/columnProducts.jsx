@@ -1,9 +1,21 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
@@ -107,17 +119,33 @@ const columnProducts = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="">
-            <DropdownMenuRadioGroup>
-              <DropdownMenuRadioItem value="top">
-                <EditIcon /> Edit
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="bottom">
-                <EyeIcon /> Detail
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="right">
-                <TrashIcon /> Delete
-              </DropdownMenuRadioItem>
-            </DropdownMenuRadioGroup>
+            <DropdownMenuItem>
+              <EditIcon /> Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <EyeIcon /> Detail
+            </DropdownMenuItem>
+
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  <TrashIcon /> Delete
+                </DropdownMenuItem>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your product and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction>Continue</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </DropdownMenuContent>
         </DropdownMenu>
       )

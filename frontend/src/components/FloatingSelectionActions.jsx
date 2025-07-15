@@ -1,7 +1,18 @@
-const { DownloadIcon, EditIcon, Trash2Icon, XIcon } = require("lucide-react")
-const { Badge } = require("./ui/badge")
-const { Button } = require("./ui/button")
-const { Card, CardContent } = require("./ui/card")
+import { DownloadIcon, EditIcon, Trash2Icon, XIcon } from "lucide-react"
+import { Badge } from "./ui/badge"
+import { Button } from "./ui/button"
+import { Card, CardContent } from "./ui/card"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 const FloatingSelectionActions = ({ selectedCount, onClear, onBulkAction }) => {
   if (selectedCount === 0) return null
@@ -46,15 +57,33 @@ const FloatingSelectionActions = ({ selectedCount, onClear, onBulkAction }) => {
                 <span>Edit</span>
               </Button>
 
-              <Button
-                variant="destructive"
-                size="sm"
-                // onClick={() => onBulkAction("delete")}
-                className="flex items-center space-x-1"
-              >
-                <Trash2Icon className="h-4 w-4" />
-                <span>Delete</span>
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="flex items-center space-x-1"
+                  >
+                    <Trash2Icon className="h-4 w-4" />
+                    <span>Delete</span>
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete
+                      your data and remove your data from our servers.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction>Continue</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           </div>
         </CardContent>
