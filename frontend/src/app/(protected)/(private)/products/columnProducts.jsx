@@ -23,6 +23,7 @@ import {
 import { formatCurrency } from "@/lib/formatters"
 import { ArrowUpDown, EditIcon, EyeIcon, TrashIcon } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
 const columnProducts = [
   {
@@ -122,8 +123,10 @@ const columnProducts = [
             <DropdownMenuItem>
               <EditIcon /> Edit
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <EyeIcon /> Detail
+            <DropdownMenuItem asChild>
+              <Link href={`products/${row.getValue("sku")}`}>
+                <EyeIcon /> Detail
+              </Link>
             </DropdownMenuItem>
 
             <AlertDialog>
