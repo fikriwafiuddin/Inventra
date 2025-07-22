@@ -15,14 +15,20 @@ import { useTheme } from "next-themes"
 import { SidebarTrigger } from "./ui/sidebar"
 import Link from "next/link"
 import { Input } from "./ui/input"
+import { usePathname } from "next/navigation"
 
 function Navbar() {
   const { setTheme } = useTheme()
+  const pathname = usePathname()
+  const split = pathname.split("/")
+  let title = split[1]
+  title = title.length > 0 ? title.charAt(0).toUpperCase() + title.slice(1) : ""
+
   return (
     <nav className="flex justify-between px-4 py-4">
       <div className="flex items-center gap-2">
         <SidebarTrigger />
-        <h2>Dashboard</h2>
+        <h2>{title}</h2>
       </div>
       <div className="flex gap-3">
         <Input
