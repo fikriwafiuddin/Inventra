@@ -138,7 +138,6 @@ async function DetailProductPage({ params }) {
         <TabsList>
           <TabsTrigger value="details">Details</TabsTrigger>
           <TabsTrigger value="sales">Sales</TabsTrigger>
-          <TabsTrigger value="purchase">Purchase</TabsTrigger>
         </TabsList>
         <TabsContent value="details">
           <DetailsTab sku={sku} />
