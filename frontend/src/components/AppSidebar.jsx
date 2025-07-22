@@ -10,6 +10,7 @@ import {
   FolderClosedIcon,
   TruckIcon,
   TouchpadIcon,
+  PackageIcon,
 } from "lucide-react"
 
 import {
@@ -41,7 +42,7 @@ const navLinks = [
     ],
   },
   {
-    label: "Mater Data",
+    label: "Master Data",
     items: [
       { title: "Products", url: "/products", icon: Inbox },
       { title: "Categories", url: "/categories", icon: FolderClosedIcon },
@@ -74,11 +75,10 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton>
-              <Avatar className="size-6">
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <span className="font-medium">Inventra</span>
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
+                <PackageIcon className="size-5 text-white" />
+              </div>
+              <span className="font-medium text-lg">Inventra</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
