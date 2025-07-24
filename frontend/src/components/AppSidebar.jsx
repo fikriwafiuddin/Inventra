@@ -11,11 +11,7 @@ import {
   TruckIcon,
   TouchpadIcon,
   PackageIcon,
-  HistoryIcon,
-  ClipboardListIcon,
-  ArrowRightFromLineIcon,
-  ArrowLeftFromLineIcon,
-  PackageCheckIcon,
+  BoxIcon,
 } from "lucide-react"
 
 import {
@@ -52,6 +48,7 @@ const navLinks = [
       { title: "Products", url: "/products", icon: Inbox },
       { title: "Categories", url: "/categories", icon: FolderClosedIcon },
       { title: "Suppliers", url: "/suppliers", icon: TruckIcon },
+      { title: "Stock", url: "/stock", icon: BoxIcon },
     ],
   },
   {
@@ -63,28 +60,6 @@ const navLinks = [
     ],
   },
   ,
-  {
-    label: "Inventory Management",
-    items: [
-      {
-        title: "Stock Adjustments",
-        url: "/stock-adjustments",
-        icon: PackageCheckIcon,
-      },
-      {
-        title: "Customer Returns",
-        url: "/customer-returns",
-        icon: ArrowLeftFromLineIcon,
-      },
-      {
-        title: "Supplier Returns",
-        url: "/supplier-returns",
-        icon: ArrowRightFromLineIcon,
-      },
-      { title: "Stock Opname", url: "/stock-opname", icon: ClipboardListIcon },
-      { title: "Stock History", url: "/stock-history", icon: HistoryIcon },
-    ],
-  },
   {
     label: "Analytics & More",
     items: [
