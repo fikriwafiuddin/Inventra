@@ -1,6 +1,14 @@
 "use client"
 
 import { Badge } from "@/components/ui/badge"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -51,12 +59,23 @@ const products = [
   },
 ]
 
-function AdjustmentsTab() {
+function AdjustmentsPage() {
   const [form, setForm] = useState({
     product: null,
   })
   return (
-    <div>
+    <div className="space-y-4">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/stock">Stock</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Adjustment</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <Card>
         <CardHeader>
           <CardTitle>Adjustments</CardTitle>
@@ -152,4 +171,4 @@ function AdjustmentsTab() {
   )
 }
 
-export default AdjustmentsTab
+export default AdjustmentsPage
