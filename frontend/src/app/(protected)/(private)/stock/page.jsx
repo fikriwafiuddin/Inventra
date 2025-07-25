@@ -126,7 +126,7 @@ const StockManagementPage = () => {
       description: "Kelola pengembalian barang dari pelanggan",
       icon: Users,
       color: "bg-green-500",
-      href: "/customer-returns",
+      href: "/stock/customer-returns",
       stats: "8 returns pending",
     },
     {
