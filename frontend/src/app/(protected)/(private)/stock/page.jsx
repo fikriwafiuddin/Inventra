@@ -26,6 +26,7 @@ import {
   Boxes,
 } from "lucide-react"
 import Link from "next/link"
+import StatCard from "@/components/StatCard"
 
 const StockManagementPage = () => {
   const [searchTerm, setSearchTerm] = useState("")
@@ -190,67 +191,26 @@ const StockManagementPage = () => {
     <div className="space-y-4 max-w-7xl mx-auto">
       {/* Stock Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Total Produk
-                </p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {stockOverview.totalProducts.toLocaleString()}
-                </p>
-              </div>
-              <Package className="h-8 w-8 text-blue-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Stock Habis</p>
-                <p className="text-2xl font-bold text-red-600">
-                  {stockOverview.outOfStockItems}
-                </p>
-              </div>
-              <AlertCircle className="h-8 w-8 text-red-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Stock Rendah
-                </p>
-                <p className="text-2xl font-bold text-yellow-600">
-                  {stockOverview.lowStockItems}
-                </p>
-              </div>
-              <AlertTriangle className="h-8 w-8 text-yellow-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Pergerakan Hari Ini
-                </p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {stockOverview.todayMovements}
-                </p>
-              </div>
-              <RefreshCw className="h-8 w-8 text-purple-600" />
-            </div>
-          </CardContent>
-        </Card>
+        <StatCard
+          title="Total Products"
+          value={1250}
+          icon={<Package className="text-blue-500" />}
+        />
+        <StatCard
+          title="Stock Habis"
+          value={8}
+          icon={<AlertCircle className="text-red-500" />}
+        />
+        <StatCard
+          title="Stock Rendah"
+          value={23}
+          icon={<AlertTriangle className="text-yellow-500" />}
+        />
+        <StatCard
+          title="Pergerakan Hari Ini"
+          value={40}
+          icon={<RefreshCw className="text-purple-500" />}
+        />
       </div>
 
       {/* Navigation Cards */}
