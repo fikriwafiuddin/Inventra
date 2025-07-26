@@ -134,7 +134,7 @@ const StockManagementPage = () => {
       description: "Proses pengembalian barang ke pemasok",
       icon: Building,
       color: "bg-orange-500",
-      href: "/supplier-returns",
+      href: "/stock/supplier-returns",
       stats: "3 returns dalam proses",
     },
     {
