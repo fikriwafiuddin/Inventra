@@ -157,13 +157,13 @@ const StockManagementPage = () => {
   const getMovementIcon = (type) => {
     switch (type) {
       case "in":
-        return <ArrowUpRight className="h-4 w-4 text-green-500" />
+        return <ArrowUpRight className="h-4 w-4 text-success" />
       case "out":
-        return <ArrowDownRight className="h-4 w-4 text-red-500" />
+        return <ArrowDownRight className="h-4 w-4 text-destructive" />
       case "adjustment":
-        return <RefreshCw className="h-4 w-4 text-blue-500" />
+        return <RefreshCw className="h-4 w-4 text-info" />
       case "return":
-        return <Users className="h-4 w-4 text-orange-500" />
+        return <Users className="h-4 w-4 text-warning" />
       default:
         return <Package className="h-4 w-4" />
     }
@@ -171,43 +171,37 @@ const StockManagementPage = () => {
 
   const getStockStatus = (current, min) => {
     if (current === 0)
-      return { status: "Habis", color: "bg-red-100 text-red-800" }
+      return { status: "Habis", color: "bg-red-100 text-destructive" }
     if (current <= min)
-      return { status: "Rendah", color: "bg-yellow-100 text-yellow-800" }
-    return { status: "Normal", color: "bg-green-100 text-green-800" }
+      return { status: "Rendah", color: "bg-yellow-100 text-warning" }
+    return { status: "Normal", color: "bg-green-100 text-success" }
   }
 
   return (
     <div className="space-y-4 max-w-7xl mx-auto">
       {/* Stock Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard
-          title="Total Products"
-          value={1250}
-          icon={<Package className="text-blue-500" />}
-        />
+        <StatCard title="Total Products" value={1250} icon={<Package />} />
         <StatCard
           title="Stock Habis"
           value={8}
-          icon={<AlertCircle className="text-red-500" />}
+          icon={<AlertCircle className="text-destructive" />}
         />
         <StatCard
           title="Stock Rendah"
           value={23}
-          icon={<AlertTriangle className="text-yellow-500" />}
+          icon={<AlertTriangle className="text-warning" />}
         />
         <StatCard
           title="Pergerakan Hari Ini"
           value={40}
-          icon={<RefreshCw className="text-purple-500" />}
+          icon={<RefreshCw className="text-info" />}
         />
       </div>
 
       {/* Navigation Cards */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">
-          Kelola Stock
-        </h2>
+        <h2 className="text-xl font-semibold mb-4">Kelola Stock</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {navigationCards.map((card, index) => {
             const IconComponent = card.icon
@@ -217,18 +211,16 @@ const StockManagementPage = () => {
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div
-                        className={`p-3 rounded-lg ${card.color} group-hover:scale-110 transition-transform duration-300`}
+                        className={`p-3 rounded-lg bg-secondary group-hover:scale-110 transition-transform duration-300`}
                       >
-                        <IconComponent className="h-6 w-6 text-white" />
+                        <IconComponent className="h-6 w-6 " />
                       </div>
                       <Badge variant="secondary" className="text-xs">
                         {card.stats}
                       </Badge>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                      {card.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-4">
+                    <h3 className="text-lg font-semibold">{card.title}</h3>
+                    <p className="text-muted-foreground text-sm mb-4">
                       {card.description}
                     </p>
                     <Button className="w-full" variant="outline">
@@ -248,7 +240,7 @@ const StockManagementPage = () => {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-yellow-600" />
+              <AlertTriangle className="h-5 w-5 text-warning" />
               Stock Alert
             </CardTitle>
           </CardHeader>
@@ -260,23 +252,25 @@ const StockManagementPage = () => {
                   item.minStock
                 )
                 return (
-                  <div
-                    key={item.id}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-                  >
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900">{item.name}</p>
-                      <p className="text-sm text-gray-600">{item.category}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-medium">
-                        Stock: {item.currentStock} / Min: {item.minStock}
-                      </p>
-                      <Badge className={`text-xs ${stockStatus.color}`}>
-                        {stockStatus.status}
-                      </Badge>
-                    </div>
-                  </div>
+                  <Card>
+                    <CardContent
+                      key={item.id}
+                      className="flex items-center justify-between rounded-lg"
+                    >
+                      <div className="flex-1">
+                        <p className="font-medium">{item.name}</p>
+                        <p className="text-sm">{item.category}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-medium">
+                          Stock: {item.currentStock} / Min: {item.minStock}
+                        </p>
+                        <Badge className={`text-xs ${stockStatus.color}`}>
+                          {stockStatus.status}
+                        </Badge>
+                      </div>
+                    </CardContent>
+                  </Card>
                 )
               })}
             </div>
@@ -291,46 +285,46 @@ const StockManagementPage = () => {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <History className="h-5 w-5 text-gray-600" />
+              <History className="h-5 w-5 text-muted-foreground" />
               Pergerakan Stock Terbaru
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {recentMovements.map((movement) => (
-                <div
-                  key={movement.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-                >
-                  <div className="flex items-center gap-3">
-                    {getMovementIcon(movement.type)}
-                    <div>
-                      <p className="font-medium text-gray-900">
-                        {movement.product}
-                      </p>
-                      <p className="text-sm text-gray-600">{movement.reason}</p>
+                <Card>
+                  <CardContent
+                    key={movement.id}
+                    className="flex items-center justify-between bg-primary-foreground rounded-lg"
+                  >
+                    <div className="flex items-center gap-3">
+                      {getMovementIcon(movement.type)}
+                      <div>
+                        <p className="font-medium">{movement.product}</p>
+                        <p className="text-sm">{movement.reason}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="text-right">
-                    <p
-                      className={`text-sm font-medium ${
-                        movement.type === "in" || movement.type === "return"
-                          ? "text-green-600"
-                          : movement.type === "out"
-                          ? "text-red-600"
-                          : "text-blue-600"
-                      }`}
-                    >
-                      {movement.type === "out"
-                        ? "-"
-                        : movement.quantity > 0
-                        ? "+"
-                        : ""}
-                      {Math.abs(movement.quantity)}
-                    </p>
-                    <p className="text-xs text-gray-500">{movement.time}</p>
-                  </div>
-                </div>
+                    <div className="text-right">
+                      <p
+                        className={`text-sm font-medium ${
+                          movement.type === "in" || movement.type === "return"
+                            ? "text-green-600"
+                            : movement.type === "out"
+                            ? "text-red-600"
+                            : "text-blue-600"
+                        }`}
+                      >
+                        {movement.type === "out"
+                          ? "-"
+                          : movement.quantity > 0
+                          ? "+"
+                          : ""}
+                        {Math.abs(movement.quantity)}
+                      </p>
+                      <p className="text-xs">{movement.time}</p>
+                    </div>
+                  </CardContent>
+                </Card>
               ))}
             </div>
             <Button variant="outline" className="w-full mt-4">
