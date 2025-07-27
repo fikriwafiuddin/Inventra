@@ -133,7 +133,7 @@ const StockManagementPage = () => {
       description: "Lakukan perhitungan fisik stock secara berkala",
       icon: Boxes,
       color: "bg-purple-500",
-      href: "/stock-opname",
+      href: "/stock/opname",
       stats: "Terakhir: 15 Jan 2025",
     },
     {

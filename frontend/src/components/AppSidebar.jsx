@@ -78,8 +78,8 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton>
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                <PackageIcon className="size-5 text-white" />
+              <div>
+                <PackageIcon className="size-5 text-indigo-600" />
               </div>
               <span className="font-medium text-lg">Inventra</span>
             </SidebarMenuButton>
