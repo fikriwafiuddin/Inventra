@@ -1,26 +1,18 @@
 "use client"
 
-import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import {
   AlertTriangle,
   Package,
-  TrendingUp,
-  TrendingDown,
   RefreshCw,
   History,
   Users,
   Building,
-  Search,
-  Filter,
   BarChart3,
   Eye,
   AlertCircle,
-  CheckCircle2,
-  Clock,
   ArrowUpRight,
   ArrowDownRight,
   Boxes,
@@ -29,8 +21,6 @@ import Link from "next/link"
 import StatCard from "@/components/StatCard"
 
 const StockManagementPage = () => {
-  const [searchTerm, setSearchTerm] = useState("")
-
   // Mock data untuk overview
   const stockOverview = {
     totalProducts: 1250,
@@ -167,13 +157,13 @@ const StockManagementPage = () => {
   const getMovementIcon = (type) => {
     switch (type) {
       case "in":
-        return <ArrowUpRight className="h-4 w-4 text-green-600" />
+        return <ArrowUpRight className="h-4 w-4 text-green-500" />
       case "out":
-        return <ArrowDownRight className="h-4 w-4 text-red-600" />
+        return <ArrowDownRight className="h-4 w-4 text-red-500" />
       case "adjustment":
-        return <RefreshCw className="h-4 w-4 text-blue-600" />
+        return <RefreshCw className="h-4 w-4 text-blue-500" />
       case "return":
-        return <Users className="h-4 w-4 text-orange-600" />
+        return <Users className="h-4 w-4 text-orange-500" />
       default:
         return <Package className="h-4 w-4" />
     }
