@@ -34,6 +34,14 @@ import {
   Calendar,
   Package,
 } from "lucide-react"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
 
 // Table components
 const Table = ({ children, ...props }) => (
@@ -741,12 +749,22 @@ const StockOpnamePage = () => {
   )
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="max-w-7xl mx-auto">
-        {currentView === "list" && renderSessionsList()}
-        {currentView === "counting" && renderCountingView()}
-        {currentView === "detail" && renderDetailView()}
-      </div>
+    <div className="space-y-4">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/stock">Stock</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Opname</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      {currentView === "list" && renderSessionsList()}
+      {currentView === "counting" && renderCountingView()}
+      {currentView === "detail" && renderDetailView()}
     </div>
   )
 }

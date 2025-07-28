@@ -1,0 +1,70 @@
+const opnames = [
+  {
+    _id: 1,
+    name: "Stock Opname Akhir Tahun 2024",
+    startDate: "2024-12-30",
+    endDate: "2024-12-31",
+    status: "completed",
+    productsCount: 150,
+    totalDifference: -25000,
+    items: [
+      {
+        _id: 12,
+        sku: "PSU-001",
+        name: "Corsair CV55 550 Watt 80 Plus",
+        price: 700000,
+        systemStock: 15,
+        physicalStock: 14,
+        difference: -1,
+      },
+      {
+        _id: 13,
+        sku: "MOB-001",
+        name: "TUF GAMING Z690-PLUS WIFI D4",
+        price: 1600000,
+        systemStock: 15,
+        physicalStock: 10,
+        difference: -5,
+        price: 15000000,
+      },
+      {
+        _id: 14,
+        sku: "GPU-001",
+        name: "GeForce RTX™ 3060 VENTUS 2X 12G OC",
+        systemStock: 15,
+        physicalStock: 4,
+        difference: -1,
+        price: 15000000,
+      },
+    ],
+  },
+  {
+    _id: 2,
+    name: "Stock Opname Bulanan Januari",
+    startDate: "2025-01-31",
+    endDate: null,
+    status: "incomplete",
+    productsCount: 85,
+    totalDifference: null,
+    items: [
+      {
+        _id: 15,
+        sku: "RAM-001",
+        name: "Kingston FURY Impact DDR4",
+        price: 400000,
+        physicalStock: 14,
+        difference: -2,
+      },
+      {
+        _id: 16,
+        sku: "MOU-001",
+        name: "Rexus Mouse Wireless Gaming Xierra 108",
+        price: 150000,
+        physicalStock: 14,
+        difference: -1,
+      },
+    ],
+  },
+]
+
+export default opnames
