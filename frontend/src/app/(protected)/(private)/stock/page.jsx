@@ -141,7 +141,7 @@ const StockManagementPage = () => {
       description: "Lihat riwayat pergerakan stock semua produk",
       icon: History,
       color: "bg-gray-500",
-      href: "/stock-history",
+      href: "/stock/history",
       stats: "47 movements hari ini",
     },
     {
