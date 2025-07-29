@@ -96,12 +96,21 @@ const columnProducts = [
     header: "Stock",
     cell: ({ row }) => {
       const stock = row.getValue("stock")
+      const minStock = row.getValue("min")
 
-      if (stock >= 5) {
-        return <Badge variant="outline">{stock}</Badge>
+      if (stock === 0) {
+        return <Badge variant="destructive">{stock}</Badge>
       }
-      return <Badge variant="destructive">{stock}</Badge>
+      if (stock < minStock) {
+        return <Badge variant="warning">{stock}</Badge>
+      }
+      return <Badge variant="outline">{stock}</Badge>
     },
+  },
+  {
+    accessorKey: "min",
+    header: "Min Stock",
+    cell: ({ row }) => row.getValue("min"),
   },
   {
     accessorKey: "sold",
