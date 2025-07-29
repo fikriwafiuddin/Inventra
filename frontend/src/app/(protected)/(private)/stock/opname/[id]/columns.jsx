@@ -8,7 +8,9 @@ const columns = [
   {
     accessorKey: "name",
     header: "Name",
-    cell: ({ row }) => row.getValue("name"),
+    cell: ({ row }) => (
+      <span className="font-medium">{row.getValue("name")}</span>
+    ),
   },
   {
     accessorKey: "systemStock",
@@ -32,13 +34,28 @@ const columns = [
     },
   },
   {
-    id: "value",
-    header: "Value",
-    // cell: ({row}) => formatCurrency(row.difference * row.price)
+    id: "differenceValue",
+    header: "Difference Value",
+    cell: ({ row }) => {
+      const item = row.original
+      const differenceValue = item.difference * item.price
+      if (differenceValue < 0)
+        return (
+          <Badge variant="destructive">{formatCurrency(differenceValue)}</Badge>
+        )
+      return <Badge variant="success">{formatCurrency(differenceValue)}</Badge>
+    },
   },
   {
     id: "status",
     header: "Status",
+    cell: ({ row }) => {
+      const difference = row.getValue("difference")
+      if (difference === 0) {
+        return <Badge variant="success">Sesuai</Badge>
+      }
+      return <Badge variant="destructive">Ada selisih</Badge>
+    },
   },
 ]
 
