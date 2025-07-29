@@ -2,13 +2,7 @@
 
 import { Input } from "@/components/ui/input"
 import Stats from "./Stats"
-import {
-  ArrowUpDown,
-  EditIcon,
-  EyeIcon,
-  SearchIcon,
-  TrashIcon,
-} from "lucide-react"
+import { SearchIcon } from "lucide-react"
 import {
   Select,
   SelectContent,
@@ -19,21 +13,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import { DataTable } from "@/components/DataTable"
-import Image from "next/image"
-import { formatCurrency } from "@/lib/formatters"
-import { Badge } from "@/components/ui/badge"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { Sheet, SheetTrigger } from "@/components/ui/sheet"
 import FormProduct from "./FormProduct"
-import FloatingSelectionActions from "@/components/FloatingSelectionActions"
 import AppPagination from "@/components/AppPagination"
 import columnProducts from "./columnProducts"
 import products from "@/data/products-data"
