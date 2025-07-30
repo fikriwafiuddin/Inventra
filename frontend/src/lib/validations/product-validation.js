@@ -22,6 +22,10 @@ const addProduct = z.object({
     z.number().positive({ error: "Price must be positive number" })
   ),
   category: z.string().length(24, "Category must be 24 characters"),
+  min: z.preprocess(
+    (val) => Number(val),
+    z.number().positive({ error: "Min stock must be positive number" })
+  ),
   description: z
     .string()
     .max(100, "Description must be at most 100 characters")
