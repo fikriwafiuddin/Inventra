@@ -16,6 +16,7 @@ import { SidebarTrigger } from "./ui/sidebar"
 import Link from "next/link"
 import { Input } from "./ui/input"
 import { usePathname } from "next/navigation"
+import { SignedIn, UserButton } from "@clerk/nextjs"
 
 function Navbar() {
   const { setTheme } = useTheme()
@@ -65,28 +66,9 @@ function Navbar() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="px-2 text-sm py-1.5" asChild>
-              <Link href="/profile">
-                <UserIcon className="inline size-5 mr-1" />
-                Profile
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem className="px-2 text-sm py-1.5">
-              <LogOutIcon className="inline size-5 mr-1" />
-              Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
       </div>
     </nav>
   )
