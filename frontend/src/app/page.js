@@ -1,3 +1,5 @@
+import { auth } from "@clerk/nextjs/server"
+
 import {
   Package,
   BarChart3,
@@ -11,6 +13,7 @@ import {
   X,
   ChevronDown,
   GlobeIcon,
+  ArrowRightIcon,
 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -126,6 +129,8 @@ const pricingPlans = [
 ]
 
 async function InventraLanding() {
+  const { userId } = await auth()
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
@@ -168,12 +173,20 @@ async function InventraLanding() {
 
             {/* CTA Buttons */}
             <div className="hidden md:flex items-center space-x-4">
-              <Link href="/auth/sign-up" passHref>
-                <Button variant="ghost">Sign-up</Button>
-              </Link>
-              <Link href="/auth/sign-in" passHref>
-                <Button>Sign-in</Button>
-              </Link>
+              {userId ? (
+                <Link href="/dashboard" passHref>
+                  <Button>Dashboard</Button>
+                </Link>
+              ) : (
+                <>
+                  <Link href="/auth/sign-up" passHref>
+                    <Button variant="ghost">Sign-up</Button>
+                  </Link>
+                  <Link href="/auth/sign-in" passHref>
+                    <Button>Sign-in</Button>
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -197,20 +210,33 @@ async function InventraLanding() {
               operasional dengan teknologi terdepan.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/auth/sign-up" passHref>
-                <Button
-                  size="lg"
-                  className="px-8 py-4 text-lg font-semibold"
-                  variant="ghost"
-                >
-                  Sign-up
-                </Button>
-              </Link>
-              <Link href="/auth/sign-in" passHref>
-                <Button size="lg" className="px-8 py-4 text-lg font-semibold">
-                  Sign-in
-                </Button>
-              </Link>
+              {userId ? (
+                <Link href="/dashboard" passHref>
+                  <Button size="lg" className="px-8 py-4 text-lg">
+                    Dashboard
+                  </Button>
+                </Link>
+              ) : (
+                <>
+                  <Link href="/auth/sign-up" passHref>
+                    <Button
+                      size="lg"
+                      className="px-8 py-4 text-lg font-semibold"
+                      variant="ghost"
+                    >
+                      Sign-up
+                    </Button>
+                  </Link>
+                  <Link href="/auth/sign-in" passHref>
+                    <Button
+                      size="lg"
+                      className="px-8 py-4 text-lg font-semibold"
+                    >
+                      Sign-in
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
             <div className="mt-8 text-sm text-muted-foreground">
               ✓ Tidak perlu kartu kredit ✓ Setup dalam 5 menit ✓ Support 24/7
@@ -401,24 +427,38 @@ async function InventraLanding() {
             Inventra. Coba gratis sekarang, tidak perlu kartu kredit.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/auth/sign-up" passHref>
-              <Button
-                size="lg"
-                className="px-8 py-4 text-lg font-semibold"
-                variant="secondary"
-              >
-                Sign-up
-              </Button>
-            </Link>
-            <Link href="/auth/sign-in" passHref>
-              <Button
-                variant="secondary"
-                size="lg"
-                className="px-8 py-4 text-lg font-semibold"
-              >
-                Sign-in
-              </Button>
-            </Link>
+            {userId ? (
+              <Link href="/dashboard" passHref>
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  className="px-8 py-4 text-lg"
+                >
+                  Dashboard
+                </Button>
+              </Link>
+            ) : (
+              <>
+                <Link href="/auth/sign-up" passHref>
+                  <Button
+                    size="lg"
+                    className="px-8 py-4 text-lg font-semibold"
+                    variant="secondary"
+                  >
+                    Sign-up
+                  </Button>
+                </Link>
+                <Link href="/auth/sign-in" passHref>
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    className="px-8 py-4 text-lg font-semibold"
+                  >
+                    Sign-in
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </section>
