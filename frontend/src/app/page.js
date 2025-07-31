@@ -1,6 +1,3 @@
-"use client"
-
-import React from "react"
 import {
   Package,
   BarChart3,
@@ -15,124 +12,125 @@ import {
   ChevronDown,
   GlobeIcon,
 } from "lucide-react"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import MobileNavigation from "@/components/MobileNavigation"
 
-const InventraLanding = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
+const features = [
+  {
+    icon: <Package className="w-6 h-6" />,
+    title: "Manajemen Stok Real-time",
+    description:
+      "Pantau stok produk secara real-time dengan notifikasi otomatis untuk stok menipis",
+  },
+  {
+    icon: <BarChart3 className="w-6 h-6" />,
+    title: "Analytics & Reporting",
+    description:
+      "Dashboard analitik komprehensif dengan laporan penjualan dan performa inventori",
+  },
+  {
+    icon: <GlobeIcon className="w-6 h-6" />,
+    title: "Access Anywhere",
+    description:
+      "Kelola tim dengan berbagai tingkat akses dan permission yang dapat dikustomisasi",
+  },
+  {
+    icon: <Shield className="w-6 h-6" />,
+    title: "Keamanan Data",
+    description:
+      "Enkripsi end-to-end dan backup otomatis untuk melindungi data bisnis Anda",
+  },
+  {
+    icon: <Zap className="w-6 h-6" />,
+    title: "Automasi Workflow",
+    description:
+      "Otomatisasi proses pemesanan, restock, dan transfer antar gudang",
+  },
+  {
+    icon: <CheckCircle className="w-6 h-6" />,
+    title: "Integrasi Mudah",
+    description:
+      "Integrasi seamless dengan platform e-commerce dan sistem akuntansi populer",
+  },
+]
 
-  const features = [
-    {
-      icon: <Package className="w-6 h-6" />,
-      title: "Manajemen Stok Real-time",
-      description:
-        "Pantau stok produk secara real-time dengan notifikasi otomatis untuk stok menipis",
-    },
-    {
-      icon: <BarChart3 className="w-6 h-6" />,
-      title: "Analytics & Reporting",
-      description:
-        "Dashboard analitik komprehensif dengan laporan penjualan dan performa inventori",
-    },
-    {
-      icon: <GlobeIcon className="w-6 h-6" />,
-      title: "Access Anywhere",
-      description:
-        "Kelola tim dengan berbagai tingkat akses dan permission yang dapat dikustomisasi",
-    },
-    {
-      icon: <Shield className="w-6 h-6" />,
-      title: "Keamanan Data",
-      description:
-        "Enkripsi end-to-end dan backup otomatis untuk melindungi data bisnis Anda",
-    },
-    {
-      icon: <Zap className="w-6 h-6" />,
-      title: "Automasi Workflow",
-      description:
-        "Otomatisasi proses pemesanan, restock, dan transfer antar gudang",
-    },
-    {
-      icon: <CheckCircle className="w-6 h-6" />,
-      title: "Integrasi Mudah",
-      description:
-        "Integrasi seamless dengan platform e-commerce dan sistem akuntansi populer",
-    },
-  ]
+const testimonials = [
+  {
+    name: "Budi Santoso",
+    company: "PT. Maju Bersama",
+    text: "Inventra membantu kami mengurangi stok mati hingga 40% dan meningkatkan efisiensi operasional.",
+    rating: 5,
+  },
+  {
+    name: "Sari Wijaya",
+    company: "Toko Elektronik Jaya",
+    text: "Interface yang user-friendly dan fitur analytics yang powerful. Sangat recommended!",
+    rating: 5,
+  },
+  {
+    name: "Ahmad Rifai",
+    company: "CV. Sentosa Makmur",
+    text: "Customer support yang responsif dan sistem yang sangat reliable untuk bisnis kami.",
+    rating: 5,
+  },
+]
 
-  const testimonials = [
-    {
-      name: "Budi Santoso",
-      company: "PT. Maju Bersama",
-      text: "Inventra membantu kami mengurangi stok mati hingga 40% dan meningkatkan efisiensi operasional.",
-      rating: 5,
-    },
-    {
-      name: "Sari Wijaya",
-      company: "Toko Elektronik Jaya",
-      text: "Interface yang user-friendly dan fitur analytics yang powerful. Sangat recommended!",
-      rating: 5,
-    },
-    {
-      name: "Ahmad Rifai",
-      company: "CV. Sentosa Makmur",
-      text: "Customer support yang responsif dan sistem yang sangat reliable untuk bisnis kami.",
-      rating: 5,
-    },
-  ]
+const pricingPlans = [
+  {
+    name: "Starter",
+    price: "299,000",
+    period: "per bulan",
+    description: "Cocok untuk bisnis kecil",
+    features: [
+      "Hingga 1,000 produk",
+      "2 lokasi gudang",
+      "Basic analytics",
+      "Email support",
+      "Mobile app access",
+    ],
+    popular: false,
+  },
+  {
+    name: "Professional",
+    price: "799,000",
+    period: "per bulan",
+    description: "Untuk bisnis yang berkembang",
+    features: [
+      "Hingga 10,000 produk",
+      "5 lokasi gudang",
+      "Advanced analytics",
+      "Priority support",
+      "API access",
+      "Custom reports",
+      "Multi-user (10 users)",
+    ],
+    popular: true,
+  },
+  {
+    name: "Enterprise",
+    price: "Custom",
+    period: "hubungi kami",
+    description: "Solusi untuk perusahaan besar",
+    features: [
+      "Unlimited produk",
+      "Unlimited lokasi",
+      "AI-powered insights",
+      "24/7 phone support",
+      "Custom integrations",
+      "Dedicated account manager",
+      "Unlimited users",
+    ],
+    popular: false,
+  },
+]
 
-  const pricingPlans = [
-    {
-      name: "Starter",
-      price: "299,000",
-      period: "per bulan",
-      description: "Cocok untuk bisnis kecil",
-      features: [
-        "Hingga 1,000 produk",
-        "2 lokasi gudang",
-        "Basic analytics",
-        "Email support",
-        "Mobile app access",
-      ],
-      popular: false,
-    },
-    {
-      name: "Professional",
-      price: "799,000",
-      period: "per bulan",
-      description: "Untuk bisnis yang berkembang",
-      features: [
-        "Hingga 10,000 produk",
-        "5 lokasi gudang",
-        "Advanced analytics",
-        "Priority support",
-        "API access",
-        "Custom reports",
-        "Multi-user (10 users)",
-      ],
-      popular: true,
-    },
-    {
-      name: "Enterprise",
-      price: "Custom",
-      period: "hubungi kami",
-      description: "Solusi untuk perusahaan besar",
-      features: [
-        "Unlimited produk",
-        "Unlimited lokasi",
-        "AI-powered insights",
-        "24/7 phone support",
-        "Custom integrations",
-        "Dedicated account manager",
-        "Unlimited users",
-      ],
-      popular: false,
-    },
-  ]
-
+async function InventraLanding() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
       <nav className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
@@ -170,66 +168,17 @@ const InventraLanding = () => {
 
             {/* CTA Buttons */}
             <div className="hidden md:flex items-center space-x-4">
-              <button className="text-foreground hover:text-primary transition-colors">
-                Masuk
-              </button>
-              <button className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
-                Coba Gratis
-              </button>
+              <Link href="/auth/sign-up" passHref>
+                <Button variant="ghost">Sign-up</Button>
+              </Link>
+              <Link href="/auth/sign-in" passHref>
+                <Button>Sign-in</Button>
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
-            <button
-              className="md:hidden"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
+            <MobileNavigation />
           </div>
-
-          {/* Mobile Menu */}
-          {mobileMenuOpen && (
-            <div className="md:hidden py-4 border-t border-border">
-              <div className="flex flex-col space-y-4">
-                <a
-                  href="#features"
-                  className="text-foreground hover:text-primary transition-colors"
-                >
-                  Fitur
-                </a>
-                <a
-                  href="#pricing"
-                  className="text-foreground hover:text-primary transition-colors"
-                >
-                  Harga
-                </a>
-                <a
-                  href="#testimonials"
-                  className="text-foreground hover:text-primary transition-colors"
-                >
-                  Testimoni
-                </a>
-                <a
-                  href="#contact"
-                  className="text-foreground hover:text-primary transition-colors"
-                >
-                  Kontak
-                </a>
-                <div className="flex flex-col space-y-2 pt-4 border-t border-border">
-                  <button className="text-left text-foreground hover:text-primary transition-colors">
-                    Masuk
-                  </button>
-                  <button className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-left">
-                    Coba Gratis
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </nav>
 
@@ -248,13 +197,20 @@ const InventraLanding = () => {
               operasional dengan teknologi terdepan.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-primary text-primary-foreground px-8 py-4 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-all transform hover:scale-105 flex items-center justify-center">
-                Mulai Gratis 14 Hari
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </button>
-              <button className="border border-border px-8 py-4 rounded-lg text-lg font-semibold hover:bg-accent transition-colors">
-                Lihat Demo
-              </button>
+              <Link href="/auth/sign-up" passHref>
+                <Button
+                  size="lg"
+                  className="px-8 py-4 text-lg font-semibold"
+                  variant="ghost"
+                >
+                  Sign-up
+                </Button>
+              </Link>
+              <Link href="/auth/sign-in" passHref>
+                <Button size="lg" className="px-8 py-4 text-lg font-semibold">
+                  Sign-in
+                </Button>
+              </Link>
             </div>
             <div className="mt-8 text-sm text-muted-foreground">
               ✓ Tidak perlu kartu kredit ✓ Setup dalam 5 menit ✓ Support 24/7
@@ -445,12 +401,24 @@ const InventraLanding = () => {
             Inventra. Coba gratis sekarang, tidak perlu kartu kredit.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-primary-foreground text-primary px-8 py-4 rounded-lg text-lg font-semibold hover:bg-primary-foreground/90 transition-colors">
-              Mulai Gratis 14 Hari
-            </button>
-            <button className="border border-primary-foreground/20 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-primary-foreground/10 transition-colors">
-              Hubungi Sales
-            </button>
+            <Link href="/auth/sign-up" passHref>
+              <Button
+                size="lg"
+                className="px-8 py-4 text-lg font-semibold"
+                variant="secondary"
+              >
+                Sign-up
+              </Button>
+            </Link>
+            <Link href="/auth/sign-in" passHref>
+              <Button
+                variant="secondary"
+                size="lg"
+                className="px-8 py-4 text-lg font-semibold"
+              >
+                Sign-in
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
