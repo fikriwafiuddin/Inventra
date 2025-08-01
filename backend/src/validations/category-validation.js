@@ -9,7 +9,7 @@ const add = z.object({
           : "Invalid category name",
     })
     .min(3, "Name must be at least 3 characters")
-    .max(50, "Name must be at most 50 characters"),
+    .max(20, "Name must be at most 20 characters"),
 })
 
 const categoryValidation = {

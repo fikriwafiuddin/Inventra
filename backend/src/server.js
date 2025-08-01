@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import "dotenv/config"
 import connectDB from "./utils/connectDB.js"
+import router from "./routers/router.js"
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -16,6 +17,8 @@ app.use(
 app.use(express.json())
 
 connectDB()
+
+app.use(router)
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)
