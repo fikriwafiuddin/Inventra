@@ -19,6 +19,12 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { useForm } from "react-hook-form"
+import {
+  useAddCategory,
+  useRemoveCategory,
+  useUpdateCategory,
+} from "@/services/hooks/category-hook"
+import { Loader2Icon } from "lucide-react"
 
 function FormCategory({ category }) {
   const form = useForm({
@@ -27,8 +33,17 @@ function FormCategory({ category }) {
       name: category?.name || "",
     },
   })
+  const { mutate, isPending } = useAddCategory()
+  const { mutate: updateMutate, isPending: isUpdatePending } =
+    useUpdateCategory()
 
-  const onSubmit = () => {}
+  const onSubmit = (data) => {
+    if (category) {
+      updateMutate({ id: category._id, name: data.name })
+    } else {
+      mutate(data)
+    }
+  }
   return (
     <SheetContent side="right">
       <SheetHeader>
@@ -50,11 +65,23 @@ function FormCategory({ category }) {
             )}
           />
 
-          <Button type="submit" className="mr-4">
-            Save
+          <Button
+            disabled={isPending || isUpdatePending}
+            type="submit"
+            className="mr-4"
+          >
+            {isPending || isUpdatePending ? (
+              <Loader2Icon className="animate-spin" />
+            ) : category ? (
+              "Update"
+            ) : (
+              "Add"
+            )}
           </Button>
           <SheetClose asChild>
-            <Button variant="outline">Close</Button>
+            <Button disabled={isPending || isUpdatePending} variant="outline">
+              Close
+            </Button>
           </SheetClose>
         </form>
       </Form>

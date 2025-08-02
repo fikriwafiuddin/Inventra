@@ -11,5 +11,23 @@ categoryRouter.post(
   authMiddleware,
   categoryController.add
 )
+categoryRouter.get(
+  "/",
+  clerkMiddleware(),
+  authMiddleware,
+  categoryController.getAll
+)
+categoryRouter.delete(
+  "/delete/:id",
+  clerkMiddleware(),
+  authMiddleware,
+  categoryController.remove
+)
+categoryRouter.put(
+  "/update/:id",
+  clerkMiddleware(),
+  authMiddleware,
+  categoryController.update
+)
 
 export default categoryRouter

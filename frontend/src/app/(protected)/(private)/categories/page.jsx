@@ -2,43 +2,45 @@ import { DataTable } from "@/components/DataTable"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetTrigger } from "@/components/ui/sheet"
-import { SearchIcon } from "lucide-react"
+import { SearchIcon, Table } from "lucide-react"
 import columnCategories from "./columnCateogries"
 import FormCategory from "./FormCategory"
 import AppPagination from "@/components/AppPagination"
+import { useGetAllCategories } from "@/services/hooks/category-hook"
+import CategoriesTable from "./CategoriesTable"
 
-const categories = [
-  {
-    name: "Motherboard",
-    _id: "111",
-    createdAt: "2022-01-01",
-    updatedAt: "2022-01-01",
-  },
-  {
-    name: "CPU",
-    _id: "222",
-    createdAt: "2022-01-01",
-    updatedAt: "2022-01-01",
-  },
-  {
-    name: "GPU",
-    _id: "333",
-    createdAt: "2022-01-01",
-    updatedAt: "2022-01-01",
-  },
-  {
-    name: "RAM",
-    _id: "444",
-    createdAt: "2022-01-01",
-    updatedAt: "2022-01-01",
-  },
-  {
-    name: "PSU",
-    _id: "555",
-    createdAt: "2022-01-01",
-    updatedAt: "2022-01-01",
-  },
-]
+// const categories = [
+//   {
+//     name: "Motherboard",
+//     _id: "111",
+//     createdAt: "2022-01-01",
+//     updatedAt: "2022-01-01",
+//   },
+//   {
+//     name: "CPU",
+//     _id: "222",
+//     createdAt: "2022-01-01",
+//     updatedAt: "2022-01-01",
+//   },
+//   {
+//     name: "GPU",
+//     _id: "333",
+//     createdAt: "2022-01-01",
+//     updatedAt: "2022-01-01",
+//   },
+//   {
+//     name: "RAM",
+//     _id: "444",
+//     createdAt: "2022-01-01",
+//     updatedAt: "2022-01-01",
+//   },
+//   {
+//     name: "PSU",
+//     _id: "555",
+//     createdAt: "2022-01-01",
+//     updatedAt: "2022-01-01",
+//   },
+// ]
 
 function categoriesPage() {
   return (
@@ -68,8 +70,7 @@ function categoriesPage() {
         </div>
       </div>
 
-      <DataTable data={categories} columns={columnCategories} />
-      {categories.length > 10 && <AppPagination />}
+      <CategoriesTable />
     </div>
   )
 }

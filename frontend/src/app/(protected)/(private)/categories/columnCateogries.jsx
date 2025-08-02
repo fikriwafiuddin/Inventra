@@ -19,10 +19,12 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import { EditIcon, EyeIcon, TrashIcon } from "lucide-react"
+import { EditIcon, EyeIcon, Loader2Icon, TrashIcon } from "lucide-react"
 import Link from "next/link"
 import { Sheet, SheetTrigger } from "@/components/ui/sheet"
 import FormCategory from "./FormCategory"
+import { useRemoveCategory } from "@/services/hooks/category-hook"
+import { formatDate } from "@/lib/formatters"
 
 const columnCategories = [
   {
@@ -55,17 +57,21 @@ const columnCategories = [
   {
     accessorKey: "createdAt",
     header: "Created At",
-    cell: ({ row }) => row.getValue("createdAt"),
+    cell: ({ row }) => formatDate(row.getValue("createdAt")),
   },
   {
     accessorKey: "updatedAt",
     header: "Updated At",
-    cell: ({ row }) => row.getValue("updatedAt"),
+    cell: ({ row }) => formatDate(row.getValue("updatedAt")),
   },
   {
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
+      const { mutate, isPending } = useRemoveCategory()
+      const handleDelete = () => {
+        mutate(row.original._id)
+      }
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -105,7 +111,19 @@ const columnCategories = [
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Continue</AlertDialogAction>
+                  <AlertDialogAction asChild>
+                    <button
+                      type="button"
+                      onClick={handleDelete}
+                      disabled={isPending}
+                    >
+                      {isPending ? (
+                        <Loader2Icon className="animate-spin" />
+                      ) : (
+                        "Delete"
+                      )}
+                    </button>
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>

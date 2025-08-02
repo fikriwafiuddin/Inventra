@@ -1,5 +1,6 @@
 import { AppSidebar } from "@/components/AppSidebar"
 import Navbar from "@/components/Navbar"
+import Providers from "@/components/Providers"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import React from "react"
 
@@ -9,7 +10,7 @@ function LayoutPrivate({ children }) {
       <AppSidebar />
       <main className="w-full px-4 pb-4">
         <Navbar />
-        {children}
+        <Providers>{children}</Providers>
       </main>
     </SidebarProvider>
   )
