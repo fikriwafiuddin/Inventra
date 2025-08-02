@@ -6,21 +6,14 @@ import columnCategories from "./columnCateogries"
 import { useGetAllCategories } from "@/services/hooks/category-hook"
 
 function CategoriesTable() {
-  const { isPending, data: categories, isError, error } = useGetAllCategories()
+  const { isPending, data: categories, error } = useGetAllCategories()
 
-  if (categories) {
-    return (
-      <>
-        <DataTable data={categories} columns={columnCategories} />
-        {categories.length > 10 && <AppPagination />}
-      </>
-    )
-  }
-
-  if (isError) {
+  if (error) {
     return (
       <div className="text-destructive text-center mt-4">
-        {error.response.data.message}
+        {error.response?.data.message ||
+          error.message ||
+          "An error occurred while fetching categories."}
       </div>
     )
   }
@@ -30,6 +23,16 @@ function CategoriesTable() {
       <div className="flex justify-center mt-4">
         <Loader2Icon className="animate-spin size-10 text-muted-foreground" />
       </div>
+    )
+  }
+
+  if (categories) {
+    console.log("CategoriesTable categories", categories, "hhhhhh")
+    return (
+      <>
+        <DataTable data={categories} columns={columnCategories} />
+        {categories.length > 10 && <AppPagination />}
+      </>
     )
   }
 }
