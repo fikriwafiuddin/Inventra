@@ -3,6 +3,8 @@ import cors from "cors"
 import "dotenv/config"
 import connectDB from "./utils/connectDB.js"
 import router from "./routers/router.js"
+import logger from "./utils/logger.js"
+import httpLogger from "./middlewares/httpLogger.js"
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -15,11 +17,12 @@ app.use(
   })
 )
 app.use(express.json())
+app.use(httpLogger)
 
 connectDB()
 
 app.use(router)
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
+  logger.info(`Server is running on port ${PORT}`)
 })
