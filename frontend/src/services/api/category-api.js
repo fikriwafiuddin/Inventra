@@ -19,7 +19,7 @@ const getAll = async (token) => {
 }
 
 const remove = async (id, token) => {
-  const response = await axiosInstance.delete(`/category/delete`, {
+  const response = await axiosInstance.delete(`/category/delete/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
