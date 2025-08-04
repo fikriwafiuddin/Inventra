@@ -3,7 +3,6 @@ import cloudinary from "../utils/clodinary.js"
 import logger from "../utils/logger.js"
 
 const errorMiddleware = (err, req, res, next) => {
-  console.log("error middleware")
   if (err instanceof ResponseError) {
     return res.status(err.status).json({
       message: err.message,
