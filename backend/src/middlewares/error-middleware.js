@@ -1,11 +1,22 @@
 import ResponseError from "../error/error-response.js"
+import cloudinary from "../utils/clodinary.js"
 import logger from "../utils/logger.js"
 
 const errorMiddleware = (err, req, res, next) => {
+  console.log("error middleware")
   if (err instanceof ResponseError) {
     return res.status(err.status).json({
       message: err.message,
       errors: err.data,
+    })
+  }
+
+  const image = req.file
+  if (image) {
+    cloudinary.uploader.destroy(image.public_id, (error) => {
+      if (error) {
+        logger.error(`Failed to delete image from Cloudinary: ${error.message}`)
+      }
     })
   }
 
