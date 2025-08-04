@@ -1,22 +1,5 @@
-import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import {
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import productValidation from "@/lib/validations/product-validation"
+"use client"
+
 import {
   Select,
   SelectContent,
@@ -28,35 +11,38 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { useState } from "react"
 import Image from "next/image"
+import { useGetAllCategories } from "@/services/hooks/category-hook"
+import { Loader2Icon } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import productValidation from "@/lib/validations/product-validation"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
 
-const categories = [
-  {
-    label: "Motherboard",
-    _id: "111",
-  },
-  {
-    label: "CPU",
-    _id: "222",
-  },
-  {
-    label: "GPU",
-    _id: "333",
-  },
-  {
-    label: "RAM",
-    _id: "444",
-  },
-  {
-    label: "PSU",
-    _id: "555",
-  },
-]
-
-function FormProduct() {
+function AddPage() {
   const form = useForm({ resolver: zodResolver(productValidation.addProduct) })
   const [previewImg, setPreviewImg] = useState(null)
+  const { mutate, isPending, data: categories } = useGetAllCategories()
 
-  const onSubmit = () => {}
+  const onSubmit = (data) => {
+    mutate(data)
+  }
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0]
@@ -67,10 +53,19 @@ function FormProduct() {
     }
   }
   return (
-    <SheetContent side="top">
-      <SheetHeader>
-        <SheetTitle>Add Product</SheetTitle>
-      </SheetHeader>
+    <div className="space-y-4">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/products">Product</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Add</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 px-4">
           <div className="grid grid-cols-2 gap-2">
@@ -109,15 +104,20 @@ function FormProduct() {
                 <FormItem>
                   <FormLabel>Category</FormLabel>
                   <FormControl>
-                    <Select {...field}>
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select category" />
+                        <SelectValue
+                          placeholder={
+                            isPending ? "Loading..." : "Select category"
+                          }
+                          disabled={isPending}
+                        />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          {categories.map((category) => (
-                            <SelectItem value={category._id}>
-                              {category.label}
+                          {categories?.map((category) => (
+                            <SelectItem key={category._id} value={category._id}>
+                              {category.name}
                             </SelectItem>
                           ))}
                         </SelectGroup>
@@ -142,6 +142,19 @@ function FormProduct() {
               )}
             />
           </div>
+          <FormField
+            control={form.control}
+            name="sku"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>SKU</FormLabel>
+                <FormControl>
+                  <Input placeholder="example: PSU-001" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="description"
@@ -185,16 +198,13 @@ function FormProduct() {
             )}
           />
 
-          <Button type="submit" className="mr-4">
-            Save
+          <Button disabled={isPending} type="submit" className="mr-4">
+            {isPending ? <Loader2Icon className="animate-spin" /> : "Save"}
           </Button>
-          <SheetClose asChild>
-            <Button variant="outline">Close</Button>
-          </SheetClose>
         </form>
       </Form>
-    </SheetContent>
+    </div>
   )
 }
 
-export default FormProduct
+export default AddPage

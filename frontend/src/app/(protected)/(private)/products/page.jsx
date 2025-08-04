@@ -14,12 +14,11 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { DataTable } from "@/components/DataTable"
-import { Sheet, SheetTrigger } from "@/components/ui/sheet"
-import FormProduct from "./FormProduct"
 import AppPagination from "@/components/AppPagination"
 import columnProducts from "./columnProducts"
 import products from "@/data/products-data"
 import categories from "@/data/categories-data"
+import Link from "next/link"
 
 function ProductsPage() {
   return (
@@ -29,12 +28,9 @@ function ProductsPage() {
 
       <div className="space-y-2">
         {/* ADD PRODUCT */}
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button>+ Add Product</Button>
-          </SheetTrigger>
-          <FormProduct />
-        </Sheet>
+        <Link className="block" href="/products/add" passHref>
+          <Button>+ Add Product</Button>
+        </Link>
 
         {/* FILTER */}
         <div className="flex gap-2">
