@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { useState } from "react"
+import { use, useEffect, useState } from "react"
 import Image from "next/image"
 import { useGetAllCategories } from "@/services/hooks/category-hook"
 import { Loader2Icon } from "lucide-react"
@@ -34,22 +34,52 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { useAddProduct } from "@/services/hooks/product-hook"
+import {
+  useDetailProduct,
+  useUpdateProduct,
+} from "@/services/hooks/product-hook"
 import { redirect } from "next/navigation"
 
-function AddPage() {
-  const form = useForm({ resolver: zodResolver(productValidation.addProduct) })
+function UpdatePage({ params }) {
+  const { sku } = use(params)
+
+  const form = useForm({ resolver: zodResolver(productValidation.update) })
   const [previewImg, setPreviewImg] = useState(null)
   const [image, setImage] = useState(undefined)
   const { isPending, data: categories } = useGetAllCategories()
-  const { mutate: saveProduct, isPending: saving, isSuccess } = useAddProduct()
+  const {
+    mutate: saveProduct,
+    isPending: saving,
+    isSuccess,
+  } = useUpdateProduct()
+
+  const {
+    isPending: takingProduct,
+    data: product,
+    error,
+  } = useDetailProduct(sku)
+
+  useEffect(() => {
+    if (product) {
+      form.setValue("name", product.name)
+      form.setValue("description", product.description)
+      form.setValue("price", product.price)
+      form.setValue("category", product.category._id)
+      form.setValue("sku", product.sku)
+      form.setValue("minStock", product.minStock)
+      setPreviewImg(product.image.url)
+      console.log(product.category._id)
+    }
+  }, [product])
 
   const onSubmit = (data) => {
     const formData = new FormData()
     for (const key in data) {
       formData.append(key, data[key])
     }
-    formData.set("image", image)
+    formData.delete("image")
+    if (image) formData.set("image", image)
+    formData.append("id", product._id)
     saveProduct(formData)
   }
 
@@ -67,6 +97,24 @@ function AddPage() {
     redirect("/products")
   }
 
+  if (takingProduct) {
+    return (
+      <div className="flex justify-center mt-4">
+        <Loader2Icon className="animate-spin size-10 text-muted-foreground" />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="text-destructive text-center mt-4">
+        {error.response?.data.message ||
+          error.message ||
+          "An error occurred while fetching categories."}
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-4">
       <Breadcrumb>
@@ -76,7 +124,7 @@ function AddPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Add</BreadcrumbPage>
+            <BreadcrumbPage>Update</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -120,7 +168,8 @@ function AddPage() {
                   <FormLabel>Category</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    value={field.value}
+                    defaultValue={product.category._id}
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
@@ -189,7 +238,7 @@ function AddPage() {
           <FormField
             control={form.control}
             name="image"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Image</FormLabel>
                 <FormControl>
@@ -225,4 +274,4 @@ function AddPage() {
   )
 }
 
-export default AddPage
+export default UpdatePage

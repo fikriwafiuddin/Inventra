@@ -21,7 +21,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { formatCurrency } from "@/lib/formatters"
-import { ArrowUpDown, EditIcon, EyeIcon, TrashIcon } from "lucide-react"
+import { useRemoveProduct } from "@/services/hooks/product-hook"
+import {
+  ArrowUpDown,
+  EditIcon,
+  EyeIcon,
+  Loader2Icon,
+  TrashIcon,
+} from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -57,7 +64,7 @@ const columnProducts = [
       return (
         <div className="relative size-7 p-0.5 bg-accent-foreground rounded-sm overflow-hidden">
           <Image
-            src={image}
+            src={image.url}
             alt={row.getValue("name")}
             fill
             className="object-cover"
@@ -84,7 +91,14 @@ const columnProducts = [
         </Button>
       )
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
+    cell: ({ row }) => (
+      <div className="flex flex-col">
+        <span className="lowercase">{row.getValue("name")}</span>
+        <span className="text-sm text-muted-foreground">
+          {row.original.category.name}
+        </span>
+      </div>
+    ),
   },
   {
     accessorKey: "price",
@@ -96,7 +110,7 @@ const columnProducts = [
     header: "Stock",
     cell: ({ row }) => {
       const stock = row.getValue("stock")
-      const minStock = row.getValue("min")
+      const minStock = row.getValue("minStock")
 
       if (stock === 0) {
         return <Badge variant="destructive">{stock}</Badge>
@@ -108,9 +122,9 @@ const columnProducts = [
     },
   },
   {
-    accessorKey: "min",
+    accessorKey: "minStock",
     header: "Min Stock",
-    cell: ({ row }) => row.getValue("min"),
+    cell: ({ row }) => row.getValue("minStock"),
   },
   {
     accessorKey: "sold",
@@ -121,6 +135,9 @@ const columnProducts = [
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
+      const { isPending, mutate: removeProduct } = useRemoveProduct()
+      const product = row.original
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -129,8 +146,10 @@ const columnProducts = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="">
-            <DropdownMenuItem>
-              <EditIcon /> Edit
+            <DropdownMenuItem asChild>
+              <Link href={`products/update/${row.getValue("sku")}`}>
+                <EditIcon /> Edit
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href={`products/${row.getValue("sku")}`}>
@@ -154,7 +173,18 @@ const columnProducts = [
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Continue</AlertDialogAction>
+                  <AlertDialogAction asChild>
+                    <button
+                      onClick={() => removeProduct(product._id)}
+                      type="button"
+                    >
+                      {isPending ? (
+                        <Loader2Icon className="animate-spin" />
+                      ) : (
+                        "Delete"
+                      )}
+                    </button>
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>

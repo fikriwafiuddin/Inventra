@@ -13,12 +13,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import { DataTable } from "@/components/DataTable"
-import AppPagination from "@/components/AppPagination"
-import columnProducts from "./columnProducts"
-import products from "@/data/products-data"
 import categories from "@/data/categories-data"
 import Link from "next/link"
+import ProductsTable from "./ProductsTable"
 
 function ProductsPage() {
   return (
@@ -28,8 +25,8 @@ function ProductsPage() {
 
       <div className="space-y-2">
         {/* ADD PRODUCT */}
-        <Link className="block" href="/products/add" passHref>
-          <Button>+ Add Product</Button>
+        <Link href="/products/add" passHref>
+          <Button className="mb-2">+ Add Product</Button>
         </Link>
 
         {/* FILTER */}
@@ -66,8 +63,7 @@ function ProductsPage() {
       </div>
 
       {/* TABLE PRODUCTS */}
-      <DataTable columns={columnProducts} data={products} />
-      <AppPagination />
+      <ProductsTable />
     </div>
   )
 }
