@@ -90,29 +90,27 @@ const update = async (request, user) => {
     })
   }
 
+  const product = await Product.findOne({ _id: data.id, user })
+
+  if (!product) {
+    throw new ResponseError("Product not found", 404)
+  }
+
+  if (data.image) {
+    await cloudinary.uploader.destroy(product.image.cloudinaryId, (error) => {
+      if (error) {
+        logger.error(
+          `Failed to delete image from Cloudinary: ${error.message}, image: ${data.image.url}`
+        )
+      }
+    })
+  }
+
   const updatedProduct = await Product.findOneAndUpdate(
     { _id: data.id, user },
     data,
     { new: true }
   )
-
-  if (!updatedProduct) {
-    throw new ResponseError("Product not found", 404)
-  }
-
-  if (data.image) {
-    await cloudinary.uploader.destroy(
-      updatedProduct.image.cloudinaryId,
-      (error) => {
-        if (error) {
-          logger.error(
-            `Failed to delete image from Cloudinary: ${error.message}, image: ${data.image.url}`
-          )
-        }
-      }
-    )
-  }
-
   return updatedProduct
 }
 
