@@ -15,6 +15,7 @@ export const useAddProduct = (data) => {
     onSuccess: (data) => {
       toast.success(data.message)
       queryClient.invalidateQueries({ queryKey: ["products"] })
+      queryClient.invalidateQueries({ queryKey: ["statistic-product"] })
     },
     onError: (error) => {
       toast.error(
