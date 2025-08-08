@@ -14,3 +14,16 @@ export const useGetStatisticProduct = () => {
     staleTime: 5 * 60 * 1000,
   })
 }
+
+export const useGetStatisticSupplier = () => {
+  const { getToken } = useAuth()
+
+  return useQuery({
+    queryKey: ["statistic-supplier"],
+    queryFn: async () => {
+      const token = await getToken()
+      return await statisticApi.supplier(token)
+    },
+    staleTime: 5 * 60 * 100,
+  })
+}

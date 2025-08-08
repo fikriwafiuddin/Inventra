@@ -15,6 +15,7 @@ export const useAddSupplier = () => {
     onSuccess: (data) => {
       toast.success(data.message)
       queryClient.invalidateQueries(["suppliers"])
+      queryClient.invalidateQueries(["statistic-supplier"])
     },
     onError: (error) => {
       toast.error(
@@ -76,6 +77,7 @@ export const useUpdateStatusSupplier = () => {
     onSuccess: (data) => {
       toast.success(data.message)
       queryClient.invalidateQueries(["suppliers"])
+      queryClient.invalidateQueries(["statistic-supplier"])
     },
     onError: (error) => {
       toast.error(
@@ -100,6 +102,7 @@ export const useRemoveSupplier = () => {
     onSuccess: (data) => {
       toast.success(data.message)
       queryClient.invalidateQueries({ queryKey: ["products"] })
+      queryClient.invalidateQueries(["statistic-supplier"])
     },
     onError: (error) => {
       toast.error(

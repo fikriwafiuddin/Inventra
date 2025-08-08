@@ -14,7 +14,22 @@ const product = async (req, res, next) => {
   }
 }
 
+const supplier = async (req, res, next) => {
+  try {
+    const user = req.user
+    const statistic = await statisticService.supplier(user)
+
+    return res.status(200).json({
+      message: "Supplier statistic retrived successfully",
+      body: { statistic },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const statisticController = {
   product,
+  supplier,
 }
 export default statisticController

@@ -11,5 +11,11 @@ statisticRouter.get(
   authMiddleware,
   statisticController.product
 )
+statisticRouter.get(
+  "/supplier",
+  clerkMiddleware(),
+  authMiddleware,
+  statisticController.supplier
+)
 
 export default statisticRouter
