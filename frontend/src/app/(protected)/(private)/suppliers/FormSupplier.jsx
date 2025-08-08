@@ -1,6 +1,5 @@
 "use client"
 
-import categoryValidation from "@/lib/validations/category-validation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import {
@@ -20,10 +19,16 @@ import {
 } from "@/components/ui/sheet"
 import { useForm } from "react-hook-form"
 import { Textarea } from "@/components/ui/textarea"
+import {
+  useAddSupplier,
+  useUpdateSupplier,
+} from "@/services/hooks/supplier-hook"
+import { Loader2Icon } from "lucide-react"
+import supplierValidation from "@/lib/validations/supplier-validations"
 
 function FormSupplier({ supplier }) {
   const form = useForm({
-    resolver: zodResolver(categoryValidation.addCategory),
+    resolver: zodResolver(supplierValidation.addSupplier),
     defaultValues: {
       name: supplier?.name || "",
       phone: supplier?.phone || "",
@@ -32,8 +37,16 @@ function FormSupplier({ supplier }) {
       status: supplier?.status || "",
     },
   })
+  const { isPending: adding, mutate: add } = useAddSupplier()
+  const { isPending: updating, mutate: update } = useUpdateSupplier()
 
-  const onSubmit = () => {}
+  const onSubmit = (data) => {
+    if (supplier) {
+      update({ id: supplier?._id, data })
+    } else {
+      add(data)
+    }
+  }
   return (
     <SheetContent side="right">
       <SheetHeader>
@@ -94,11 +107,17 @@ function FormSupplier({ supplier }) {
             )}
           />
 
-          <Button type="submit" className="mr-4">
-            Save
+          <Button disabled={adding || updating} type="submit" className="mr-4">
+            {adding || updating ? (
+              <Loader2Icon className="animate-spin" />
+            ) : (
+              "Save"
+            )}
           </Button>
           <SheetClose asChild>
-            <Button variant="outline">Close</Button>
+            <Button disabled={adding || updating} variant="outline">
+              Close
+            </Button>
           </SheetClose>
         </form>
       </Form>

@@ -22,8 +22,18 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetTrigger } from "@/components/ui/sheet"
 import { formatDate } from "@/lib/formatters"
-import { EditIcon, TrashIcon } from "lucide-react"
+import {
+  EditIcon,
+  Loader2Icon,
+  RefreshCwIcon,
+  RefreshCwOffIcon,
+  TrashIcon,
+} from "lucide-react"
 import FormSupplier from "./FormSupplier"
+import {
+  useRemoveSupplier,
+  useUpdateStatusSupplier,
+} from "@/services/hooks/supplier-hook"
 
 const columnSuppliers = [
   {
@@ -89,6 +99,10 @@ const columnSuppliers = [
     accessorKey: "actions",
     header: "Actions",
     cell: ({ row }) => {
+      const supplier = row.original
+      const { isPending: updating, mutate: update } = useUpdateStatusSupplier()
+      const { isPending: deleting, mutate: remove } = useRemoveSupplier()
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -103,9 +117,8 @@ const columnSuppliers = [
                   <EditIcon /> Edit
                 </DropdownMenuItem>
               </SheetTrigger>
-              <FormSupplier supplier={row.original} />
+              <FormSupplier supplier={supplier} />
             </Sheet>
-
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
@@ -116,13 +129,63 @@ const columnSuppliers = [
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your product and remove your data from our servers.
+                    Delete supplier {supplier.name}.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Continue</AlertDialogAction>
+                  <AlertDialogAction asChild>
+                    <button
+                      onClick={() => remove(supplier._id)}
+                      disabled={deleting || updating}
+                    >
+                      {deleting ? (
+                        <Loader2Icon className="animate-spin" />
+                      ) : (
+                        "Delete"
+                      )}
+                    </button>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  {supplier.status === "active" ? (
+                    <>
+                      <RefreshCwOffIcon /> Inactive
+                    </>
+                  ) : (
+                    <>
+                      <RefreshCwIcon /> Active
+                    </>
+                  )}
+                </DropdownMenuItem>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Change supplier status
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction asChild>
+                    <button
+                      disabled={updating || deleting}
+                      type="button"
+                      onClick={
+                        supplier.status === "active"
+                          ? () =>
+                              update({ id: supplier._id, status: "inactive" })
+                          : () => update({ id: supplier._id, status: "active" })
+                      }
+                    >
+                      {updating ? <Loader2Icon /> : "Change"}
+                    </button>
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>

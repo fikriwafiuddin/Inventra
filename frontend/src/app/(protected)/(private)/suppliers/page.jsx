@@ -4,9 +4,8 @@ import { Sheet, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { SearchIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
-import { DataTable } from "@/components/DataTable"
-import columnSuppliers from "./columnsSuppliers"
 import FormSupplier from "./FormSupplier"
+import SuppliersTable from "./SuppliersTable"
 
 const suppliers = [
   {
@@ -116,7 +115,7 @@ function SuppliersPage() {
         </div>
       </div>
 
-      <DataTable data={suppliers} columns={columnSuppliers} />
+      <SuppliersTable />
     </div>
   )
 }

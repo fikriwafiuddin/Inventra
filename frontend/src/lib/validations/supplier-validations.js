@@ -12,7 +12,7 @@ const addSupplier = z.object({
     .max(20, { error: "Name must be at most 20 characters" }),
   email: z
     .email({ error: "Invalid email" })
-    .max(20, { error: "Email must be at most 20 characters" }),
+    .max(50, { error: "Email must be at most 50 characters" }),
   phone: z
     .string()
     .min(10, { error: "Phone number must be at least 10 characters long" })
@@ -21,6 +21,7 @@ const addSupplier = z.object({
   address: z
     .string()
     .min(10, { error: "Address must be at least 10 characters long" })
+    .max(200, { error: "Address must be at most 200 characters" })
     .optional(),
 })
 
@@ -28,4 +29,4 @@ const supplierValidation = {
   addSupplier,
 }
 
-export default addSupplier
+export default supplierValidation
