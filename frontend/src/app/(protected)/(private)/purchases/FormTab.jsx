@@ -114,7 +114,7 @@ function FormTab() {
                               >
                                 {field.value
                                   ? selectedSupplier?.name
-                                  : "Select language"}
+                                  : "Select supplier"}
                                 <ChevronsUpDownIcon className="opacity-50" />
                               </Button>
                             </FormControl>
