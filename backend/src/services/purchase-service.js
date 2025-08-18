@@ -96,12 +96,25 @@ const add = async (request, user) => {
 }
 
 const getAll = async (user) => {
-  const purchases = await Purchase.find({ user })
+  const purchases = await Purchase.find(
+    { user },
+    { fracture: 1, supplier: 1, date: 1 }
+  )
   return purchases
+}
+
+const detail = async (fracture, user) => {
+  const purchase = await Purchase.findOne({ fracture, user })
+  if (!purchase) {
+    throw new ResponseError("Purchase not found", 404)
+  }
+
+  return purchase
 }
 
 const purchaseService = {
   add,
   getAll,
+  detail,
 }
 export default purchaseService

@@ -17,5 +17,11 @@ purchaseRouter.get(
   authMiddleware,
   purchaseController.getAll
 )
+purchaseRouter.get(
+  "/:fracture",
+  clerkMiddleware(),
+  authMiddleware,
+  purchaseController.detail
+)
 
 export default purchaseRouter

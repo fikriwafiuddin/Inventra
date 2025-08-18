@@ -31,8 +31,25 @@ const getAll = async (req, res, next) => {
   }
 }
 
+const detail = async (req, res, next) => {
+  try {
+    const { fracture } = req.params
+    const user = req.user
+
+    const purchase = await purchaseService.detail(fracture, user)
+
+    return res.status(200).json({
+      message: "Purchase details retrieved successfully",
+      body: { purchase },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const purchaseController = {
   add,
   getAll,
+  detail,
 }
 export default purchaseController

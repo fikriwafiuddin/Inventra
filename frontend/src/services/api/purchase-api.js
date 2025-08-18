@@ -18,8 +18,18 @@ const getAll = async (token) => {
   return response.data.body.purchases
 }
 
+const detail = async (fracture, token) => {
+  const response = await axiosInstance.get(`/purchase/${fracture}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return response.data.body.purchase
+}
+
 const purchaseApi = {
   add,
   getAll,
+  detail,
 }
 export default purchaseApi
