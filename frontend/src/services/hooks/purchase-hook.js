@@ -1,5 +1,5 @@
 import { useAuth } from "@clerk/nextjs"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import purchaseApi from "../api/purchase-api"
 import { toast } from "sonner"
 
@@ -24,5 +24,18 @@ export const useAddPurchase = () => {
       )
       console.error(error)
     },
+  })
+}
+
+export const useGetAllPurchases = () => {
+  const { getToken } = useAuth()
+
+  return useQuery({
+    queryKey: ["purchases"],
+    queryFn: async () => {
+      const token = await getToken()
+      return await purchaseApi.getAll(token)
+    },
+    staleTime: 5 * 60 * 1000,
   })
 }

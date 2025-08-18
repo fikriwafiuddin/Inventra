@@ -95,7 +95,13 @@ const add = async (request, user) => {
   }
 }
 
+const getAll = async (user) => {
+  const purchases = await Purchase.find({ user })
+  return purchases
+}
+
 const purchaseService = {
   add,
+  getAll,
 }
 export default purchaseService

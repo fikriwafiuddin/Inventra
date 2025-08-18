@@ -11,5 +11,11 @@ purchaseRouter.post(
   authMiddleware,
   purchaseController.add
 )
+purchaseRouter.get(
+  "/",
+  clerkMiddleware(),
+  authMiddleware,
+  purchaseController.getAll
+)
 
 export default purchaseRouter
