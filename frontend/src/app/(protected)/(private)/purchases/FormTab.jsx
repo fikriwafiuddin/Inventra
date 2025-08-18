@@ -18,117 +18,33 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import {
-  Select,
-  SelectItem,
-  SelectContent,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { PlusSquareIcon, XIcon } from "lucide-react"
+  Check,
+  ChevronsUpDownIcon,
+  Loader2Icon,
+  PlusSquareIcon,
+  XIcon,
+} from "lucide-react"
 import { useFieldArray, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import purchaseValidation from "@/lib/validations/purchase-validation"
-
-const suppliers = [
-  {
-    _id: "1",
-    name: "TechnoSupply Corp",
-    contactName: "John Smith",
-    email: "john@technosupply.com",
-    phone: "+1-555-0123",
-    address: "123 Business St",
-    city: "New York",
-    country: "United States",
-    taxId: "US123456789",
-    paymentTerms: "Net 30",
-    status: "active",
-    createdAt: "2024-01-15T09:00:00Z",
-    updatedAt: "2024-01-15T09:00:00Z",
-  },
-  {
-    _id: "2",
-    name: "Global Materials Ltd",
-    contactName: "Sarah Johnson",
-    email: "sarah@globalmaterials.com",
-    phone: "+44-20-7946-0958",
-    address: "456 Industrial Ave",
-    city: "London",
-    country: "United Kingdom",
-    taxId: "GB987654321",
-    paymentTerms: "Net 15",
-    status: "active",
-    createdAt: "2024-01-10T14:30:00Z",
-    updatedAt: "2024-01-20T11:15:00Z",
-  },
-  {
-    _id: "3",
-    name: "Premium Parts Inc",
-    contactName: "Michael Chen",
-    email: "michael@premiumparts.com",
-    phone: "+1-555-0187",
-    address: "789 Commerce Blvd",
-    city: "Los Angeles",
-    country: "United States",
-    taxId: "US555777999",
-    paymentTerms: "Net 45",
-    status: "inactive",
-    createdAt: "2024-01-05T16:45:00Z",
-    updatedAt: "2024-01-25T08:20:00Z",
-  },
-  {
-    _id: "4",
-    name: "Euro Components",
-    contactName: "Anna Mueller",
-    email: "anna@eurocomponents.de",
-    phone: "+49-30-12345678",
-    address: "321 Industrie Str",
-    city: "Berlin",
-    country: "Germany",
-    taxId: "DE111222333",
-    paymentTerms: "Net 30",
-    status: "active",
-    createdAt: "2024-01-08T12:00:00Z",
-    updatedAt: "2024-01-18T15:30:00Z",
-  },
-  {
-    _id: "5",
-    name: "Pacific Suppliers",
-    contactName: "Hiroshi Tanaka",
-    email: "hiroshi@pacificsuppliers.jp",
-    phone: "+81-3-1234-5678",
-    address: "654 Business District",
-    city: "Tokyo",
-    country: "Japan",
-    taxId: "JP444555666",
-    paymentTerms: "Net 60",
-    status: "active",
-    createdAt: "2024-01-12T10:15:00Z",
-    updatedAt: "2024-01-22T13:45:00Z",
-  },
-]
-
-const products = [
-  {
-    _id: "12",
-    name: "Corsair CV55 550 Watt 80 Plus",
-  },
-  {
-    _id: "13",
-    name: "TUF GAMING Z690-PLUS WIFI D4",
-  },
-  {
-    _id: "14",
-    name: "GeForce RTX™ 3060 VENTUS 2X 12G OC",
-  },
-  {
-    _id: "15",
-    name: "Kingston FURY Impact DDR4",
-  },
-  {
-    _id: "16",
-    name: "Rexus Mouse Wireless Gaming Xierra 108",
-  },
-]
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import { cn } from "@/lib/utils"
+import { useState } from "react"
+import { useSearchSuppliers } from "@/services/hooks/supplier-hook"
+import { useSearchProducts } from "@/services/hooks/product-hook"
+import { useAddPurchase } from "@/services/hooks/purchase-hook"
 
 function FormTab() {
   const form = useForm({
@@ -144,9 +60,18 @@ function FormTab() {
     control: form.control,
     name: "items",
   })
+  const [selectedSupplier, setSelectedSupplier] = useState(null)
+  const [selectedProducts, setSelectedproducts] = useState([])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTermProduct, setSearchTermProduct] = useState("")
+  const { isPending: loadingSuppliers, data: suppliers } =
+    useSearchSuppliers(searchTerm)
+  const { isPending: loadingProducts, data: products } =
+    useSearchProducts(searchTermProduct)
+  const { isPending: saving, mutate: save } = useAddPurchase()
 
   const handleAddItem = () => {
-    append({ product: "", quantity: 0, totalPrice: 0 })
+    append({ product: "", name: "", quantity: 0, totalPrice: 0 })
   }
 
   const handleRemoveItem = (index) => {
@@ -156,7 +81,7 @@ function FormTab() {
   }
 
   const onSubmit = (data) => {
-    console.log(data)
+    save(data)
   }
 
   return (
@@ -175,27 +100,70 @@ function FormTab() {
                   render={({ field }) => (
                     <FormItem>
                       <div className="space-y-1">
-                        <FormLabel>Choose Supplier</FormLabel>
-                        <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            value={field.value}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Choose supplier" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {suppliers.map((supplier) => (
-                                <SelectItem
-                                  key={supplier._id}
-                                  value={supplier._id}
-                                >
-                                  {supplier.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
+                        <FormLabel>Supplier</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                  "justify-between w-full",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value
+                                  ? selectedSupplier?.name
+                                  : "Select language"}
+                                <ChevronsUpDownIcon className="opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="p-0">
+                            <Command filter={() => 1}>
+                              <CommandInput
+                                placeholder="Search supplier..."
+                                className="h-9"
+                                onValueChange={(value) => setSearchTerm(value)}
+                              />
+                              <CommandList>
+                                {loadingSuppliers && (
+                                  <div className="flex items-center justify-center py-2">
+                                    <Loader2Icon className="h-4 w-4 animate-spin" />
+                                  </div>
+                                )}
+                                {!loadingSuppliers &&
+                                  suppliers?.length === 0 && (
+                                    <CommandEmpty>
+                                      Tidak ada supplier yang ditemukan.
+                                    </CommandEmpty>
+                                  )}
+                                <CommandGroup>
+                                  {suppliers?.map((supplier) => (
+                                    <CommandItem
+                                      value={supplier._id}
+                                      key={supplier._id}
+                                      onSelect={() => {
+                                        field.onChange(supplier._id)
+                                        setSelectedSupplier(supplier)
+                                      }}
+                                    >
+                                      <Check
+                                        className={cn(
+                                          "mr-2 h-4 w-4",
+                                          supplier._id === field.value
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                        )}
+                                      />
+                                      {supplier.name}
+                                    </CommandItem>
+                                  ))}
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
                         <FormMessage />
                       </div>
                     </FormItem>
@@ -265,26 +233,75 @@ function FormTab() {
                           <FormItem>
                             <div className="space-y-2">
                               <FormLabel>Product</FormLabel>
-                              <FormControl>
-                                <Select
-                                  onValueChange={field.onChange}
-                                  value={field.value}
-                                >
-                                  <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Choose product" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    {products.map((product) => (
-                                      <SelectItem
-                                        key={product._id}
-                                        value={product._id}
-                                      >
-                                        {product.name}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-                              </FormControl>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    <Button
+                                      variant="outline"
+                                      role="combobox"
+                                      className={cn(
+                                        "justify-between w-full",
+                                        !field.value && "text-muted-foreground"
+                                      )}
+                                    >
+                                      {field.value
+                                        ? selectedProducts[index]
+                                        : "Select product"}
+                                      <ChevronsUpDownIcon className="opacity-50" />
+                                    </Button>
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <PopoverContent className="p-0">
+                                  <Command filter={() => 1}>
+                                    <CommandInput
+                                      placeholder="Search product..."
+                                      className="h-9"
+                                      onValueChange={(value) =>
+                                        setSearchTermProduct(value)
+                                      }
+                                    />
+                                    <CommandList>
+                                      {loadingProducts && (
+                                        <div className="flex items-center justify-center py-2">
+                                          <Loader2Icon className="h-4 w-4 animate-spin" />
+                                        </div>
+                                      )}
+                                      {!loadingProducts &&
+                                        products?.length === 0 && (
+                                          <CommandEmpty>
+                                            Tidak ada product yang ditemukan.
+                                          </CommandEmpty>
+                                        )}
+                                      <CommandGroup>
+                                        {products?.map((product) => (
+                                          <CommandItem
+                                            value={product._id}
+                                            key={product._id}
+                                            onSelect={() => {
+                                              field.onChange(product._id)
+                                              setSelectedproducts((prev) => {
+                                                const updated = [...prev]
+                                                updated[index] = product.name
+                                                return updated
+                                              })
+                                            }}
+                                          >
+                                            <Check
+                                              className={cn(
+                                                "mr-2 h-4 w-4",
+                                                product._id === field.value
+                                                  ? "opacity-100"
+                                                  : "opacity-0"
+                                              )}
+                                            />
+                                            {product.name}
+                                          </CommandItem>
+                                        ))}
+                                      </CommandGroup>
+                                    </CommandList>
+                                  </Command>
+                                </PopoverContent>
+                              </Popover>
                               <FormMessage />
                             </div>
                           </FormItem>
@@ -334,7 +351,9 @@ function FormTab() {
               </Button>
             </CardContent>
             <CardFooter>
-              <Button type="submit">Save</Button>
+              <Button disabled={saving} type="submit">
+                {saving ? <Loader2Icon className="animate-spin" /> : "Save"}
+              </Button>
             </CardFooter>
           </Card>
         </div>

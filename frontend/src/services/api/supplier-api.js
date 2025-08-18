@@ -49,11 +49,22 @@ const remove = async (id, token) => {
   return response.data
 }
 
+const search = async ({ searchTerm, limit }, token) => {
+  const response = await axiosInstance.get("/supplier/search", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: { query: searchTerm, limit },
+  })
+  return response.data.body.suppliers
+}
+
 const supplierApi = {
   add,
   getAll,
   update,
   updateStatus,
   remove,
+  search,
 }
 export default supplierApi

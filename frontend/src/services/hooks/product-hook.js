@@ -2,6 +2,7 @@ import { useAuth } from "@clerk/nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import productApi from "../api/product-api"
 import { toast } from "sonner"
+import useDebounce from "@/hooks/useDebounce"
 
 export const useAddProduct = (data) => {
   const { getToken } = useAuth()
@@ -99,5 +100,23 @@ export const useUpdateProduct = () => {
       )
       console.error(error)
     },
+  })
+}
+
+export const useSearchProducts = (searchTerm, limit = 3) => {
+  const { getToken } = useAuth()
+  const debouncedSearchTerm = useDebounce(searchTerm, 500)
+
+  return useQuery({
+    queryKey: ["search-products", debouncedSearchTerm],
+    queryFn: async () => {
+      const token = await getToken()
+      return await productApi.search(
+        { searchTerm: debouncedSearchTerm, limit },
+        token
+      )
+    },
+    enabled: debouncedSearchTerm.trim().length > 0,
+    staleTime: 0,
   })
 }

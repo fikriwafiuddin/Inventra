@@ -87,11 +87,28 @@ const update = async (req, res, next) => {
   }
 }
 
+const search = async (req, res, next) => {
+  try {
+    const request = req.query
+    const user = req.user
+
+    const products = await productService.search(request, user)
+
+    return res.status(200).json({
+      message: "Products retrieved successfully",
+      body: { products },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const productController = {
   add,
   getAll,
   remove,
   detail,
   update,
+  search,
 }
 export default productController

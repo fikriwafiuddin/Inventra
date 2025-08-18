@@ -38,5 +38,11 @@ productRouter.patch(
   uploadFile,
   productController.update
 )
+productRouter.get(
+  "/search",
+  clerkMiddleware(),
+  authMiddleware,
+  productController.search
+)
 
 export default productRouter

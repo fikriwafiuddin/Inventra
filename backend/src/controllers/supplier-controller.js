@@ -86,11 +86,28 @@ const remove = async (req, res, next) => {
   }
 }
 
+const search = async (req, res, next) => {
+  try {
+    const user = req.user
+    const request = req.query
+
+    const suppliers = await supplierService.search(request, user)
+
+    return res.status(200).json({
+      message: "Supplier retrieved successfully",
+      body: { suppliers },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const supplierController = {
   add,
   getAll,
   update,
   updateStatus,
   remove,
+  search,
 }
 export default supplierController
