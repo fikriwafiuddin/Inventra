@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { formatCurrency, formatDate } from "@/lib/formatters"
 import { EyeIcon, TrashIcon } from "lucide-react"
+import Link from "next/link"
 
 const columnPurchases = [
   {
@@ -73,62 +74,11 @@ const columnPurchases = [
       const purchase = row.original
       return (
         <div className="space-x-2">
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="destructive" type="button">
-                <TrashIcon />
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your data and remove your data from our servers.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>Continue</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button>
-                <EyeIcon />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>View Purchase Details</DialogTitle>
-              </DialogHeader>
-              <div className="grid grid-cols-3">
-                <p>Fracture</p>
-                <p className="col-span-2">: {purchase.fracture}</p>
-                <p>Date</p>
-                <p className="col-span-2">: {formatDate(purchase.date)}</p>
-              </div>
-              <div className="">
-                <p>Items:</p>
-                <ul>
-                  {purchase.items.map((item) => (
-                    <li key={item._id} className="flex justify-between gap-2">
-                      <span>
-                        {item.product.name} {item.quantity}x
-                      </span>
-                      <span>{formatCurrency(item.totalPrice)}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button>Close</Button>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          <Button asChild>
+            <Link href={`/purchases/${purchase.fracture}`}>
+              <EyeIcon />
+            </Link>
+          </Button>
         </div>
       )
     },

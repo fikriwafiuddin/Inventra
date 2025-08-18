@@ -2,6 +2,7 @@ import { useAuth } from "@clerk/nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import supplierApi from "../api/supplier-api"
 import { toast } from "sonner"
+import useDebounce from "@/hooks/useDebounce"
 
 export const useAddSupplier = () => {
   const { getToken } = useAuth()
@@ -52,7 +53,7 @@ export const useUpdateSupplier = () => {
     },
     onSuccess: (data) => {
       toast.success(data.message)
-      queryClient.invalidateQueries(["suppliers"])
+      queryClient.invalidateQueries(["search-suppliers"])
     },
     onError: (error) => {
       toast.error(
@@ -112,5 +113,23 @@ export const useRemoveSupplier = () => {
       )
       console.error(error)
     },
+  })
+}
+
+export const useSearchSuppliers = (searchTerm, limit = 3) => {
+  const { getToken } = useAuth()
+  const debouncedSearchTerm = useDebounce(searchTerm, 500)
+
+  return useQuery({
+    queryKey: ["search-suppliers", debouncedSearchTerm],
+    queryFn: async () => {
+      const token = await getToken()
+      return await supplierApi.search(
+        { searchTerm: debouncedSearchTerm, limit },
+        token
+      )
+    },
+    enabled: debouncedSearchTerm.trim().length > 0,
+    staleTime: 0,
   })
 }

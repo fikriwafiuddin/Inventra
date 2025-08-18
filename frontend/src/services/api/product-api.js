@@ -47,11 +47,22 @@ const update = async (data, token) => {
   return response.data
 }
 
+const search = async ({ searchTerm, limit }, token) => {
+  const response = await axiosInstance.get("/product/search", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: { query: searchTerm, limit },
+  })
+  return response.data.body.products
+}
+
 const productApi = {
   add,
   getAll,
   remove,
   detail,
   update,
+  search,
 }
 export default productApi

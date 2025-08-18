@@ -58,9 +58,23 @@ const status = z.object({
   }),
 })
 
+const search = z.object({
+  query: z.string({ error: "Query must be a string" }).optional(),
+  limit: z.preprocess(
+    (val) => Number(val),
+    z
+      .number({
+        error: (issue) =>
+          issue.input === undefined ? "Limit is required" : "Invalid limit",
+      })
+      .positive({ error: "Limit must be a positive number" })
+  ),
+})
+
 const supplierValidation = {
   add,
   update,
   status,
+  search,
 }
 export default supplierValidation

@@ -64,11 +64,27 @@ const remove = async (id, user) => {
   return deletedSupplier
 }
 
+const search = async (request, user) => {
+  const { query, limit } = validation(supplierValidation.search, request)
+
+  const regex = new RegExp(query, "i")
+
+  const suppliers = await Supplier.find(
+    { name: { $regex: regex }, user },
+    { _id: 1, name: 1 }
+  )
+    .limit(limit)
+    .exec()
+
+  return suppliers
+}
+
 const supplierService = {
   add,
   getAll,
   update,
   updateStatus,
   remove,
+  search,
 }
 export default supplierService

@@ -114,11 +114,26 @@ const update = async (request, user) => {
   return updatedProduct
 }
 
+const search = async (request, user) => {
+  const { query, limit } = validation(productValidation.search, request)
+
+  const products = await Product.find({
+    $or: [
+      { name: { $regex: query, $options: "i" } },
+      { sku: { $regex: query, $options: "i" } },
+    ],
+    user,
+  }).limit(limit)
+
+  return products
+}
+
 const productService = {
   add,
   getAll,
   remove,
   detail,
   update,
+  search,
 }
 export default productService

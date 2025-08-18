@@ -35,5 +35,11 @@ supplierRouter.delete(
   authMiddleware,
   supplierController.remove
 )
+supplierRouter.get(
+  "/search",
+  clerkMiddleware(),
+  authMiddleware,
+  supplierController.search
+)
 
 export default supplierRouter
