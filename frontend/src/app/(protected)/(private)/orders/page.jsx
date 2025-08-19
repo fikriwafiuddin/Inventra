@@ -1,7 +1,7 @@
 "use client"
 
 import { Input } from "@/components/ui/input"
-import { SearchIcon } from "lucide-react"
+import { Loader2Icon, SearchIcon } from "lucide-react"
 import { DataTable } from "@/components/DataTable"
 import columnOrders from "./columnOrder"
 import AppPagination from "@/components/AppPagination"
@@ -15,57 +15,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { useState } from "react"
-
-const orders = [
-  {
-    orderId: "ORD-2024-001",
-    date: "2024-12-15",
-    items: [
-      { name: "Laptop Gaming ROG", quantity: 1, price: 15000000 },
-      { name: "Mouse Wireless", quantity: 2, price: 250000 },
-    ],
-    amount: 15500000,
-  },
-  {
-    orderId: "ORD-2024-002",
-    date: "2024-12-14",
-    items: [
-      { name: "Keyboard Mechanical", quantity: 1, price: 800000 },
-      { name: "Monitor 4K", quantity: 1, price: 3500000 },
-    ],
-    amount: 4300000,
-  },
-  {
-    orderId: "ORD-2024-003",
-    date: "2024-11-28",
-    items: [
-      { name: "Headset Gaming", quantity: 1, price: 450000 },
-      { name: "Webcam HD", quantity: 1, price: 350000 },
-    ],
-    amount: 800000,
-  },
-  {
-    orderId: "ORD-2024-004",
-    date: "2024-11-25",
-    items: [{ name: "Laptop Gaming ROG", quantity: 1, price: 15000000 }],
-    amount: 15000000,
-  },
-  {
-    orderId: "ORD-2024-005",
-    date: "2024-10-20",
-    items: [
-      { name: "Mouse Wireless", quantity: 3, price: 250000 },
-      { name: "Keyboard Mechanical", quantity: 1, price: 800000 },
-    ],
-    amount: 1550000,
-  },
-  {
-    orderId: "ORD-2024-006",
-    date: "2024-12-13",
-    items: [{ name: "Monitor 4K", quantity: 2, price: 3500000 }],
-    amount: 7000000,
-  },
-]
+import { useGetAllOrders } from "@/services/hooks/order-hook"
 
 function OrdersPage() {
   const [openStart, setOpenStart] = useState(false)
@@ -75,6 +25,8 @@ function OrdersPage() {
   const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0)
   const [start, setStart] = useState(firstDay)
   const [end, setEnd] = useState(lastDay)
+  const { isPending, data: orders, error } = useGetAllOrders()
+
   return (
     <div className="space-y-4">
       {/* FILTER */}
@@ -156,8 +108,25 @@ function OrdersPage() {
         </div>
       </div>
 
-      <DataTable data={orders} columns={columnOrders} />
-      {orders?.length > 10 && <AppPagination />}
+      {error && (
+        <div className="text-destructive text-center mt-4">
+          {error.response?.data.message ||
+            error.message ||
+            "An error occurred while fetching categories."}
+        </div>
+      )}
+      {isPending && (
+        <div className="flex justify-center mt-4">
+          <Loader2Icon className="animate-spin size-10 text-muted-foreground" />
+        </div>
+      )}
+
+      {orders && (
+        <>
+          <DataTable data={orders} columns={columnOrders} />
+          {orders?.length > 10 && <AppPagination />}
+        </>
+      )}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { useAuth } from "@clerk/nextjs"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import orderApi from "../api/order-api"
 import { toast } from "sonner"
 
@@ -25,5 +25,18 @@ export const useAddOrder = () => {
       )
       console.error(error)
     },
+  })
+}
+
+export const useGetAllOrders = () => {
+  const { getToken } = useAuth()
+
+  return useQuery({
+    queryKey: ["orders"],
+    queryFn: async () => {
+      const token = await getToken()
+      return await orderApi.getAll(token)
+    },
+    staleTime: 5 * 60 * 1000,
   })
 }

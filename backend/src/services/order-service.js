@@ -84,7 +84,14 @@ const add = async (request, user) => {
   }
 }
 
+const getAll = async (user) => {
+  const orders = await Order.find({ user })
+
+  return orders
+}
+
 const orderService = {
   add,
+  getAll,
 }
 export default orderService

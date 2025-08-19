@@ -16,7 +16,23 @@ const add = async (req, res, next) => {
   }
 }
 
+const getAll = async (req, res, next) => {
+  try {
+    const user = req.user
+
+    const orders = await orderService.getAll(user)
+
+    return res.status(200).json({
+      message: "Orders retrieved successfully",
+      body: { orders },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const orderController = {
   add,
+  getAll,
 }
 export default orderController

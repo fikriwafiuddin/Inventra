@@ -6,5 +6,6 @@ import orderController from "../controllers/order-controller.js"
 const orderRouter = express.Router()
 
 orderRouter.post("/", clerkMiddleware(), authMiddleware, orderController.add)
+orderRouter.get("/", clerkMiddleware(), authMiddleware, orderController.getAll)
 
 export default orderRouter
