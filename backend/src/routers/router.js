@@ -5,6 +5,7 @@ import errorMiddleware from "../middlewares/error-middleware.js"
 import statisticRouter from "./statistic-router.js"
 import supplierRouter from "./supplier-router.js"
 import purchaseRouter from "./purchase-router.js"
+import orderRouter from "./order-router.js"
 
 const router = express.Router()
 
@@ -13,6 +14,7 @@ router.use("/product", productRouter)
 router.use("/statistic", statisticRouter)
 router.use("/supplier", supplierRouter)
 router.use("/purchase", purchaseRouter)
+router.use("/order", orderRouter)
 
 router.use(errorMiddleware)
 

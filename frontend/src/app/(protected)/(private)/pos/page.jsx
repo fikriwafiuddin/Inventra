@@ -21,7 +21,10 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { formatCurrency } from "@/lib/formatters"
+import { useAddOrder } from "@/services/hooks/order-hook"
+import { useGetAllProducts } from "@/services/hooks/product-hook"
 import {
+  Loader2Icon,
   MinusSquareIcon,
   PlusSquareIcon,
   SearchIcon,
@@ -55,66 +58,10 @@ const categories = [
   },
 ]
 
-const products = [
-  {
-    _id: 12,
-    sku: "PSU-001",
-    name: "Corsair CV55 550 Watt 80 Plus",
-    image: "/products/Corsair CV550 550 Watt 80 Plus.jpg",
-    price: 700000,
-    stock: 5,
-    sold: 100,
-    description: "This is a description of the product.",
-    category: "PSU",
-  },
-  {
-    _id: 13,
-    sku: "MOB-001",
-    name: "TUF GAMING Z690-PLUS WIFI D4",
-    image: "/products/TUF GAMING Z690-PLUS WIFI D4(1).jpg",
-    price: 1600000,
-    stock: 10,
-    sold: 90,
-    description: "This is a description of the product.",
-    category: "Motherboard",
-  },
-  {
-    _id: 14,
-    sku: "GPU-001",
-    name: "GeForce RTX™ 3060 VENTUS 2X 12G OC",
-    image: "/products/GeForce RTX™ 3060 VENTUS 2X 12G OC(2).png",
-    price: 5000000000,
-    stock: 15,
-    sold: 85,
-    description: "This is a description of the product.",
-    category: "GPU",
-  },
-  {
-    _id: 15,
-    sku: "RAM-001",
-    name: "Kingston FURY Impact DDR4",
-    image: "/products/Kingston FURY Impact DDR4(2).jpg",
-    price: 400000,
-    stock: 3,
-    sold: 73,
-    description: "This is a description of the product.",
-    category: "ram",
-  },
-  {
-    _id: 16,
-    sku: "MOU-001",
-    name: "Rexus Mouse Wireless Gaming Xierra 108",
-    image: "/products/Rexus Mouse Wireless Gaming Xierra 108(1).jpg",
-    price: 150000,
-    stock: 0,
-    sold: 0,
-    description: "This is a description of the product.",
-    category: "mouse",
-  },
-]
-
 function PosPage() {
   const [cart, setCart] = useState([])
+  const { isPending, data: products, error } = useGetAllProducts()
+  const { isPending: paying, mutate: pay } = useAddOrder()
 
   const addToCart = (product) => {
     const existingItem = cart.find((item) => item._id === product._id)
@@ -164,6 +111,15 @@ function PosPage() {
   const getTotalPrice = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0)
   }
+
+  const handleSubmit = () => {
+    const data = {
+      items: cart,
+      date: new Date(),
+    }
+    pay(data)
+  }
+
   return (
     <div className="space-y-4">
       {/* FILTER */}
@@ -230,7 +186,7 @@ function PosPage() {
                   </button>
                   <div className="size-12 rounded-sm overflow-hidden relative">
                     <Image
-                      src={product.image}
+                      src={product.image.url}
                       alt={product.name}
                       fill
                       className="object-cover"
@@ -280,10 +236,10 @@ function PosPage() {
                   </span>
                 </div>
                 <Button
-                  disabled={cart.length == 0}
+                  disabled={cart.length == 0 || paying}
                   className="w-full"
                   variant="outline"
-                  onClick={() => setSelectedProduct([])}
+                  onClick={handleSubmit}
                 >
                   Pay
                 </Button>
@@ -293,44 +249,57 @@ function PosPage() {
         </Sheet>
       </div>
 
+      {error && (
+        <div className="text-destructive text-center mt-4">
+          {error.response?.data.message ||
+            error.message ||
+            "An error occurred while fetching categories."}
+        </div>
+      )}
+      {isPending && (
+        <div className="flex justify-center mt-4">
+          <Loader2Icon className="animate-spin size-10 text-muted-foreground" />
+        </div>
+      )}
       <div className="grid grid-cols-3 gap-4">
-        {products.map((product) => (
-          <Card key={product._id} className="px-1">
-            <div className="relative rounded-sm overflow-hidden h-48 p-1">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-cover"
-              />
-            </div>
-            <CardContent>
-              <CardTitle>
-                <h2 className="text-sm mb-2 font-semibold line-clamp-1">
-                  {product.name}
-                </h2>
-              </CardTitle>
-              <p className="text-xs text-muted-foreground font-medium mb-2">
-                {product.description}
-              </p>
-              <div className="flex justify-between items-center mb-1">
-                <span>{formatCurrency(product.price)}</span>
-                <span className="text-xs font-medium">
-                  Stock: {product.stock}
-                </span>
+        {products &&
+          products.map((product) => (
+            <Card key={product._id} className="px-1">
+              <div className="relative rounded-sm overflow-hidden h-48 p-1">
+                <Image
+                  src={product.image.url}
+                  alt={product.name}
+                  fill
+                  className="object-cover"
+                />
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                <Button
-                  onClick={() => addToCart(product)}
-                  disabled={product.stock == 0}
-                >
-                  Add to Cart
-                </Button>
-                <Button>Show</Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+              <CardContent>
+                <CardTitle>
+                  <h2 className="text-sm mb-2 font-semibold line-clamp-1">
+                    {product.name}
+                  </h2>
+                </CardTitle>
+                <p className="text-xs text-muted-foreground font-medium mb-2">
+                  {product.description}
+                </p>
+                <div className="flex justify-between items-center mb-1">
+                  <span>{formatCurrency(product.price)}</span>
+                  <span className="text-xs font-medium">
+                    Stock: {product.stock}
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    onClick={() => addToCart(product)}
+                    disabled={product.stock == 0}
+                  >
+                    Add to Cart
+                  </Button>
+                  <Button>Show</Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
       </div>
     </div>
   )
