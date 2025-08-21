@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import ResponseError from "../error/error-response"
+import ResponseError from "../error/error-response.js"
 import Product from "../models/product-model.js"
 import adjustmenValidation from "../validations/adjustment-validation.js"
 import validation from "../validations/validation.js"
