@@ -25,5 +25,5 @@ const adjustmenSchema = new mongoose.Schema({
   },
 })
 
-const Adjustmen = mongoose.model("Adjustment", adjustmenSchema)
-export default Adjustmen
+const Adjustment = mongoose.model("Adjustment", adjustmenSchema)
+export default Adjustment
