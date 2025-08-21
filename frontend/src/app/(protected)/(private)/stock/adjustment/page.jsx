@@ -124,7 +124,7 @@ function AdjustmentsPage() {
                       <div className="space-y-2">
                         <FormLabel>Reason</FormLabel>
                         <FormControl>
-                          <>
+                          <div>
                             <Select
                               onValueChange={(value) => {
                                 if (value === "custom") {
@@ -156,7 +156,7 @@ function AdjustmentsPage() {
                                 {...field}
                               />
                             )}
-                          </>
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </div>
@@ -192,7 +192,7 @@ function AdjustmentsPage() {
                           <PopoverContent className="p-0 w-[var(--radix-popover-trigger-width)]">
                             <Command filter={() => 1}>
                               <CommandInput
-                                placeholder="Search supplier..."
+                                placeholder="Search product..."
                                 className="h-9"
                                 onValueChange={(value) =>
                                   setSearchTermProduct(value)
