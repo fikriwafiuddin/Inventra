@@ -10,7 +10,7 @@ const add = async (request, user) => {
     quantity,
     reason,
     product: productId,
-  } = validation(adjustmenValidation.add)
+  } = validation(adjustmenValidation.add, request)
 
   const product = await Product.findOne({ user, _id: productId })
   if (!product) {
