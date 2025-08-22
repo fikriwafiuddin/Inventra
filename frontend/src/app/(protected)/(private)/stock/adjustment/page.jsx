@@ -52,6 +52,7 @@ import {
 import { cn } from "@/lib/utils"
 import { Check, ChevronsUpDownIcon, Loader2Icon } from "lucide-react"
 import { useSearchProducts } from "@/services/hooks/product-hook"
+import { useAddAdjustment } from "@/services/hooks/adjustment-hook"
 
 function AdjustmentsPage() {
   const form = useForm({
@@ -62,6 +63,14 @@ function AdjustmentsPage() {
   const [type, setType] = useState("increase")
   const [searchTermProduct, setSearchTermProduct] = useState("")
   const { isPending, data: products } = useSearchProducts(searchTermProduct)
+  const { mutate: save, isPending: saving } = useAddAdjustment()
+
+  const onSubmit = (data) => {
+    if (type === "decrease") {
+      data.quantity = data.quantity * -1
+    }
+    save(data)
+  }
 
   return (
     <div className="space-y-4">
@@ -77,7 +86,7 @@ function AdjustmentsPage() {
         </BreadcrumbList>
       </Breadcrumb>
       <Form {...form}>
-        <form>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <Card>
             <CardHeader>
               <CardTitle>Adjustments</CardTitle>
@@ -243,7 +252,9 @@ function AdjustmentsPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button>Save</Button>
+              <Button type="submit" disabled={saving}>
+                {saving ? <Loader2Icon className="animate-spin" /> : "Save"}
+              </Button>
             </CardFooter>
           </Card>
         </form>
