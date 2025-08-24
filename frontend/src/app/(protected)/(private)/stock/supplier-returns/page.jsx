@@ -14,7 +14,14 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { Search, ShoppingCart, ArrowLeft, Check, FileText } from "lucide-react"
+import {
+  Search,
+  ShoppingCart,
+  ArrowLeft,
+  Check,
+  FileText,
+  Loader2Icon,
+} from "lucide-react"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -33,23 +40,30 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import HelpText from "./HelpText"
-import purchases from "@/data/purchases-data"
+import purchaseApi from "@/services/api/purchase-api"
+import { useAuth } from "@clerk/nextjs"
+import { formatCurrency, formatDate } from "@/lib/formatters"
+import { useAddSupplierReturn } from "@/services/hooks/supplierReturn-hook"
 
 const SupplierReturnPage = () => {
   const [searchValue, setSearchValue] = useState("")
   const [selectedTransaction, setSelectedTransaction] = useState(null)
   const [returnItems, setReturnItems] = useState([])
   const [notes, setNotes] = useState("")
+  const [searching, setSearching] = useState(false)
+  const { getToken } = useAuth()
+  const { isPending: saving, mutate: save } = useAddSupplierReturn()
+  console.log(selectedTransaction)
 
-  const handleSearch = () => {
-    let foundTransaction = purchases.find((t) =>
-      t.fracture.toLowerCase().includes(searchValue.toLowerCase())
-    )
+  const handleSearch = async () => {
+    try {
+      setSearching(true)
 
-    if (foundTransaction) {
-      setSelectedTransaction(foundTransaction)
-      // Initialize return items dengan default values
-      const initialReturnItems = foundTransaction.items.map((item) => ({
+      const token = await getToken()
+      const data = await purchaseApi.detail(searchValue, token)
+
+      setSelectedTransaction(data)
+      const initialReturnItems = data.items.map((item) => ({
         ...item,
         returnQuantity: 0,
         condition: "",
@@ -57,10 +71,15 @@ const SupplierReturnPage = () => {
         returnSubtotal: 0,
       }))
       setReturnItems(initialReturnItems)
-    } else {
-      setSelectedTransaction(null)
-      setReturnItems([])
-      toast.error("Transaksi tidak ditemukan")
+    } catch (error) {
+      console.log(error)
+      toast.error(
+        error.response?.data?.message ||
+          error?.message ||
+          "An error occurred while search the purchase."
+      )
+    } finally {
+      setSearching(false)
     }
   }
 
@@ -83,24 +102,36 @@ const SupplierReturnPage = () => {
     )
   }
 
-  const calculateTotalRefund = () => {
-    return returnItems.reduce((total, item) => total + item.returnSubtotal, 0)
-  }
-
   const getTotalReturnQuantity = () => {
     return returnItems.reduce((total, item) => total + item.returnQuantity, 0)
   }
 
+  const getTotalTransaction = () => {
+    const total = selectedTransaction.items.reduce(
+      (total, item) => total + item.totalPrice,
+      0
+    )
+
+    return formatCurrency(total)
+  }
+
   const handleSubmitReturn = () => {
-    const returnData = {
-      originalTransaction: selectedTransaction,
-      returnItems: returnItems.filter((item) => item.returnQuantity > 0),
-      totalRefund: calculateTotalRefund(),
+    const items = returnItems
+      .filter((item) => item.returnQuantity > 0)
+      .map((item) => ({
+        id: item.product.id,
+        condition: item.condition,
+        quantity: item.returnQuantity,
+      }))
+
+    const data = {
+      fracture: selectedTransaction.fracture,
+      items,
       notes,
-      returnDate: new Date().toISOString(),
+      date: new Date(),
     }
 
-    toast.success("Retur berhasil diproses!")
+    save(data)
 
     // Reset form
     setSelectedTransaction(null)
@@ -160,9 +191,15 @@ const SupplierReturnPage = () => {
                 onKeyPress={(e) => e.key === "Enter" && handleSearch()}
               />
             </div>
-            <Button onClick={handleSearch}>
-              <Search className="h-4 w-4 mr-2" />
-              Cari Transaksi
+            <Button onClick={handleSearch} disabled={searching}>
+              {searching ? (
+                <Loader2Icon className="animate-spin" />
+              ) : (
+                <>
+                  <Search className="h-4 w-4 mr-2" />
+                  Cari Transaksi
+                </>
+              )}
             </Button>
           </div>
         </CardContent>
@@ -188,11 +225,11 @@ const SupplierReturnPage = () => {
                   </p>
                   <p>
                     <span className="font-medium">Tanggal:</span>{" "}
-                    {selectedTransaction.date}
+                    {formatDate(selectedTransaction.date)}
                   </p>
                   <p>
-                    <span className="font-medium">Total Transaksi:</span> Rp{" "}
-                    {selectedTransaction.total.toLocaleString()}
+                    <span className="font-medium">Total Transaksi: </span>
+                    {getTotalTransaction()}
                   </p>
                 </div>
               </div>
@@ -235,8 +272,6 @@ const SupplierReturnPage = () => {
                     <TableHead>Qty Dibeli</TableHead>
                     <TableHead>Qty Retur</TableHead>
                     <TableHead>Kondisi</TableHead>
-                    <TableHead>Harga Retur</TableHead>
-                    <TableHead>Subtotal</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -292,24 +327,6 @@ const SupplierReturnPage = () => {
                           </SelectContent>
                         </Select>
                       </TableCell>
-                      <TableCell>
-                        <Input
-                          type="number"
-                          value={item.returnPrice}
-                          onChange={(e) =>
-                            updateReturnItem(
-                              item.id,
-                              "returnPrice",
-                              parseInt(e.target.value) || 0
-                            )
-                          }
-                          className="w-32"
-                          disabled={item.returnQuantity === 0}
-                        />
-                      </TableCell>
-                      <TableCell className="font-medium">
-                        Rp {item.returnSubtotal.toLocaleString()}
-                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -334,9 +351,6 @@ const SupplierReturnPage = () => {
                     <p className="text-sm">
                       <span className="font-medium">Total Item Diretur:</span>{" "}
                       {getTotalReturnQuantity()} unit
-                    </p>
-                    <p className="text-lg font-bold">
-                      Total Refund: Rp {calculateTotalRefund().toLocaleString()}
                     </p>
                   </div>
                 </div>
@@ -374,11 +388,17 @@ const SupplierReturnPage = () => {
           </Button>
           <Button
             onClick={handleSubmitReturn}
-            disabled={!isValidReturn()}
+            disabled={!isValidReturn() || saving}
             className="min-w-32"
           >
-            <Check className="h-4 w-4 mr-2" />
-            Proses Retur
+            {saving ? (
+              <Loader2Icon className="animate-spin" />
+            ) : (
+              <>
+                <Check className="h-4 w-4 mr-2" />
+                Proses Retur
+              </>
+            )}
           </Button>
         </div>
       )}

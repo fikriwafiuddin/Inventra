@@ -8,6 +8,7 @@ import purchaseRouter from "./purchase-router.js"
 import orderRouter from "./order-router.js"
 import adjustmentRouter from "./adjustment-router.js"
 import customerReturnRouter from "./customerReturnRouter.js"
+import supplierReturnRouter from "./supplierReturn-router.js"
 
 const router = express.Router()
 
@@ -19,6 +20,7 @@ router.use("/purchase", purchaseRouter)
 router.use("/order", orderRouter)
 router.use("/adjustment", adjustmentRouter)
 router.use("/customer-return", customerReturnRouter)
+router.use("/supplier-return", supplierReturnRouter)
 
 router.use(errorMiddleware)
 
