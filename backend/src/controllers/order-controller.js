@@ -31,8 +31,25 @@ const getAll = async (req, res, next) => {
   }
 }
 
+const detail = async (req, res, next) => {
+  try {
+    const { orderId } = req.params
+    const user = req.user
+
+    const order = await orderService.detail(orderId, user)
+
+    return res.status(200).json({
+      message: "Order retrieved successfully",
+      body: { order },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const orderController = {
   add,
   getAll,
+  detail,
 }
 export default orderController

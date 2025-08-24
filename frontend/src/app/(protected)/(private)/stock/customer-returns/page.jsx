@@ -14,7 +14,14 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { Search, ShoppingCart, ArrowLeft, Check, FileText } from "lucide-react"
+import {
+  Search,
+  ShoppingCart,
+  ArrowLeft,
+  Check,
+  FileText,
+  Loader2Icon,
+} from "lucide-react"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -33,69 +40,29 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import HelpText from "./HelpText"
-
-// Mock data untuk transaksi penjualan
-const mockTransactions = [
-  {
-    id: "TXN-001",
-    invoice: "INV-12345",
-    date: "2025-01-20",
-    total: 450000,
-    items: [
-      {
-        id: "ITEM-001",
-        productId: "PROD-001",
-        productName: "Kemeja Putih Premium",
-        sku: "KMJ-001",
-        quantity: 2,
-        price: 125000,
-        subtotal: 250000,
-      },
-      {
-        id: "ITEM-002",
-        productId: "PROD-002",
-        productName: "Celana Jeans Slim Fit",
-        sku: "CLN-002",
-        quantity: 1,
-        price: 200000,
-        subtotal: 200000,
-      },
-    ],
-  },
-  {
-    id: "TXN-002",
-    invoice: "INV-12346",
-    date: "2025-01-19",
-    total: 375000,
-    items: [
-      {
-        id: "ITEM-003",
-        productId: "PROD-003",
-        productName: "Sepatu Sneakers",
-        sku: "SPT-001",
-        quantity: 1,
-        price: 375000,
-        subtotal: 375000,
-      },
-    ],
-  },
-]
+import orderApi from "@/services/api/order-api"
+import { useAuth } from "@clerk/nextjs"
+import { formatCurrency, formatDate } from "@/lib/formatters"
+import { useAddCustomerReturn } from "@/services/hooks/customerReturn-hook"
 
 const CustomerReturnPage = () => {
   const [searchValue, setSearchValue] = useState("")
   const [selectedTransaction, setSelectedTransaction] = useState(null)
   const [returnItems, setReturnItems] = useState([])
   const [notes, setNotes] = useState("")
+  const [searching, setSearching] = useState(false)
+  const { getToken } = useAuth()
+  const { mutate: save, isPending: saving } = useAddCustomerReturn()
 
-  const handleSearch = () => {
-    let foundTransaction = mockTransactions.find((t) =>
-      t.invoice.toLowerCase().includes(searchValue.toLowerCase())
-    )
+  const handleSearch = async () => {
+    try {
+      setSearching(true)
 
-    if (foundTransaction) {
-      setSelectedTransaction(foundTransaction)
-      // Initialize return items dengan default values
-      const initialReturnItems = foundTransaction.items.map((item) => ({
+      const token = await getToken()
+
+      const data = await orderApi.detail(searchValue, token)
+      setSelectedTransaction(data)
+      const initialReturnItems = data.items.map((item) => ({
         ...item,
         returnQuantity: 0,
         condition: "",
@@ -103,10 +70,15 @@ const CustomerReturnPage = () => {
         returnSubtotal: 0,
       }))
       setReturnItems(initialReturnItems)
-    } else {
-      setSelectedTransaction(null)
-      setReturnItems([])
-      toast.error("Transaksi tidak ditemukan")
+    } catch (error) {
+      console.log(error)
+      toast.error(
+        error.response?.data?.message ||
+          error?.message ||
+          "An error occurred while adding the product."
+      )
+    } finally {
+      setSearching(false)
     }
   }
 
@@ -138,15 +110,22 @@ const CustomerReturnPage = () => {
   }
 
   const handleSubmitReturn = () => {
-    const returnData = {
-      originalTransaction: selectedTransaction,
-      returnItems: returnItems.filter((item) => item.returnQuantity > 0),
-      totalRefund: calculateTotalRefund(),
+    const items = returnItems
+      .filter((item) => item.returnQuantity > 0)
+      .map((item) => ({
+        id: item.id,
+        condition: item.condition,
+        quantity: item.returnQuantity,
+      }))
+
+    const data = {
+      orderId: selectedTransaction.orderId,
+      items,
       notes,
-      returnDate: new Date().toISOString(),
+      date: new Date(),
     }
 
-    toast.success("Retur berhasil diproses!")
+    save(data)
 
     // Reset form
     setSelectedTransaction(null)
@@ -206,9 +185,18 @@ const CustomerReturnPage = () => {
                 onKeyPress={(e) => e.key === "Enter" && handleSearch()}
               />
             </div>
-            <Button onClick={handleSearch}>
-              <Search className="h-4 w-4 mr-2" />
-              Cari Transaksi
+            <Button
+              disabled={searching || searchValue.trim().length < 3}
+              onClick={handleSearch}
+            >
+              {searching ? (
+                <Loader2Icon className="animate-spin" />
+              ) : (
+                <>
+                  <Search className="h-4 w-4 mr-2" />
+                  Cari Transaksi
+                </>
+              )}
             </Button>
           </div>
         </CardContent>
@@ -230,15 +218,15 @@ const CustomerReturnPage = () => {
                 <div className="space-y-1 text-sm">
                   <p>
                     <span className="font-medium">Invoice:</span>{" "}
-                    {selectedTransaction.invoice}
+                    {selectedTransaction.orderId}
                   </p>
                   <p>
                     <span className="font-medium">Tanggal:</span>{" "}
-                    {selectedTransaction.date}
+                    {formatDate(selectedTransaction.date)}
                   </p>
                   <p>
-                    <span className="font-medium">Total Transaksi:</span> Rp{" "}
-                    {selectedTransaction.total.toLocaleString()}
+                    <span className="font-medium">Total Transaksi: </span>
+                    {formatCurrency(selectedTransaction.amount)}
                   </p>
                 </div>
               </div>
@@ -290,7 +278,7 @@ const CustomerReturnPage = () => {
                     <TableRow key={item.id}>
                       <TableCell>
                         <div>
-                          <p className="font-medium">{item.productName}</p>
+                          <p className="font-medium">{item.name}</p>
                           <p className="text-sm text-muted-foreground">
                             SKU: {item.sku}
                           </p>
@@ -420,11 +408,17 @@ const CustomerReturnPage = () => {
           </Button>
           <Button
             onClick={handleSubmitReturn}
-            disabled={!isValidReturn()}
+            disabled={!isValidReturn() || saving}
             className="min-w-32"
           >
-            <Check className="h-4 w-4 mr-2" />
-            Proses Retur
+            {saving ? (
+              <Loader2Icon className="animate-spin" />
+            ) : (
+              <>
+                <Check className="h-4 w-4 mr-2" />
+                Proses Retur
+              </>
+            )}
           </Button>
         </div>
       )}

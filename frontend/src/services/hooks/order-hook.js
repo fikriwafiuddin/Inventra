@@ -40,3 +40,17 @@ export const useGetAllOrders = () => {
     staleTime: 5 * 60 * 1000,
   })
 }
+
+export const useGetDetailOrder = (orderId) => {
+  const { getToken } = useAuth()
+
+  return useQuery({
+    queryKey: ["order", orderId],
+    queryFn: async () => {
+      const token = await getToken()
+      return await orderApi.detail(orderId, token)
+    },
+    staleTime: 5 * 60 * 1000,
+    enabled: false,
+  })
+}

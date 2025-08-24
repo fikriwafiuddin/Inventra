@@ -18,8 +18,18 @@ const getAll = async (token) => {
   return response.data.body.orders
 }
 
+const detail = async (orderId, token) => {
+  const response = await axiosInstance.get(`/order/${orderId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return response.data.body.order
+}
+
 const orderApi = {
   add,
   getAll,
+  detail,
 }
 export default orderApi

@@ -90,8 +90,18 @@ const getAll = async (user) => {
   return orders
 }
 
+const detail = async (orderId, user) => {
+  const order = await Order.findOne({ user, orderId })
+  if (!order) {
+    throw new ResponseError("Order not found", 404)
+  }
+
+  return order
+}
+
 const orderService = {
   add,
   getAll,
+  detail,
 }
 export default orderService

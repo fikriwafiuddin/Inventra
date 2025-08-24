@@ -7,5 +7,11 @@ const orderRouter = express.Router()
 
 orderRouter.post("/", clerkMiddleware(), authMiddleware, orderController.add)
 orderRouter.get("/", clerkMiddleware(), authMiddleware, orderController.getAll)
+orderRouter.get(
+  "/:orderId",
+  clerkMiddleware(),
+  authMiddleware,
+  orderController.detail
+)
 
 export default orderRouter
