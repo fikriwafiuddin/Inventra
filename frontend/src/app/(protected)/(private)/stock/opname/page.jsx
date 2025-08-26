@@ -3,7 +3,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
   Dialog,
   DialogContent,
@@ -12,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Plus, CheckCircle, Package } from "lucide-react"
+import { Plus, CheckCircle, Package, Loader2Icon } from "lucide-react"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -22,12 +21,37 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import columns from "./columns"
-import opnames from "@/data/opname-data"
 import { DataTable } from "@/components/DataTable"
-import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import opnameValidation from "@/lib/validations/opname-validation"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { useAddOpname, useGetAllOpnames } from "@/services/hooks/opname-hook"
+import { useRouter } from "next/navigation"
 
 const StockOpnamePage = () => {
-  const [newSessionName, setNewSessionName] = useState("")
+  const form = useForm({
+    resolver: zodResolver(opnameValidation.add),
+    defaultValues: {
+      name: "",
+    },
+  })
+  const { isPending: adding, mutate: add } = useAddOpname()
+  const { isPending: fetching, data: opnames } = useGetAllOpnames()
+  const router = useRouter()
+
+  const onSubmit = (data) => {
+    add(data, {
+      onSuccess: (data) => router.push(`/stock/opname/${data.body.opname._id}`),
+    })
+  }
 
   return (
     <div className="space-y-4">
@@ -43,7 +67,7 @@ const StockOpnamePage = () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold">Stock Opname</h1>
           <p className="text-muted-foreground">
@@ -65,24 +89,41 @@ const StockOpnamePage = () => {
                 stok
               </DialogDescription>
             </DialogHeader>
-            <div className="space-y-4 pt-4">
-              <div className="space-y-2">
-                <Label htmlFor="session-name">Nama Sesi</Label>
-                <Input
-                  id="session-name"
-                  placeholder="Contoh: Stock Opname Akhir Tahun 2025"
-                  value={newSessionName}
-                  onChange={(e) => setNewSessionName(e.target.value)}
-                />
-              </div>
-              <Button
-                // onClick={startNewSession}
-                disabled={!newSessionName.trim()}
-              >
-                <CheckCircle className="w-4 h-4 mr-2" />
-                Mulai Sekarang
-              </Button>
-            </div>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <div className="space-y-4 pt-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="space-y-2">
+                          <FormLabel>Nama Sesi</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="text"
+                              placeholder="Contoh: Stock Opname Akhir Tahun 2025"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" disabled={adding}>
+                    {adding ? (
+                      <Loader2Icon className="animate-spin" />
+                    ) : (
+                      <>
+                        <CheckCircle className="w-4 h-4 mr-2" />
+                        Mulai Sekarang
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </form>
+            </Form>
           </DialogContent>
         </Dialog>
       </div>
@@ -95,7 +136,13 @@ const StockOpnamePage = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <DataTable columns={columns} data={opnames} />
+          {fetching ? (
+            <div className="flex justify-center mt-4">
+              <Loader2Icon className="animate-spin size-10 text-muted-foreground" />
+            </div>
+          ) : (
+            <DataTable columns={columns} data={opnames} />
+          )}
         </CardContent>
       </Card>
     </div>

@@ -26,7 +26,8 @@ const columns = [
     accessorKey: "difference",
     header: "Difference",
     cell: ({ row }) => {
-      const difference = row.getValue("difference")
+      const difference =
+        row.getValue("systemStock") - row.getValue("physicalStock")
       if (difference > 0) {
         return <Badge variant="success">{difference}</Badge>
       }
@@ -38,7 +39,9 @@ const columns = [
     header: "Difference Value",
     cell: ({ row }) => {
       const item = row.original
-      const differenceValue = item.difference * item.price
+      const differenceValue =
+        (row.getValue("systemStock") - row.getValue("physicalStock")) *
+        item.price
       if (differenceValue < 0)
         return (
           <Badge variant="destructive">{formatCurrency(differenceValue)}</Badge>

@@ -1,11 +1,10 @@
 "use client"
 
 import { Badge } from "@/components/ui/badge"
-import { formatCurrency } from "@/lib/formatters"
+import { Button } from "@/components/ui/button"
+import { formatDate } from "@/lib/formatters"
 import { CalendarIcon } from "lucide-react"
-
-const { Button } = require("@/components/ui/button")
-const { default: Link } = require("next/link")
+import Link from "next/link"
 
 const columns = [
   {
@@ -21,17 +20,9 @@ const columns = [
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
         <CalendarIcon className="size-4" />
-        <span>{row.getValue("startDate")}</span>
+        <span>{formatDate(row.getValue("startDate"))}</span>
       </div>
     ),
-  },
-  {
-    accessorKey: "endDate",
-    header: "Tanggal Selesai",
-    cell: ({ row }) => {
-      const endDate = row.getValue("endDate")
-      return endDate ? endDate : "-"
-    },
   },
   {
     accessorKey: "status",
@@ -63,12 +54,12 @@ const columns = [
       if (totalDifference < 0) {
         return (
           <span className="text-destructive">
-            {formatCurrency(totalDifference)}
+            {totalDifference.toLocaleString()}
           </span>
         )
       }
       return (
-        <span className="text-success">{formatCurrency(totalDifference)}</span>
+        <span className="text-success">{totalDifference.toLocaleString()}</span>
       )
     },
   },
@@ -78,7 +69,7 @@ const columns = [
     cell: ({ row }) => {
       const opname = row.original
       return (
-        <Link href={`/stock/opname/${opname._id}`} asChild>
+        <Link href={`/stock/opname/${opname._id}`}>
           <Button variant="outline">
             {opname.status === "incomplete" ? "Lanjutkan" : "Lihat Detail"}
           </Button>
