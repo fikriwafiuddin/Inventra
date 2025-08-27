@@ -1,4 +1,4 @@
-import stockMovementService from "../services/stockMovement-service"
+import stockMovementService from "../services/stockMovement-service.js"
 
 const getAll = async (req, res, next) => {
   try {
