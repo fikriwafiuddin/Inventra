@@ -30,7 +30,14 @@ const add = async ({
   await movement.save({ session })
 }
 
+const getAll = async (user) => {
+  const stockMovements = await StockMovement.find({ user })
+
+  return stockMovements
+}
+
 const stockMovementService = {
   add,
+  getAll,
 }
 export default stockMovementService
