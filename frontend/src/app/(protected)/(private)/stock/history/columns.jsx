@@ -43,7 +43,7 @@ const columns = [
   {
     header: "Change",
     cell: ({ row }) => {
-      const change = row.getValue("initialStock") - row.getValue("finalStock")
+      const change = row.getValue("finalStock") - row.getValue("initialStock")
       if (change < 0) {
         return <Badge variant="destructive">{change}</Badge>
       } else {
