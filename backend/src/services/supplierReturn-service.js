@@ -5,6 +5,7 @@ import SupplierReturn from "../models/supplierReturn-model.js"
 import supplierReturnValidation from "../validations/supplierReturn-validation.js"
 import validation from "../validations/validation.js"
 import Product from "../models/product-model.js"
+import stockMovementService from "./stockMovement-service.js"
 
 const add = async (request, user) => {
   const { fracture, items, notes, date } = validation(
@@ -62,6 +63,16 @@ const add = async (request, user) => {
           `Product ${item.name} tidak ditemukan atau stok tidak cukup`
         )
       }
+
+      await stockMovementService.add({
+        session,
+        user,
+        product,
+        qtyChange: -item.quantity,
+        movementType: "supplierReturn",
+        sourceId: supplierReturn._id,
+        reason: "Supplier return",
+      })
     }
 
     await session.commitTransaction()
