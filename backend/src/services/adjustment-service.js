@@ -4,6 +4,7 @@ import Product from "../models/product-model.js"
 import adjustmenValidation from "../validations/adjustment-validation.js"
 import validation from "../validations/validation.js"
 import Adjustment from "../models/adjustment-model.js"
+import stockMovementService from "./stockMovement-service.js"
 
 const add = async (request, user) => {
   const {
@@ -33,7 +34,17 @@ const add = async (request, user) => {
         name: product.name,
       },
     })
-    await adjustment.save()
+    await adjustment.save({ session })
+
+    await stockMovementService.add({
+      session,
+      user,
+      product,
+      qtyChange: quantity,
+      movementType: "adjustment",
+      sourceId: adjustment._id,
+      reason,
+    })
 
     await session.commitTransaction()
     session.endSession()
