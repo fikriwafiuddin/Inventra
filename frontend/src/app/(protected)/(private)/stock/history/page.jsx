@@ -12,6 +12,7 @@ import {
 import { useGetAllStockMovements } from "@/services/hooks/stockMovement-hook"
 import { Loader2Icon } from "lucide-react"
 import columns from "./columns"
+import Stats from "./Stats"
 
 function HistoryStockPage() {
   const { isPending, error, data: stockMovements } = useGetAllStockMovements()
@@ -30,13 +31,7 @@ function HistoryStockPage() {
         </BreadcrumbList>
       </Breadcrumb>
 
-      {/* Header */}
-      <div className="mb-6">
-        <div className="flex items-center gap-2 mb-2">
-          <h1 className="text-3xl font-bold">History</h1>
-        </div>
-        <p>Product management history</p>
-      </div>
+      <Stats />
 
       {error && (
         <div className="text-destructive text-center mt-4">
