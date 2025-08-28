@@ -35,7 +35,7 @@ const columns = [
           return <Badge variant="secondary">Opname</Badge>
         case "customerReturn":
           return <Badge variant="destructive">Customer Return</Badge>
-        case supplierReturn:
+        case "supplierReturn":
           return <Badge variant="destructive">Supplier Return</Badge>
       }
     },
