@@ -21,7 +21,9 @@ const add = async (request, user) => {
   const refundItems = []
 
   for (const item of items) {
-    const purchaseItem = purchase.items.find((val) => val.id === item.id)
+    const purchaseItem = purchase.items.find(
+      (val) => val.product.id === item.id
+    )
 
     if (purchaseItem) {
       refundItems.push({
@@ -51,7 +53,7 @@ const add = async (request, user) => {
 
     for (const item of refundItems) {
       const product = await Product.findOneAndUpdate(
-        { _id: item._id, user, stock: { $gte: item.quantity } },
+        { _id: item.id, user, stock: { $gte: item.quantity } },
         {
           $inc: { stock: -item.quantity, sold: item.quantity },
         },
