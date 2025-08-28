@@ -40,6 +40,7 @@ const add = async (request, user) => {
     orderItems.push({
       id: product._id,
       name: product.name,
+      sku: product.sku,
       quantity: item.quantity,
       price,
     })
