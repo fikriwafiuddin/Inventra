@@ -25,7 +25,7 @@ const stockMovementSummary = async (user) => {
 
   const pipeline = [
     {
-      $match: { user: userId },
+      $match: { user },
     },
     {
       $project: {
