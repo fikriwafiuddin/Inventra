@@ -17,5 +17,11 @@ statisticRouter.get(
   authMiddleware,
   statisticController.supplier
 )
+statisticRouter.get(
+  "/stock-movement/summary",
+  clerkMiddleware(),
+  authMiddleware,
+  statisticController.stockMovementSummary
+)
 
 export default statisticRouter

@@ -4,6 +4,7 @@ import Product from "../models/product-model.js"
 import ResponseError from "../error/error-response.js"
 import Order from "../models/order-model.js"
 import mongoose from "mongoose"
+import stockMovementService from "./stockMovement-service.js"
 
 const add = async (request, user) => {
   const { items, date } = validation(orderValidation.add, request)
@@ -65,13 +66,22 @@ const add = async (request, user) => {
     await order.save({ session })
 
     for (const item of items) {
-      await Product.updateOne(
+      const product = await Product.findOneAndUpdate(
         { _id: item._id },
         {
           $inc: { stock: -item.quantity, sold: item.quantity },
-        },
-        { session }
-      )
+        }
+      ).session(session)
+
+      await stockMovementService.add({
+        session,
+        user,
+        product,
+        qtyChange: -item.quantity,
+        movementType: "sales",
+        sourceId: order._id,
+        reason: "Sales to customer",
+      })
     }
 
     await session.commitTransaction()

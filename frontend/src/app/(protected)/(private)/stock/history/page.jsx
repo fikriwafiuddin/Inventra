@@ -1,3 +1,6 @@
+"use client"
+
+import { DataTable } from "@/components/DataTable"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,8 +9,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { useGetAllStockMovements } from "@/services/hooks/stockMovement-hook"
+import { Loader2Icon } from "lucide-react"
+import columns from "./columns"
+import Stats from "./Stats"
 
 function HistoryStockPage() {
+  const { isPending, error, data: stockMovements } = useGetAllStockMovements()
+
   return (
     <div className="space-y-4">
       <Breadcrumb>
@@ -22,13 +31,23 @@ function HistoryStockPage() {
         </BreadcrumbList>
       </Breadcrumb>
 
-      {/* Header */}
-      <div className="mb-6">
-        <div className="flex items-center gap-2 mb-2">
-          <h1 className="text-3xl font-bold">History</h1>
+      <Stats />
+
+      {error && (
+        <div className="text-destructive text-center mt-4">
+          {error.response?.data.message ||
+            error.message ||
+            "An error occurred while fetching stock movements."}
         </div>
-        <p>Product management history</p>
-      </div>
+      )}
+
+      {isPending && (
+        <div className="flex justify-center mt-4">
+          <Loader2Icon className="animate-spin size-10 text-muted-foreground" />
+        </div>
+      )}
+
+      {stockMovements && <DataTable data={stockMovements} columns={columns} />}
     </div>
   )
 }

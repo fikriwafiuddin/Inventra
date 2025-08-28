@@ -5,6 +5,7 @@ import validation from "../validations/validation.js"
 import Product from "../models/product-model.js"
 import Purchase from "../models/purchase-model.js"
 import purchaseValidation from "../validations/purchase-validation.js"
+import stockMovementService from "./stockMovement-service.js"
 
 const add = async (request, user) => {
   const {
@@ -82,6 +83,19 @@ const add = async (request, user) => {
     }
     if (bulkOps.length) {
       await Product.bulkWrite(bulkOps, { session })
+    }
+
+    for (const [pid, qty] of mergedMap.entries()) {
+      const p = productById.get(pid)
+      await stockMovementService.add({
+        session,
+        user,
+        product: p,
+        qtyChange: qty,
+        movementType: "purchase",
+        sourceId: purchase._id,
+        reason: `Purchase from supplier ${supplier.name}`,
+      })
     }
 
     await session.commitTransaction()

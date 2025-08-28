@@ -4,6 +4,7 @@ import Opname from "../models/opname-model.js"
 import opnameValidation from "../validations/opname-validation.js"
 import validation from "../validations/validation.js"
 import Product from "../models/product-model.js"
+import stockMovementService from "./stockMovement-service.js"
 
 const add = async (request, user) => {
   const { name } = validation(opnameValidation.add, request)
@@ -101,6 +102,16 @@ const update = async (request, user) => {
           product.stock = item.physicalStock
           await product.save({ session })
         }
+
+        await stockMovementService.add({
+          session,
+          user,
+          product,
+          qtyChange: item.physicalStock,
+          movementType: "opname",
+          sourceId: opname._id,
+          reason: "Stock opname adjustment",
+        })
       }
     }
 

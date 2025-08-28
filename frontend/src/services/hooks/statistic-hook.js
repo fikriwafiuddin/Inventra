@@ -27,3 +27,16 @@ export const useGetStatisticSupplier = () => {
     staleTime: 5 * 60 * 100,
   })
 }
+
+export const useGetstockMovementSummary = () => {
+  const { getToken } = useAuth()
+
+  return useQuery({
+    queryKey: ["stock-movement-summary"],
+    queryFn: async () => {
+      const token = await getToken()
+      return await statisticApi.stockMovementSummary(token)
+    },
+    staleTime: 5 * 60 * 1000,
+  })
+}

@@ -5,6 +5,7 @@ import SupplierReturn from "../models/supplierReturn-model.js"
 import supplierReturnValidation from "../validations/supplierReturn-validation.js"
 import validation from "../validations/validation.js"
 import Product from "../models/product-model.js"
+import stockMovementService from "./stockMovement-service.js"
 
 const add = async (request, user) => {
   const { fracture, items, notes, date } = validation(
@@ -20,7 +21,9 @@ const add = async (request, user) => {
   const refundItems = []
 
   for (const item of items) {
-    const purchaseItem = purchase.items.find((val) => val.id === item.id)
+    const purchaseItem = purchase.items.find(
+      (val) => val.product.id === item.id
+    )
 
     if (purchaseItem) {
       refundItems.push({
@@ -50,7 +53,7 @@ const add = async (request, user) => {
 
     for (const item of refundItems) {
       const product = await Product.findOneAndUpdate(
-        { _id: item._id, user, stock: { $gte: item.quantity } },
+        { _id: item.id, user, stock: { $gte: item.quantity } },
         {
           $inc: { stock: -item.quantity, sold: item.quantity },
         },
@@ -62,6 +65,16 @@ const add = async (request, user) => {
           `Product ${item.name} tidak ditemukan atau stok tidak cukup`
         )
       }
+
+      await stockMovementService.add({
+        session,
+        user,
+        product,
+        qtyChange: -item.quantity,
+        movementType: "supplierReturn",
+        sourceId: supplierReturn._id,
+        reason: "Supplier return",
+      })
     }
 
     await session.commitTransaction()
