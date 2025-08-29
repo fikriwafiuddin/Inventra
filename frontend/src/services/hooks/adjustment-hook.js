@@ -26,14 +26,15 @@ export const useAddAdjustment = () => {
   })
 }
 
-export const useGetAllAdjustments = () => {
+export const useGetAllAdjustments = (start, end) => {
   const { getToken } = useAuth()
+  const request = { start, end }
 
   return useQuery({
-    queryKey: ["adjustments"],
+    queryKey: ["adjustments", start, end],
     queryFn: async () => {
       const token = await getToken()
-      return await adjustmentApi.getAll(token)
+      return await adjustmentApi.getAll(request, token)
     },
   })
 }
