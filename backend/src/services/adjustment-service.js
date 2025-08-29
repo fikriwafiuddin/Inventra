@@ -57,8 +57,13 @@ const add = async (request, user) => {
   }
 }
 
-const getAll = async (user) => {
-  const adjustments = await Adjustment.find({ user })
+const getAll = async (request, user) => {
+  const { start, end } = validation(adjustmenValidation.getAll, request)
+
+  const adjustments = await Adjustment.find({
+    user,
+    createdAt: { $gte: start, $lte: end },
+  }).sort({ createdAt: -1 })
   return adjustments
 }
 
