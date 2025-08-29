@@ -25,7 +25,29 @@ const add = z.object({
     .length(24, { error: "Product ID must be 24 characters" }),
 })
 
+const getAll = z.object({
+  start: z.preprocess(
+    (val) => new Date(val),
+    z.date({
+      error: (issue) =>
+        issue.input === undefined
+          ? "Start date is required"
+          : "Start date must be a date",
+    })
+  ),
+  end: z.preprocess(
+    (val) => new Date(val),
+    z.date({
+      error: (issue) =>
+        issue.input === undefined
+          ? "End date is required"
+          : "End date must be a date",
+    })
+  ),
+})
+
 const adjustmenValidation = {
   add,
+  getAll,
 }
 export default adjustmenValidation
