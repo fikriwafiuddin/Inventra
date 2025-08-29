@@ -16,7 +16,23 @@ const add = async (req, res, next) => {
   }
 }
 
+const getAll = async (req, res, next) => {
+  try {
+    const user = req.user
+
+    const adjustments = await adjustmentService.getAll(user)
+
+    return res.status(200).json({
+      message: "Adjustment stock retrieved successfully",
+      body: { adjustments },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const adjustmentController = {
   add,
+  getAll,
 }
 export default adjustmentController

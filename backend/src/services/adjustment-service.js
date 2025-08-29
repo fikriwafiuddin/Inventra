@@ -57,7 +57,13 @@ const add = async (request, user) => {
   }
 }
 
+const getAll = async (user) => {
+  const adjustments = await Adjustment.find({ user })
+  return adjustments
+}
+
 const adjustmentService = {
   add,
+  getAll,
 }
 export default adjustmentService

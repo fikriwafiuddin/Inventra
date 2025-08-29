@@ -11,5 +11,11 @@ adjustmentRouter.post(
   authMiddleware,
   adjustmentController.add
 )
+adjustmentRouter.get(
+  "/",
+  clerkMiddleware(),
+  authMiddleware,
+  adjustmentController.getAll
+)
 
 export default adjustmentRouter
