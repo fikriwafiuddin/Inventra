@@ -10,13 +10,14 @@ const add = async (data, token) => {
   return response.data
 }
 
-const getAll = async (token) => {
+const getAll = async (request, token) => {
   const response = await axiosInstance.get("product", {
+    params: { ...request },
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
-  return response.data.body.products
+  return response.data.body
 }
 
 const remove = async (id, token) => {

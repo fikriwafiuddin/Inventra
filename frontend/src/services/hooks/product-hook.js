@@ -29,14 +29,16 @@ export const useAddProduct = (data) => {
   })
 }
 
-export const useGetAllProducts = () => {
+export const useGetAllProducts = (page, category, search, limit = 10) => {
   const { getToken } = useAuth()
+  const debouncedSearch = useDebounce(search, 500)
+  const request = { page, limit, category, search: debouncedSearch }
 
   return useQuery({
-    queryKey: ["products"],
+    queryKey: ["products", page, category, debouncedSearch],
     queryFn: async () => {
       const token = await getToken()
-      return await productApi.getAll(token)
+      return await productApi.getAll(request, token)
     },
     staleTime: 5 * 60 * 1000,
   })

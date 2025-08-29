@@ -26,11 +26,13 @@ const add = async (req, res, next) => {
 const getAll = async (req, res, next) => {
   try {
     const user = req.user
-    const products = await productService.getAll(user)
+    const request = req.query
+
+    const data = await productService.getAll(request, user)
 
     return res
       .status(200)
-      .json({ message: "Products retrieved successfully", body: { products } })
+      .json({ message: "Products retrieved successfully", body: { ...data } })
   } catch (error) {
     next(error)
   }

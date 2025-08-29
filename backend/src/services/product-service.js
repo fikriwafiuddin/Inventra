@@ -37,9 +37,30 @@ const add = async (request, user) => {
   return newProduct
 }
 
-const getAll = async (user) => {
-  const products = await Product.find({ user }).populate("category")
-  return products
+const getAll = async (request, user) => {
+  const { limit, page, category, search } = validation(
+    productValidation.getAll,
+    request
+  )
+
+  const filter = { user }
+  if (category && category !== "all") {
+    filter.category = category
+  }
+  if (search && search.trim() !== "") {
+    filter.name = { $regex: search, $options: "i" }
+  }
+
+  const totalProducts = await Product.countDocuments(filter)
+  const totalPages = Math.ceil(totalProducts / limit)
+  const skip = (page - 1) * limit
+
+  const products = await Product.find(filter)
+    .populate("category")
+    .limit(limit)
+    .skip(skip)
+
+  return { totalProducts, totalPages, currentPage: page, products, limit }
 }
 
 const remove = async (id, user) => {

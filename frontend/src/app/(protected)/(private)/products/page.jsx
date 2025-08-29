@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input"
 import Stats from "./Stats"
-import { SearchIcon } from "lucide-react"
+import { Loader2Icon, SearchIcon } from "lucide-react"
 import {
   Select,
   SelectContent,
@@ -13,11 +13,16 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import categories from "@/data/categories-data"
 import Link from "next/link"
 import ProductsTable from "./ProductsTable"
+import { useState } from "react"
+import { useGetAllCategories } from "@/services/hooks/category-hook"
 
 function ProductsPage() {
+  const [category, setCategory] = useState("all")
+  const [search, setSearch] = useState("")
+  const { isPending, data: categories, error } = useGetAllCategories()
+
   return (
     <div className="space-y-4">
       {/* STATS */}
@@ -40,10 +45,12 @@ function ProductsPage() {
               className="pl-8 w-full"
               type="search"
               placeholder="Search products"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           {/* SELECT BY CATEGORY */}
-          <Select>
+          <Select value={category} onValueChange={setCategory}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
@@ -51,11 +58,20 @@ function ProductsPage() {
               <SelectGroup>
                 <SelectLabel>Categories</SelectLabel>
                 <SelectItem value="all">All</SelectItem>
-                {categories.map((category) => (
-                  <SelectItem key={category._id} value={category._id}>
-                    {category.label}
-                  </SelectItem>
-                ))}
+                {error && (
+                  <span className="text-center text-sm text-destructive">
+                    {error}
+                  </span>
+                )}
+                {isPending && (
+                  <Loader2Icon className="animate-spin mx-auto my-4" />
+                )}
+                {categories &&
+                  categories.map((category) => (
+                    <SelectItem key={category._id} value={category._id}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -63,7 +79,7 @@ function ProductsPage() {
       </div>
 
       {/* TABLE PRODUCTS */}
-      <ProductsTable />
+      <ProductsTable category={category} search={search} />
     </div>
   )
 }

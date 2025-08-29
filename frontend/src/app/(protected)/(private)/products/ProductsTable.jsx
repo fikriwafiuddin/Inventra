@@ -3,9 +3,15 @@ import { DataTable } from "@/components/DataTable"
 import { useGetAllProducts } from "@/services/hooks/product-hook"
 import { Loader2Icon } from "lucide-react"
 import columnProducts from "./columnProducts"
+import { useEffect, useState } from "react"
 
-function ProductsTable() {
-  const { isPending, data: products, error } = useGetAllProducts()
+function ProductsTable({ category, search }) {
+  const [page, setPage] = useState(1)
+  const { isPending, data, error } = useGetAllProducts(page, category, search)
+
+  useEffect(() => {
+    setPage(1)
+  }, [category, search])
 
   if (error) {
     return (
@@ -25,11 +31,17 @@ function ProductsTable() {
     )
   }
 
-  if (products) {
+  if (data) {
     return (
       <>
-        <DataTable columns={columnProducts} data={products} />
-        <AppPagination />
+        <DataTable columns={columnProducts} data={data.products} />
+        <AppPagination
+          currentPage={data.currentPage}
+          totalPages={data.totalPages}
+          pageSize={data.limit}
+          onPageChange={setPage}
+          totalData={data.totalProducts}
+        />
       </>
     )
   }
