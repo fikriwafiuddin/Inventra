@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge"
+import { formatDate } from "@/lib/formatters"
 
 const columns = [
   {
@@ -18,6 +19,13 @@ const columns = [
       } else {
         return <Badge variant="success">{quantity.toLocaleString()}</Badge>
       }
+    },
+  },
+  {
+    header: "Date",
+    cell: ({ row }) => {
+      const date = row.original.createdAt
+      return formatDate(date)
     },
   },
   {
