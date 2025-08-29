@@ -20,11 +20,12 @@ const add = async (req, res, next) => {
 const getAll = async (req, res, next) => {
   try {
     const user = req.user
+    const request = req.query
 
-    const suppliers = await supplierService.getAll(user)
+    const data = await supplierService.getAll(request, user)
     return res.status(200).json({
       message: "Supplier retrieved successfully",
-      body: { suppliers },
+      body: { ...data },
     })
   } catch (error) {
     next(error)
