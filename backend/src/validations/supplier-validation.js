@@ -71,10 +71,30 @@ const search = z.object({
   ),
 })
 
+const getAll = z.object({
+  page: z.preprocess(
+    (val) => Number(val),
+    z
+      .number("Page must be a number")
+      .positive("Page must be a positive number")
+      .optional()
+  ),
+  limit: z.preprocess(
+    (val) => Number(val),
+    z
+      .number("Limit must be a number")
+      .positive("Limit must be a positive number")
+      .optional()
+  ),
+  status: z.string("Status must be a string").optional(),
+  search: z.string("Search must be a string").optional(),
+})
+
 const supplierValidation = {
   add,
   update,
   status,
   search,
+  getAll,
 }
 export default supplierValidation
