@@ -4,12 +4,16 @@ import { useGetAllSuppliers } from "@/services/hooks/supplier-hook"
 import { Loader2Icon } from "lucide-react"
 import columnSuppliers from "./columnsSuppliers"
 import { DataTable } from "@/components/DataTable"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import AppPagination from "@/components/AppPagination"
 
-function SuppliersTable() {
+function SuppliersTable({ status, search }) {
   const [page, setPage] = useState(1)
-  const { isError, isPending, data } = useGetAllSuppliers(page)
+  const { isError, isPending, data } = useGetAllSuppliers(page, status, search)
+
+  useEffect(() => {
+    setPage(1)
+  }, [status, search])
 
   if (isError) {
     return (

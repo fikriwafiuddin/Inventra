@@ -31,10 +31,11 @@ export const useAddSupplier = () => {
 
 export const useGetAllSuppliers = (page, status, search, limit = 10) => {
   const { getToken } = useAuth()
-  const request = { page, status, search, limit }
+  const debouncedSearch = useDebounce(search, 500)
+  const request = { page, status, search: debouncedSearch, limit }
 
   return useQuery({
-    queryKey: ["suppliers", page, status, search, limit],
+    queryKey: ["suppliers", page, status, debouncedSearch, limit],
     queryFn: async () => {
       const token = await getToken()
       return await supplierApi.getAll(request, token)

@@ -1,4 +1,6 @@
-import React from "react"
+"use client"
+
+import { useState } from "react"
 import Stats from "./Stats"
 import { Sheet, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
@@ -6,6 +8,15 @@ import { SearchIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import FormSupplier from "./FormSupplier"
 import SuppliersTable from "./SuppliersTable"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const suppliers = [
   {
@@ -86,6 +97,9 @@ const suppliers = [
 ]
 
 function SuppliersPage() {
+  const [status, setStatus] = useState("all")
+  const [search, setSearch] = useState("")
+
   return (
     <div className="space-y-4">
       <Stats />
@@ -100,7 +114,7 @@ function SuppliersPage() {
         </Sheet>
 
         {/* FILTER */}
-        <div className="">
+        <div className="flex gap-2">
           {/* SEARCH */}
           <div className="relative flex-1 h-max">
             <div className="absolute top-0 bottom-0 left-2 flex items-center">
@@ -109,13 +123,29 @@ function SuppliersPage() {
             <Input
               className="pl-8 w-full"
               type="search"
-              placeholder="Search products"
+              placeholder="Search supplier"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
+          {/* SELECT BY STATUS */}
+          <Select value={status} onValueChange={setStatus}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Status</SelectLabel>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="inactive">Inactive</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
-      <SuppliersTable />
+      <SuppliersTable status={status} search={search} />
     </div>
   )
 }
