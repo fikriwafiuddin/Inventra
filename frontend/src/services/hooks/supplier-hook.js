@@ -29,14 +29,15 @@ export const useAddSupplier = () => {
   })
 }
 
-export const useGetAllSuppliers = () => {
+export const useGetAllSuppliers = (page, status, search, limit = 10) => {
   const { getToken } = useAuth()
+  const request = { page, status, search, limit }
 
   return useQuery({
-    queryKey: ["suppliers"],
+    queryKey: ["suppliers", page, status, search, limit],
     queryFn: async () => {
       const token = await getToken()
-      return await supplierApi.getAll(token)
+      return await supplierApi.getAll(request, token)
     },
     staleTime: 5 * 60 * 1000,
   })
