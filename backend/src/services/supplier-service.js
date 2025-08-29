@@ -24,7 +24,7 @@ const getAll = async (request, user) => {
   )
 
   const query = { user }
-  if (status) query.status = status
+  if (status && status !== "all") query.status = status
   if (search) query.name = { $regex: new RegExp(search, "i") }
 
   const totalSuppliers = await Supplier.countDocuments(query)
