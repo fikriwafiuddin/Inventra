@@ -17,8 +17,19 @@ const add = async (request, user) => {
   return newProduct
 }
 
-const getAll = async (user) => {
-  const suppliers = await Supplier.find({ user })
+const getAll = async (request, user) => {
+  const { page, limit, status, search } = validation(
+    supplierValidation.getAll,
+    request
+  )
+
+  const query = { user }
+  if (status) query.status = status
+  if (search) query.name = { $regex: new RegExp(search, "i") }
+
+  const suppliers = await Supplier.find(query)
+    .skip((page - 1) * limit)
+    .limit(limit)
   return suppliers
 }
 
