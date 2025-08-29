@@ -19,8 +19,9 @@ const add = async (req, res, next) => {
 const getAll = async (req, res, next) => {
   try {
     const user = req.user
+    const request = req.query
 
-    const adjustments = await adjustmentService.getAll(user)
+    const adjustments = await adjustmentService.getAll(request, user)
 
     return res.status(200).json({
       message: "Adjustment stock retrieved successfully",
