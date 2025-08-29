@@ -40,3 +40,16 @@ export const useGetstockMovementSummary = () => {
     staleTime: 5 * 60 * 1000,
   })
 }
+
+export const useGetStockSummary = () => {
+  const { getToken } = useAuth()
+
+  return useQuery({
+    queryKey: ["stock-summary"],
+    queryFn: async () => {
+      const token = await getToken()
+      return await statisticApi.stockSummary(token)
+    },
+    staleTime: 5 * 60 * 1000,
+  })
+}

@@ -59,9 +59,51 @@ const stockMovementSummary = async (user) => {
   }
 }
 
+const stockSummary = async (user) => {
+  const totalProducts = await Product.countDocuments({ user })
+  const outOfStock = await Product.countDocuments({ user, stock: 0 })
+
+  const lowStockAgg = await Product.aggregate([
+    {
+      $match: {
+        user,
+        stock: { $gt: 0 },
+      },
+    },
+    {
+      $project: {
+        stock: 1,
+        minStock: 1,
+        isLow: { $lt: ["$stock", "$minStock"] },
+      },
+    },
+    { $match: { isLow: true } },
+    { $count: "count" },
+  ])
+
+  const lowStock = lowStockAgg[0]?.count || 0
+
+  const startOfDay = new Date()
+  startOfDay.setHours(0, 0, 0, 0)
+
+  const endOfDay = new Date()
+  endOfDay.setHours(23, 59, 59, 999)
+
+  const todayStockMovementCount = await StockMovement.countDocuments({
+    user,
+    timestamp: {
+      $gte: startOfDay,
+      $lte: endOfDay,
+    },
+  })
+
+  return { totalProducts, outOfStock, lowStock, todayStockMovementCount }
+}
+
 const statisticService = {
   product,
   supplier,
   stockMovementSummary,
+  stockSummary,
 }
 export default statisticService

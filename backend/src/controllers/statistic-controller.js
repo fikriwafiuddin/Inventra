@@ -43,9 +43,25 @@ const stockMovementSummary = async (req, res, next) => {
   }
 }
 
+const stockSummary = async (req, res, next) => {
+  try {
+    const user = req.user
+
+    const data = await statisticService.stockSummary(user)
+
+    return res.status(200).json({
+      message: "Stock summary retrieved successfully",
+      body: { ...data },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const statisticController = {
   product,
   supplier,
   stockMovementSummary,
+  stockSummary,
 }
 export default statisticController

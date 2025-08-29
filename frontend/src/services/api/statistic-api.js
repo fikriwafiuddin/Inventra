@@ -30,9 +30,19 @@ const stockMovementSummary = async (token) => {
   return response.data.body.statistic
 }
 
+const stockSummary = async (token) => {
+  const response = await axiosInstance.get("/statistic/stock/summary", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return response.data.body
+}
+
 const statisticApi = {
   product,
   supplier,
   stockMovementSummary,
+  stockSummary,
 }
 export default statisticApi

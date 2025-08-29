@@ -12,13 +12,12 @@ import {
   Building,
   BarChart3,
   Eye,
-  AlertCircle,
   ArrowUpRight,
   ArrowDownRight,
   Boxes,
 } from "lucide-react"
 import Link from "next/link"
-import StatCard from "@/components/StatCard"
+import Stats from "./Stats"
 
 const StockManagementPage = () => {
   // Mock data untuk overview
@@ -180,24 +179,7 @@ const StockManagementPage = () => {
   return (
     <div className="space-y-4 max-w-7xl mx-auto">
       {/* Stock Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard title="Total Products" value={1250} icon={<Package />} />
-        <StatCard
-          title="Stock Habis"
-          value={8}
-          icon={<AlertCircle className="text-destructive" />}
-        />
-        <StatCard
-          title="Stock Rendah"
-          value={23}
-          icon={<AlertTriangle className="text-warning" />}
-        />
-        <StatCard
-          title="Pergerakan Hari Ini"
-          value={40}
-          icon={<RefreshCw className="text-info" />}
-        />
-      </div>
+      <Stats />
 
       {/* Navigation Cards */}
       <div className="mb-8">
