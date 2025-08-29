@@ -27,10 +27,13 @@ const getAll = async (request, user) => {
   if (status) query.status = status
   if (search) query.name = { $regex: new RegExp(search, "i") }
 
+  const totalSuppliers = await Supplier.countDocuments(query)
+  const totalPages = Math.ceil(totalSuppliers / limit) || 1
+
   const suppliers = await Supplier.find(query)
     .skip((page - 1) * limit)
     .limit(limit)
-  return suppliers
+  return { suppliers, currentPage: page, limit, totalPages, totalSuppliers }
 }
 
 const update = async (request, user) => {
