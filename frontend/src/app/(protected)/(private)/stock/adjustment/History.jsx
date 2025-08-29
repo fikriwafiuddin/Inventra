@@ -21,7 +21,7 @@ function History() {
   const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0)
   const [start, setStart] = useState(firstDay)
   const [end, setEnd] = useState(lastDay)
-  const { isPending, data, error } = useGetAllAdjustments()
+  const { isPending, data, error } = useGetAllAdjustments(start, end)
 
   if (error) {
     return (
