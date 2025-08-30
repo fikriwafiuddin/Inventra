@@ -68,7 +68,17 @@ const add = z.object({
     }, "All items must be filled in completely"),
 })
 
+const getAll = z.object({
+  start: z.preprocess(
+    (val) => new Date(val),
+    z.date("Start date must be a date")
+  ),
+  end: z.preprocess((val) => new Date(val), z.date("End date must be a date")),
+  search: z.string("Search must be a string").optional(),
+})
+
 const purchaseValidation = {
   add,
+  getAll,
 }
 export default purchaseValidation

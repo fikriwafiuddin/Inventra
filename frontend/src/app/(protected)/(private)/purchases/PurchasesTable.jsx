@@ -6,8 +6,12 @@ import React from "react"
 import columnPurchases from "./columnPurchases"
 import { Loader2Icon } from "lucide-react"
 
-function PurchasesTable() {
-  const { isPending, data: purchases, error } = useGetAllPurchases()
+function PurchasesTable({ start, end, search }) {
+  const {
+    isPending,
+    data: purchases,
+    error,
+  } = useGetAllPurchases(start, end, search)
 
   if (error) {
     return (

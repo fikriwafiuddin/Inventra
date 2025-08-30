@@ -2,6 +2,7 @@ import { useAuth } from "@clerk/nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import purchaseApi from "../api/purchase-api"
 import { toast } from "sonner"
+import useDebounce from "@/hooks/useDebounce"
 
 export const useAddPurchase = () => {
   const { getToken } = useAuth()
@@ -27,14 +28,20 @@ export const useAddPurchase = () => {
   })
 }
 
-export const useGetAllPurchases = () => {
+export const useGetAllPurchases = (start, end, search) => {
   const { getToken } = useAuth()
+  const debouncedSearch = useDebounce(search, 500)
+  const request = {
+    start,
+    end,
+    search: debouncedSearch,
+  }
 
   return useQuery({
-    queryKey: ["purchases"],
+    queryKey: ["purchases", start, end, debouncedSearch],
     queryFn: async () => {
       const token = await getToken()
-      return await purchaseApi.getAll(token)
+      return await purchaseApi.getAll(request, token)
     },
     staleTime: 5 * 60 * 1000,
   })

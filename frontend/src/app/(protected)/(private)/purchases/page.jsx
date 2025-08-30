@@ -1,3 +1,5 @@
+"use client"
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import FormTab from "./FormTab"
 import HistoryTab from "./HistoryTab"

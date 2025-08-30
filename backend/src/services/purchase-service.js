@@ -109,11 +109,24 @@ const add = async (request, user) => {
   }
 }
 
-const getAll = async (user) => {
-  const purchases = await Purchase.find(
-    { user },
-    { fracture: 1, supplier: 1, date: 1 }
-  )
+const getAll = async (request, user) => {
+  const { start, end, search } = validation(purchaseValidation.getAll, request)
+  const filter = {
+    user,
+    date: {
+      $gte: start,
+      $lte: end,
+    },
+  }
+  if (search) {
+    filter.fracture = { $regex: search, $options: "i" }
+  }
+
+  const purchases = await Purchase.find(filter, {
+    fracture: 1,
+    supplier: 1,
+    date: 1,
+  })
   return purchases
 }
 
