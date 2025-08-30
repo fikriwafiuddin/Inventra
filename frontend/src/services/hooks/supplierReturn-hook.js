@@ -1,5 +1,5 @@
 import { useAuth } from "@clerk/nextjs"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import supplierReturnApi from "../api/supplierReturn-api"
 import { toast } from "sonner"
 
@@ -23,6 +23,19 @@ export const useAddSupplierReturn = () => {
           "An error occurred while adding the supplier return."
       )
       console.error(error)
+    },
+  })
+}
+
+export const useGetAllSupplierReturn = (start, end) => {
+  const { getToken } = useAuth()
+  const request = { start, end }
+
+  return useQuery({
+    queryKey: ["supplier-returns", start, end],
+    queryFn: async () => {
+      const token = await getToken()
+      return await supplierReturnApi.getAll(request, token)
     },
   })
 }
