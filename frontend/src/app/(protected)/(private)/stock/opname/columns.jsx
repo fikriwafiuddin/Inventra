@@ -25,6 +25,16 @@ const columns = [
     ),
   },
   {
+    accessorKey: "endDate",
+    header: "Tanggal Selesai",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        <CalendarIcon className="size-4" />
+        <span>{formatDate(row.getValue("endDate"))}</span>
+      </div>
+    ),
+  },
+  {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
