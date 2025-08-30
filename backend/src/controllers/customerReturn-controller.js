@@ -18,7 +18,7 @@ const add = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
   try {
-    const request = req.body
+    const request = req.query
     const user = req.user
 
     const customerReturns = await customerReturnService.getAll(request, user)
