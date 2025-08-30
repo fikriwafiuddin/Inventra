@@ -9,8 +9,9 @@ const add = async (data, token) => {
   return response.data
 }
 
-const getAll = async (token) => {
+const getAll = async (request, token) => {
   const response = await axiosInstance.get("/order", {
+    params: { ...request },
     headers: {
       Authorization: `Bearer ${token}`,
     },

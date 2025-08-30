@@ -2,6 +2,7 @@ import { useAuth } from "@clerk/nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import orderApi from "../api/order-api"
 import { toast } from "sonner"
+import useDebounce from "@/hooks/useDebounce"
 
 export const useAddOrder = () => {
   const { getToken } = useAuth()
@@ -28,14 +29,16 @@ export const useAddOrder = () => {
   })
 }
 
-export const useGetAllOrders = () => {
+export const useGetAllOrders = (start, end, search) => {
   const { getToken } = useAuth()
+  const debouncedSearch = useDebounce(search, 500)
+  const request = { start, end, search: debouncedSearch }
 
   return useQuery({
-    queryKey: ["orders"],
+    queryKey: ["orders", start, end, debouncedSearch],
     queryFn: async () => {
       const token = await getToken()
-      return await orderApi.getAll(token)
+      return await orderApi.getAll(request, token)
     },
     staleTime: 5 * 60 * 1000,
   })

@@ -95,8 +95,20 @@ const add = async (request, user) => {
   }
 }
 
-const getAll = async (user) => {
-  const orders = await Order.find({ user })
+const getAll = async (request, user) => {
+  const { start, end, search } = validation(orderValidation.getAll, request)
+  const filter = {
+    user,
+    date: {
+      $gte: start,
+      $lte: end,
+    },
+  }
+
+  if (search.trim()) {
+    filter.orderId = { $regex: search, $options: "i" }
+  }
+  const orders = await Order.find(filter).sort({ date: -1 })
 
   return orders
 }

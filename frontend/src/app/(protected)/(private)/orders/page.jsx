@@ -1,10 +1,7 @@
 "use client"
 
 import { Input } from "@/components/ui/input"
-import { Loader2Icon, SearchIcon } from "lucide-react"
-import { DataTable } from "@/components/DataTable"
-import columnOrders from "./columnOrder"
-import AppPagination from "@/components/AppPagination"
+import { SearchIcon } from "lucide-react"
 import { ChevronDownIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -14,18 +11,23 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { useState } from "react"
-import { useGetAllOrders } from "@/services/hooks/order-hook"
+import { useEffect, useState } from "react"
+import OrdersTable from "./OrdersTable"
 
 function OrdersPage() {
   const [openStart, setOpenStart] = useState(false)
   const [openEnd, setOpenEnd] = useState(false)
-  const now = new Date()
-  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1)
-  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0)
-  const [start, setStart] = useState(firstDay)
-  const [end, setEnd] = useState(lastDay)
-  const { isPending, data: orders, error } = useGetAllOrders()
+  const [start, setStart] = useState(null)
+  const [end, setEnd] = useState(null)
+  const [search, setSearch] = useState("")
+
+  useEffect(() => {
+    const now = new Date()
+    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1)
+    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+    setStart(firstDay)
+    setEnd(lastDay)
+  }, [])
 
   return (
     <div className="space-y-4">
@@ -40,6 +42,8 @@ function OrdersPage() {
             className="pl-8 w-full"
             type="search"
             placeholder="Search order by id"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <div className="flex gap-1">
@@ -108,25 +112,7 @@ function OrdersPage() {
         </div>
       </div>
 
-      {error && (
-        <div className="text-destructive text-center mt-4">
-          {error.response?.data.message ||
-            error.message ||
-            "An error occurred while fetching categories."}
-        </div>
-      )}
-      {isPending && (
-        <div className="flex justify-center mt-4">
-          <Loader2Icon className="animate-spin size-10 text-muted-foreground" />
-        </div>
-      )}
-
-      {orders && (
-        <>
-          <DataTable data={orders} columns={columnOrders} />
-          {orders?.length > 10 && <AppPagination />}
-        </>
-      )}
+      {start && end && <OrdersTable start={start} end={end} search={search} />}
     </div>
   )
 }
