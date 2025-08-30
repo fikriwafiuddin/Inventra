@@ -59,6 +59,7 @@ const getAll = async (request, user) => {
     .populate("category")
     .limit(limit)
     .skip(skip)
+    .sort({ createdAt: -1 })
 
   return { totalProducts, totalPages, currentPage: page, products, limit }
 }
