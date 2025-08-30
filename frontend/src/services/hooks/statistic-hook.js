@@ -79,3 +79,29 @@ export const useGetWeeklyIncomeInMonth = () => {
     staleTime: 5 * 60 * 1000,
   })
 }
+
+export const useGetLatestOrders = () => {
+  const { getToken } = useAuth()
+
+  return useQuery({
+    queryKey: ["latest-orders"],
+    queryFn: async () => {
+      const token = await getToken()
+      return await statisticApi.latestOrders(token)
+    },
+    staleTime: 5 * 60 * 1000,
+  })
+}
+
+export const useGetTopProducts = () => {
+  const { getToken } = useAuth()
+
+  return useQuery({
+    queryKey: ["top-products"],
+    queryFn: async () => {
+      const token = await getToken()
+      return await statisticApi.topProducts(token)
+    },
+    staleTime: 5 * 60 * 1000,
+  })
+}

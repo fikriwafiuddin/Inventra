@@ -1,12 +1,14 @@
 "use client"
 
 import { DataTable } from "@/components/DataTable"
+import { Skeleton } from "@/components/ui/skeleton"
 import { formatCurrency } from "@/lib/formatters"
+import { useGetLatestOrders } from "@/services/hooks/statistic-hook"
 
 export const columns = [
   {
-    accessorKey: "id",
-    header: "ID",
+    accessorKey: "orderId",
+    header: "Order Id",
   },
   {
     accessorKey: "date",
@@ -19,44 +21,16 @@ export const columns = [
   },
 ]
 
-export const orders = [
-  {
-    id: "TRX-AB12CD34",
-    date: "2022-01-01 02:11",
-    amount: 100000,
-  },
-  {
-    id: "TRX-AB12CD34",
-    date: "2022-01-01 02:11",
-    amount: 100000,
-  },
-  {
-    id: "TRX-AB12CD34",
-    date: "2022-01-01 02:11",
-    amount: 100000,
-  },
-  {
-    id: "TRX-AB12CD34",
-    date: "2022-01-01 02:11",
-    amount: 100000,
-  },
-  {
-    id: "TRX-AB12CD34",
-    date: "2022-01-01 02:11",
-    amount: 100000,
-  },
-  {
-    id: "TRX-AB12CD34",
-    date: "2022-01-01 02:11",
-    amount: 100000,
-  },
-]
-
 function LatestTransactions() {
+  const { isPending, data: orders } = useGetLatestOrders()
   return (
     <div className="bg-secondary rounded-lg p-2">
       <h3 className="text-lg font-medium mb-2 text-center">Latest Orders</h3>
-      <DataTable columns={columns} data={orders} />
+      {isPending ? (
+        <Skeleton className="h-[250px]" />
+      ) : (
+        <DataTable columns={columns} data={orders} />
+      )}
     </div>
   )
 }

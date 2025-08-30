@@ -41,5 +41,17 @@ statisticRouter.get(
   authMiddleware,
   statisticController.weeklyIncomeInMonth
 )
+statisticRouter.get(
+  "/latest-orders",
+  clerkMiddleware(),
+  authMiddleware,
+  statisticController.latestOrders
+)
+statisticRouter.get(
+  "/top-products",
+  clerkMiddleware(),
+  authMiddleware,
+  statisticController.topProducts
+)
 
 export default statisticRouter

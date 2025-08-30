@@ -88,6 +88,36 @@ const weeklyIncomeInMonth = async (req, res, next) => {
   }
 }
 
+const latestOrders = async (req, res, next) => {
+  try {
+    const user = req.user
+
+    const latestOrders = await statisticService.latestOrders(user)
+
+    return res.status(200).json({
+      message: "Latest orders retrieved successfully",
+      body: { latestOrders },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+const topProducts = async (req, res, next) => {
+  try {
+    const user = req.user
+
+    const topProducts = await statisticService.topProducts(user)
+
+    return res.status(200).json({
+      message: "Top products retrieved successfully",
+      body: { topProducts },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const statisticController = {
   product,
   supplier,
@@ -95,5 +125,7 @@ const statisticController = {
   dashboard,
   stockSummary,
   weeklyIncomeInMonth,
+  latestOrders,
+  topProducts,
 }
 export default statisticController

@@ -165,6 +165,16 @@ const weeklyIncomeInMonth = async (user) => {
   }))
 }
 
+const latestOrders = async (user, limit = 6) => {
+  const orders = await Order.find({ user }).sort({ createdAt: -1 }).limit(limit)
+  return orders
+}
+
+const topProducts = async (user, limit = 5) => {
+  const products = await Product.find({ user }).sort({ sold: -1 }).limit(limit)
+  return products
+}
+
 const statisticService = {
   product,
   supplier,
@@ -172,5 +182,7 @@ const statisticService = {
   stockSummary,
   dashboard,
   weeklyIncomeInMonth,
+  latestOrders,
+  topProducts,
 }
 export default statisticService

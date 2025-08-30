@@ -57,6 +57,24 @@ const weeklyIncomeInMonth = async (token) => {
   return response.data.body.weeklyIncomeInMonth
 }
 
+const latestOrders = async (token) => {
+  const response = await axiosInstance.get("/statistic/latest-orders", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return response.data.body.latestOrders
+}
+
+const topProducts = async (token) => {
+  const response = await axiosInstance.get("/statistic/top-products", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return response.data.body.topProducts
+}
+
 const statisticApi = {
   product,
   supplier,
@@ -64,5 +82,7 @@ const statisticApi = {
   dashboard,
   stockSummary,
   weeklyIncomeInMonth,
+  latestOrders,
+  topProducts,
 }
 export default statisticApi
