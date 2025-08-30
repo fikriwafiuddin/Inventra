@@ -1,6 +1,5 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -11,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Plus, CheckCircle, Package, Loader2Icon } from "lucide-react"
+import { Plus, CheckCircle, Loader2Icon } from "lucide-react"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -20,8 +19,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import columns from "./columns"
-import { DataTable } from "@/components/DataTable"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import opnameValidation from "@/lib/validations/opname-validation"
@@ -33,8 +30,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { useAddOpname, useGetAllOpnames } from "@/services/hooks/opname-hook"
+import { useAddOpname } from "@/services/hooks/opname-hook"
 import { useRouter } from "next/navigation"
+import History from "./History"
 
 const StockOpnamePage = () => {
   const form = useForm({
@@ -44,7 +42,6 @@ const StockOpnamePage = () => {
     },
   })
   const { isPending: adding, mutate: add } = useAddOpname()
-  const { isPending: fetching, data: opnames } = useGetAllOpnames()
   const router = useRouter()
 
   const onSubmit = (data) => {
@@ -128,23 +125,7 @@ const StockOpnamePage = () => {
         </Dialog>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Package className="w-5 h-5" />
-            Daftar Sesi Stock Opname
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {fetching ? (
-            <div className="flex justify-center mt-4">
-              <Loader2Icon className="animate-spin size-10 text-muted-foreground" />
-            </div>
-          ) : (
-            <DataTable columns={columns} data={opnames} />
-          )}
-        </CardContent>
-      </Card>
+      <History />
     </div>
   )
 }

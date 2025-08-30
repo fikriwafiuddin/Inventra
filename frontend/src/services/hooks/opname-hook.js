@@ -27,14 +27,15 @@ export const useAddOpname = () => {
   })
 }
 
-export const useGetAllOpnames = () => {
+export const useGetAllOpnames = (start, end, status) => {
   const { getToken } = useAuth()
+  const request = { start, end, status }
 
   return useQuery({
     queryKey: ["opnames"],
     queryFn: async () => {
       const token = await getToken()
-      return await opnameApi.getAll(token)
+      return await opnameApi.getAll(request, token)
     },
     staleTime: 5 * 60 * 1000,
   })
