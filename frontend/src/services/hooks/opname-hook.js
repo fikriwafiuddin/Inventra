@@ -32,7 +32,7 @@ export const useGetAllOpnames = (start, end, status) => {
   const request = { start, end, status }
 
   return useQuery({
-    queryKey: ["opnames"],
+    queryKey: ["opnames", start, end, status],
     queryFn: async () => {
       const token = await getToken()
       return await opnameApi.getAll(request, token)

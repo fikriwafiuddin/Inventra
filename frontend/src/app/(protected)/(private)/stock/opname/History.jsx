@@ -22,11 +22,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useGetAllOpnames } from "@/services/hooks/opname-hook"
 import { Button } from "@/components/ui/button"
 
-const now = new Date()
-const firstDay = new Date(now.getFullYear(), now.getMonth(), 1)
-const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0)
-
 function History() {
+  const now = new Date()
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1)
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0)
   const [openStart, setOpenStart] = useState(false)
   const [openEnd, setOpenEnd] = useState(false)
   const [start, setStart] = useState(firstDay)
