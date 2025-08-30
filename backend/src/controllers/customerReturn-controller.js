@@ -16,7 +16,24 @@ const add = async (req, res, next) => {
   }
 }
 
+const getAll = async (req, res, next) => {
+  try {
+    const request = req.body
+    const user = req.user
+
+    const customerReturns = await customerReturnService.getAll(request, user)
+
+    return res.status(200).json({
+      message: "Customer returns retrieved successfully",
+      body: { customerReturns },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const customerReturnController = {
   add,
+  getAll,
 }
 export default customerReturnController
