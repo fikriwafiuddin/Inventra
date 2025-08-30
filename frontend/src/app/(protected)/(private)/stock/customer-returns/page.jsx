@@ -157,14 +157,6 @@ const CustomerReturnPage = () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      {/* Header */}
-      <div className="mb-6">
-        <div className="flex items-center gap-2 mb-2">
-          <h1 className="text-3xl font-bold">Retur Pelanggan</h1>
-        </div>
-        <p>Proses pengembalian barang dari pelanggan</p>
-      </div>
-
       {/* Search Transaction Form */}
       <Card className="mb-6">
         <CardHeader>
