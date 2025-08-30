@@ -7,10 +7,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Button } from "@/components/ui/button"
 import { ChevronDownIcon } from "lucide-react"
 import columns from "./columns"
 import { useState } from "react"
+import { DataTable } from "@/components/DataTable"
+import { Button } from "@/components/ui/button"
 
 function History() {
   const [openStart, setOpenStart] = useState(false)
