@@ -11,5 +11,11 @@ customerReturnRouter.post(
   authMiddleware,
   customerReturnController.add
 )
+customerReturnRouter.get(
+  "/",
+  clerkMiddleware(),
+  authMiddleware,
+  customerReturnController.getAll
+)
 
 export default customerReturnRouter
