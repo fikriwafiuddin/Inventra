@@ -55,7 +55,29 @@ const add = z.object({
   ),
 })
 
+const getAll = z.object({
+  start: z.preprocess(
+    (val) => new Date(val),
+    z.date({
+      error: (issue) =>
+        issue.input === undefined
+          ? "Start date is required"
+          : "Start date must be a date",
+    })
+  ),
+  end: z.preprocess(
+    (val) => new Date(val),
+    z.date({
+      error: (issue) =>
+        issue.input === undefined
+          ? "End date is required"
+          : "End date must be a date",
+    })
+  ),
+})
+
 const customerReturnValidation = {
   add,
+  getAll,
 }
 export default customerReturnValidation
