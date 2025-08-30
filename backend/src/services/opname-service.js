@@ -23,7 +23,7 @@ const getAll = async (request, user) => {
   const { start, end, status } = validation(opnameValidation.getAll, request)
   const filter = {
     user,
-    date: {
+    startDate: {
       $gte: start,
       $lte: end,
     },
