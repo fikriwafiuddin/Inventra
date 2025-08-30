@@ -1,3 +1,5 @@
+"use client"
+
 import LatestTransactions from "./LatestTransactions"
 import TopProducts from "./TopProducts"
 import Stats from "./Stats"

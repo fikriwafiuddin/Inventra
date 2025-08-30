@@ -29,5 +29,17 @@ statisticRouter.get(
   authMiddleware,
   statisticController.stockSummary
 )
+statisticRouter.get(
+  "/dashboard",
+  clerkMiddleware(),
+  authMiddleware,
+  statisticController.dashboard
+)
+statisticRouter.get(
+  "/weekly-income/month",
+  clerkMiddleware(),
+  authMiddleware,
+  statisticController.weeklyIncomeInMonth
+)
 
 export default statisticRouter

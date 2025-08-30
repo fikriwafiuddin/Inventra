@@ -58,10 +58,42 @@ const stockSummary = async (req, res, next) => {
   }
 }
 
+const dashboard = async (req, res, next) => {
+  try {
+    const user = req.user
+
+    const data = await statisticService.dashboard(user)
+
+    return res.status(200).json({
+      message: "Dashboard data retrieved successfully",
+      body: { ...data },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+const weeklyIncomeInMonth = async (req, res, next) => {
+  try {
+    const user = req.user
+
+    const weeklyIncomeInMonth = await statisticService.weeklyIncomeInMonth(user)
+
+    return res.status(200).json({
+      message: "Weekly income data retrieved successfully",
+      body: { weeklyIncomeInMonth },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const statisticController = {
   product,
   supplier,
   stockMovementSummary,
+  dashboard,
   stockSummary,
+  weeklyIncomeInMonth,
 }
 export default statisticController

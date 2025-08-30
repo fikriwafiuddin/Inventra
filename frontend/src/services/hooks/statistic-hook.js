@@ -53,3 +53,29 @@ export const useGetStockSummary = () => {
     staleTime: 5 * 60 * 1000,
   })
 }
+
+export const useGetDashboard = () => {
+  const { getToken } = useAuth()
+
+  return useQuery({
+    queryKey: ["dashboard"],
+    queryFn: async () => {
+      const token = await getToken()
+      return await statisticApi.dashboard(token)
+    },
+    staleTime: 5 * 60 * 1000,
+  })
+}
+
+export const useGetWeeklyIncomeInMonth = () => {
+  const { getToken } = useAuth()
+
+  return useQuery({
+    queryKey: ["weekly-income-month"],
+    queryFn: async () => {
+      const token = await getToken()
+      return await statisticApi.weeklyIncomeInMonth(token)
+    },
+    staleTime: 5 * 60 * 1000,
+  })
+}

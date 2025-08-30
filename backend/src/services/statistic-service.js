@@ -1,3 +1,4 @@
+import Order from "../models/order-model.js"
 import Product from "../models/product-model.js"
 import StockMovement from "../models/stockMovement-model.js"
 import Supplier from "../models/supplier-model.js"
@@ -100,10 +101,76 @@ const stockSummary = async (user) => {
   return { totalProducts, outOfStock, lowStock, todayStockMovementCount }
 }
 
+const dashboard = async (user) => {
+  const revenue = await Order.aggregate([
+    {
+      $match: { user },
+    },
+    {
+      $group: {
+        _id: null,
+        totalRevenue: { $sum: "$amount" },
+      },
+    },
+  ])
+  const totalProducts = await Product.countDocuments({ user })
+  const totalOrders = await Order.countDocuments({ user })
+  const outOfStock = await Product.countDocuments({ user, stock: 0 })
+
+  return {
+    revenue: revenue[0]?.totalRevenue || 0,
+    totalProducts,
+    totalOrders,
+    outOfStock,
+  }
+}
+
+const weeklyIncomeInMonth = async (user) => {
+  const year = new Date().getFullYear()
+  const month = new Date().getMonth() + 1
+  const startDate = new Date(year, month - 1, 1)
+  const endDate = new Date(year, month, 0, 23, 59, 59, 999)
+
+  const result = await Order.aggregate([
+    {
+      $match: {
+        date: { $gte: startDate, $lte: endDate },
+        user,
+      },
+    },
+    {
+      $project: {
+        amount: 1,
+        weekOfMonth: {
+          $ceil: {
+            $divide: [{ $dayOfMonth: "$date" }, 7],
+          },
+        },
+      },
+    },
+    {
+      $group: {
+        _id: "$weekOfMonth",
+        revenue: { $sum: "$amount" },
+      },
+    },
+    {
+      $sort: { _id: 1 },
+    },
+  ])
+
+  return result.map((item) => ({
+    week: item._id,
+    revenue: item.revenue,
+  }))
+}
+
 const statisticService = {
   product,
   supplier,
   stockMovementSummary,
   stockSummary,
+  dashboard,
+  weeklyIncomeInMonth,
 }
 export default statisticService
