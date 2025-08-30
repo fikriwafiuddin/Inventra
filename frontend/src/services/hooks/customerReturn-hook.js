@@ -1,5 +1,5 @@
 import { useAuth } from "@clerk/nextjs"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import customerReturnApi from "../api/customerReturn-api"
 import { toast } from "sonner"
 
@@ -23,6 +23,19 @@ export const useAddCustomerReturn = () => {
           "An error occurred while adding the customer return."
       )
       console.error(error)
+    },
+  })
+}
+
+export const useGetAllCustomerReturns = (start, end) => {
+  const { getToken } = useAuth()
+  const request = { start, end }
+
+  return useQuery({
+    queryKey: ["customer-return", start, end],
+    queryFn: async () => {
+      const token = await getToken()
+      return await customerReturnApi.getAll(request, token)
     },
   })
 }
