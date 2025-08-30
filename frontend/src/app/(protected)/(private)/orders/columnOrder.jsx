@@ -56,7 +56,7 @@ const columnOrders = [
   {
     accessorKey: "amount",
     header: "Amount",
-    cell: ({ row }) => row.getValue("amount"),
+    cell: ({ row }) => formatCurrency(row.getValue("amount")),
   },
   {
     accessorKey: "date",
