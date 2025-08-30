@@ -4,7 +4,7 @@ import { DataTable } from "@/components/DataTable"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { formatCurrency } from "@/lib/formatters"
+import { formatCurrency, formatDate } from "@/lib/formatters"
 
 function Details({ opname }) {
   const totalDifferenceValue = opname?.items.reduce(
@@ -28,11 +28,11 @@ function Details({ opname }) {
             <div className="space-y-2">
               <div>
                 <p className="text-sm text-muted-foreground">Tanggal Mulai</p>
-                <p className="font-medium">{opname?.startDate}</p>
+                <p className="font-medium">{formatDate(opname?.startDate)}</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Tanggal Selesai</p>
-                <p className="font-medium">{opname?.endDate}</p>
+                <p className="font-medium">{formatDate(opname?.endDate)}</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Status</p>
