@@ -6,6 +6,7 @@ import supplierReturnValidation from "../validations/supplierReturn-validation.j
 import validation from "../validations/validation.js"
 import Product from "../models/product-model.js"
 import stockMovementService from "./stockMovement-service.js"
+import { request } from "express"
 
 const add = async (request, user) => {
   const { fracture, items, notes, date } = validation(
@@ -88,7 +89,22 @@ const add = async (request, user) => {
   }
 }
 
+const getAll = async (request, user) => {
+  const { start, end } = validation(supplierReturnValidation.getAll, request)
+
+  const supplierReturns = await SupplierReturn.find({
+    user,
+    date: {
+      $gte: start,
+      $lte: end,
+    },
+  })
+
+  return supplierReturns
+}
+
 const supplierReturnService = {
   add,
+  getAll,
 }
 export default supplierReturnService

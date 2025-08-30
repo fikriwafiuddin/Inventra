@@ -16,7 +16,24 @@ const add = async (req, res, next) => {
   }
 }
 
+const getAll = async (req, res, next) => {
+  try {
+    const request = req.query
+    const user = req.user
+
+    const supplierReturns = await supplierReturnService.getAll(request, user)
+
+    return res.status(200).json({
+      message: "Supplier returns retrieved successfully",
+      body: { supplierReturns },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const supplierReturnController = {
   add,
+  getAll,
 }
 export default supplierReturnController

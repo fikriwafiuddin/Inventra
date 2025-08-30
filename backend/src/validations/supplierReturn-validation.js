@@ -53,7 +53,16 @@ const add = z.object({
   ),
 })
 
+const getAll = z.object({
+  start: z.preprocess(
+    (val) => new Date(val),
+    z.date("Start date must be a date")
+  ),
+  end: z.preprocess((val) => new Date(val), z.date("End date must be a date")),
+})
+
 const supplierReturnValidation = {
   add,
+  getAll,
 }
 export default supplierReturnValidation

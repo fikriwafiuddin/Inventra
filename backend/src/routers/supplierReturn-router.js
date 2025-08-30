@@ -11,5 +11,11 @@ supplierReturnRouter.post(
   authMiddleware,
   supplierReturnController.add
 )
+supplierReturnRouter.get(
+  "/",
+  clerkMiddleware(),
+  authMiddleware,
+  supplierReturnController.getAll
+)
 
 export default supplierReturnRouter
