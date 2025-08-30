@@ -49,6 +49,15 @@ const update = z.object({
     .optional(),
 })
 
+const getAll = z.object({
+  start: z.preprocess(
+    (val) => new Date(val),
+    z.date("Start date must be a date")
+  ),
+  end: z.preprocess((val) => new Date(val), z.date("End date must be a date")),
+  status: z.string("Status must be a string").optional(),
+})
+
 const opnameValidation = {
   add,
   update,

@@ -19,8 +19,21 @@ const add = async (request, user) => {
   return opname
 }
 
-const getAll = async (user) => {
-  const opnames = await Opname.find({ user })
+const getAll = async (request, user) => {
+  const { start, end, status } = validation(opnameValidation.getAll, request)
+  const filter = {
+    user,
+    date: {
+      $gte: start,
+      $lte: end,
+    },
+  }
+
+  if (status.trim() && status.toLowerCase() !== "all") {
+    filter.status = status
+  }
+
+  const opnames = await Opname.find(filter)
 
   return opnames
 }
