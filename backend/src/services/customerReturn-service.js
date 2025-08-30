@@ -47,7 +47,22 @@ const add = async (request, user) => {
   return customerReturn
 }
 
+const getAll = async (request, user) => {
+  const { start, end } = validation(customerReturnValidation.getAll, request)
+
+  const customerReturns = await CustomerReturn.find({
+    user,
+    date: {
+      $gte: start,
+      $lte: end,
+    },
+  })
+
+  return customerReturns
+}
+
 const customerReturnService = {
   add,
+  getAll,
 }
 export default customerReturnService
