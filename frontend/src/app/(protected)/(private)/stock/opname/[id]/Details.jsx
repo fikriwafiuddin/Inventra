@@ -4,8 +4,14 @@ import { DataTable } from "@/components/DataTable"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { formatCurrency } from "@/lib/formatters"
 
 function Details({ opname }) {
+  const totalDifferenceValue = opname?.items.reduce(
+    (acc, item) => acc + (item.systemStock - item.physicalStock) * item.price,
+    0
+  )
+
   return (
     <>
       <div>
@@ -77,12 +83,10 @@ function Details({ opname }) {
               </p>
               <p
                 className={`text-2xl font-bold ${
-                  opname?.totalDifference < 0
-                    ? "text-destructive"
-                    : "text-success"
+                  totalDifferenceValue < 0 ? "text-destructive" : "text-success"
                 }`}
               >
-                Rp {opname?.totalDifference?.toLocaleString("id-ID") || "0"}
+                {formatCurrency(totalDifferenceValue)}
               </p>
             </div>
           </CardContent>
