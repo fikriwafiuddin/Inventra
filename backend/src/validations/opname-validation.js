@@ -61,5 +61,6 @@ const getAll = z.object({
 const opnameValidation = {
   add,
   update,
+  getAll,
 }
 export default opnameValidation
