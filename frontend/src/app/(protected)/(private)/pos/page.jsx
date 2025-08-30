@@ -34,34 +34,28 @@ import {
 import Image from "next/image"
 import { useState } from "react"
 import { toast } from "sonner"
-
-const categories = [
-  {
-    label: "Motherboard",
-    _id: "111",
-  },
-  {
-    label: "CPU",
-    _id: "222",
-  },
-  {
-    label: "GPU",
-    _id: "333",
-  },
-  {
-    label: "RAM",
-    _id: "444",
-  },
-  {
-    label: "PSU",
-    _id: "555",
-  },
-]
+import { useGetAllCategories } from "@/services/hooks/category-hook"
+import AppPagination from "@/components/AppPagination"
 
 function PosPage() {
   const [cart, setCart] = useState([])
-  const { isPending, data: products, error } = useGetAllProducts()
+  const [category, setCategory] = useState("all")
+  const [search, setSearch] = useState("")
+  const [page, setPage] = useState(1)
+  const { isPending, data, error } = useGetAllProducts(page, category, search)
   const { isPending: paying, mutate: pay } = useAddOrder()
+  const { isPending: fetchingCategories, data: categories } =
+    useGetAllCategories()
+
+  const handleSearch = (e) => {
+    setPage(1)
+    setSearch(e.target.value)
+  }
+
+  const handleSelect = (value) => {
+    setPage(1)
+    setCategory(value)
+  }
 
   const addToCart = (product) => {
     const existingItem = cart.find((item) => item._id === product._id)
@@ -133,10 +127,11 @@ function PosPage() {
             className="pl-8 w-full"
             type="search"
             placeholder="Search products"
+            onChange={handleSearch}
           />
         </div>
         {/* SELECT BY CATEGORY */}
-        <Select>
+        <Select value={category} onValueChange={handleSelect}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
@@ -144,11 +139,20 @@ function PosPage() {
             <SelectGroup>
               <SelectLabel>Categories</SelectLabel>
               <SelectItem value="all">All</SelectItem>
-              {categories.map((category) => (
-                <SelectItem key={category._id} value={category._id}>
-                  {category.label}
-                </SelectItem>
-              ))}
+              {error && (
+                <span className="text-center text-sm text-destructive">
+                  {error}
+                </span>
+              )}
+              {fetchingCategories && (
+                <Loader2Icon className="animate-spin mx-auto my-4" />
+              )}
+              {categories &&
+                categories.map((category) => (
+                  <SelectItem key={category._id} value={category._id}>
+                    {category.name}
+                  </SelectItem>
+                ))}
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -262,8 +266,8 @@ function PosPage() {
         </div>
       )}
       <div className="grid grid-cols-3 gap-4">
-        {products &&
-          products.map((product) => (
+        {data?.products &&
+          data.products.map((product) => (
             <Card key={product._id} className="px-1">
               <div className="relative rounded-sm overflow-hidden h-48 p-1">
                 <Image
@@ -301,6 +305,16 @@ function PosPage() {
             </Card>
           ))}
       </div>
+
+      {data && data.totalPages > 1 && (
+        <AppPagination
+          currentPage={page}
+          onPageChange={setPage}
+          totalPages={data?.totalPages}
+          totalData={data?.totalProducts}
+          pageSize={data?.limit}
+        />
+      )}
     </div>
   )
 }
