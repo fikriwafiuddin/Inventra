@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useGetStockAlert } from "@/services/hooks/statistic-hook"
 import { AlertTriangleIcon, EyeIcon } from "lucide-react"
+import Link from "next/link"
 
 function LowStockAlert() {
   const { isPending, data } = useGetStockAlert(1, 4)
@@ -54,10 +55,12 @@ function LowStockAlert() {
                 )
               })}
             </div>
-            <Button variant="outline" className="w-full mt-4">
-              <EyeIcon className="h-4 w-4 mr-2" />
-              Lihat Semua Alert
-            </Button>
+            <Link href="/stock/alert" passHref>
+              <Button variant="outline" className="w-full mt-4">
+                <EyeIcon className="h-4 w-4 mr-2" />
+                Lihat Semua Alert
+              </Button>
+            </Link>
           </>
         )}
       </CardContent>
