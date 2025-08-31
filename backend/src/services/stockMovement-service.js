@@ -1,4 +1,6 @@
 import StockMovement from "../models/stockMovement-model.js"
+import stockMovementValidation from "../validations/stockMovement-validation.js"
+import validation from "../validations/validation.js"
 
 const add = async ({
   session,
@@ -30,8 +32,26 @@ const add = async ({
   await movement.save({ session })
 }
 
-const getAll = async (user) => {
-  const stockMovements = await StockMovement.find({ user })
+const getAll = async (request, user) => {
+  const { start, end, type } = validation(
+    stockMovementValidation.getAll,
+    request
+  )
+  const filter = {
+    user,
+    timestamp: {
+      $gte: start,
+      $lte: end,
+    },
+  }
+
+  if (type.trim() && type.toLowerCase().trim() !== "all") {
+    filter.movementType = type
+  }
+
+  const stockMovements = await StockMovement.find(filter).sort({
+    timestamp: -1,
+  })
 
   return stockMovements
 }
