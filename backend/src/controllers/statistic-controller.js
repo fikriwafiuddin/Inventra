@@ -118,6 +118,22 @@ const topProducts = async (req, res, next) => {
   }
 }
 
+const stockAlert = async (req, res, next) => {
+  try {
+    const user = req.user
+    const request = req.query
+
+    const data = await statisticService.stockAlert(request, user)
+
+    return res.status(200).json({
+      message: "Stock alert retrieved successfully",
+      body: { ...data },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const statisticController = {
   product,
   supplier,
@@ -127,5 +143,6 @@ const statisticController = {
   weeklyIncomeInMonth,
   latestOrders,
   topProducts,
+  stockAlert,
 }
 export default statisticController

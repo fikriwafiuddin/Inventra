@@ -105,3 +105,17 @@ export const useGetTopProducts = () => {
     staleTime: 5 * 60 * 1000,
   })
 }
+
+export const useGetStockAlert = (page = 1, limit = 10) => {
+  const { getToken } = useAuth()
+  const request = { page, limit }
+
+  return useQuery({
+    queryKey: ["stock-alert", page, limit],
+    queryFn: async () => {
+      const token = await getToken()
+      return await statisticApi.stockAlert(request, token)
+    },
+    staleTime: 5 * 60 * 1000,
+  })
+}

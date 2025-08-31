@@ -2,6 +2,8 @@ import Order from "../models/order-model.js"
 import Product from "../models/product-model.js"
 import StockMovement from "../models/stockMovement-model.js"
 import Supplier from "../models/supplier-model.js"
+import statisticValidation from "../validations/statistic-validation.js"
+import validation from "../validations/validation.js"
 
 const product = async (user) => {
   const totalProduct = await Product.countDocuments({ user })
@@ -175,6 +177,23 @@ const topProducts = async (user, limit = 5) => {
   return products
 }
 
+const stockAlert = async (request, user) => {
+  const { page, limit } = validation(statisticValidation.stockAlert, request)
+  const filter = { $expr: { $lt: ["$stock", "$minStock"] } }
+
+  const totalProducts = await Product.countDocuments(filter)
+
+  const totalPages = Math.ceil(totalProducts / limit)
+
+  const products = await Product.find(filter)
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .sort({ createdAt: -1 })
+    .populate("category")
+
+  return { totalPages, currentPage: page, products, limit, totalProducts }
+}
+
 const statisticService = {
   product,
   supplier,
@@ -184,5 +203,6 @@ const statisticService = {
   weeklyIncomeInMonth,
   latestOrders,
   topProducts,
+  stockAlert,
 }
 export default statisticService

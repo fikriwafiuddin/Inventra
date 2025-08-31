@@ -4,20 +4,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
-  AlertTriangle,
   Package,
   RefreshCw,
   History,
   Users,
   Building,
   BarChart3,
-  Eye,
   ArrowUpRight,
   ArrowDownRight,
   Boxes,
 } from "lucide-react"
 import Link from "next/link"
 import Stats from "./Stats"
+import LowStockAlert from "./LowStockAlert"
 
 const StockManagementPage = () => {
   // Mock data untuk overview
@@ -168,14 +167,6 @@ const StockManagementPage = () => {
     }
   }
 
-  const getStockStatus = (current, min) => {
-    if (current === 0)
-      return { status: "Habis", color: "bg-red-100 text-destructive" }
-    if (current <= min)
-      return { status: "Rendah", color: "bg-yellow-100 text-warning" }
-    return { status: "Normal", color: "bg-green-100 text-success" }
-  }
-
   return (
     <div className="space-y-4 max-w-7xl mx-auto">
       {/* Stock Overview Cards */}
@@ -219,49 +210,7 @@ const StockManagementPage = () => {
       {/* Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Low Stock Alert */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-warning" />
-              Stock Alert
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {lowStockItems.map((item) => {
-                const stockStatus = getStockStatus(
-                  item.currentStock,
-                  item.minStock
-                )
-                return (
-                  <Card>
-                    <CardContent
-                      key={item.id}
-                      className="flex items-center justify-between rounded-lg"
-                    >
-                      <div className="flex-1">
-                        <p className="font-medium">{item.name}</p>
-                        <p className="text-sm">{item.category}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm font-medium">
-                          Stock: {item.currentStock} / Min: {item.minStock}
-                        </p>
-                        <Badge className={`text-xs ${stockStatus.color}`}>
-                          {stockStatus.status}
-                        </Badge>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )
-              })}
-            </div>
-            <Button variant="outline" className="w-full mt-4">
-              <Eye className="h-4 w-4 mr-2" />
-              Lihat Semua Alert
-            </Button>
-          </CardContent>
-        </Card>
+        <LowStockAlert />
 
         {/* Recent Stock Movements */}
         <Card>
