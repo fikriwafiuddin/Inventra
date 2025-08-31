@@ -33,11 +33,8 @@ function LowStockAlert() {
               {data.products.map((item) => {
                 const stockStatus = getStockStatus(item.stock, item.minStock)
                 return (
-                  <Card>
-                    <CardContent
-                      key={item._id}
-                      className="flex items-center justify-between rounded-lg"
-                    >
+                  <Card key={item._id}>
+                    <CardContent className="flex items-center justify-between rounded-lg">
                       <div className="flex-1">
                         <p className="font-medium">{item.name}</p>
                         <p className="text-sm">{item.category.name}</p>

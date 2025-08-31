@@ -72,11 +72,8 @@ function LatestMovementStocks() {
           <>
             <div className="space-y-4">
               {data.map((movement) => (
-                <Card>
-                  <CardContent
-                    key={movement._id}
-                    className="flex items-center justify-between bg-primary-foreground rounded-lg"
-                  >
+                <Card key={movement._id}>
+                  <CardContent className="flex items-center justify-between bg-primary-foreground rounded-lg">
                     <div className="flex items-center gap-3">
                       {getMovementIcon(movement.movementType)}
                       <div>
