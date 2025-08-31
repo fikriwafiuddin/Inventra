@@ -119,3 +119,16 @@ export const useGetStockAlert = (page = 1, limit = 10) => {
     staleTime: 5 * 60 * 1000,
   })
 }
+
+export const useGetLatestStockMovements = () => {
+  const { getToken } = useAuth()
+
+  return useQuery({
+    queryKey: ["latest-stock-movements"],
+    queryFn: async () => {
+      const token = await getToken()
+      return await statisticApi.latestStockMovements(token)
+    },
+    staleTime: 5 * 60 * 1000,
+  })
+}

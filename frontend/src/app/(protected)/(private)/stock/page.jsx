@@ -1,22 +1,20 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
-  Package,
   RefreshCw,
   History,
   Users,
   Building,
   BarChart3,
-  ArrowUpRight,
-  ArrowDownRight,
   Boxes,
 } from "lucide-react"
 import Link from "next/link"
 import Stats from "./Stats"
 import LowStockAlert from "./LowStockAlert"
+import LatestMovementStocks from "./LatestMovementStocks"
 
 const StockManagementPage = () => {
   // Mock data untuk overview
@@ -152,21 +150,6 @@ const StockManagementPage = () => {
     },
   ]
 
-  const getMovementIcon = (type) => {
-    switch (type) {
-      case "in":
-        return <ArrowUpRight className="h-4 w-4 text-success" />
-      case "out":
-        return <ArrowDownRight className="h-4 w-4 text-destructive" />
-      case "adjustment":
-        return <RefreshCw className="h-4 w-4 text-info" />
-      case "return":
-        return <Users className="h-4 w-4 text-warning" />
-      default:
-        return <Package className="h-4 w-4" />
-    }
-  }
-
   return (
     <div className="space-y-4 max-w-7xl mx-auto">
       {/* Stock Overview Cards */}
@@ -213,57 +196,7 @@ const StockManagementPage = () => {
         <LowStockAlert />
 
         {/* Recent Stock Movements */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <History className="h-5 w-5 text-muted-foreground" />
-              Pergerakan Stock Terbaru
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentMovements.map((movement) => (
-                <Card>
-                  <CardContent
-                    key={movement.id}
-                    className="flex items-center justify-between bg-primary-foreground rounded-lg"
-                  >
-                    <div className="flex items-center gap-3">
-                      {getMovementIcon(movement.type)}
-                      <div>
-                        <p className="font-medium">{movement.product}</p>
-                        <p className="text-sm">{movement.reason}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p
-                        className={`text-sm font-medium ${
-                          movement.type === "in" || movement.type === "return"
-                            ? "text-green-600"
-                            : movement.type === "out"
-                            ? "text-red-600"
-                            : "text-blue-600"
-                        }`}
-                      >
-                        {movement.type === "out"
-                          ? "-"
-                          : movement.quantity > 0
-                          ? "+"
-                          : ""}
-                        {Math.abs(movement.quantity)}
-                      </p>
-                      <p className="text-xs">{movement.time}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-            <Button variant="outline" className="w-full mt-4">
-              <History className="h-4 w-4 mr-2" />
-              Lihat Riwayat Lengkap
-            </Button>
-          </CardContent>
-        </Card>
+        <LatestMovementStocks />
       </div>
     </div>
   )

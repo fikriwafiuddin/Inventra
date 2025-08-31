@@ -134,10 +134,28 @@ const stockAlert = async (req, res, next) => {
   }
 }
 
+const latestStockMovements = async (req, res, next) => {
+  try {
+    const user = req.user
+
+    const latestStockMovements = await statisticService.latestStockMovements(
+      user
+    )
+
+    return res.status(200).json({
+      message: "Latest stock movements retrieved successfully",
+      body: { latestStockMovements },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const statisticController = {
   product,
   supplier,
   stockMovementSummary,
+  latestStockMovements,
   dashboard,
   stockSummary,
   weeklyIncomeInMonth,

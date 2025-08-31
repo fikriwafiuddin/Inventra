@@ -194,6 +194,13 @@ const stockAlert = async (request, user) => {
   return { totalPages, currentPage: page, products, limit, totalProducts }
 }
 
+const latestStockMovements = async (user) => {
+  const movements = await StockMovement.find({ user })
+    .sort({ createdAt: -1 })
+    .limit(4)
+  return movements
+}
+
 const statisticService = {
   product,
   supplier,
@@ -204,5 +211,6 @@ const statisticService = {
   latestOrders,
   topProducts,
   stockAlert,
+  latestStockMovements,
 }
 export default statisticService

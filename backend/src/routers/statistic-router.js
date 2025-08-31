@@ -59,5 +59,11 @@ statisticRouter.get(
   authMiddleware,
   statisticController.stockAlert
 )
+statisticRouter.get(
+  "/latest-stock-movements",
+  clerkMiddleware(),
+  authMiddleware,
+  statisticController.latestStockMovements
+)
 
 export default statisticRouter
