@@ -38,7 +38,18 @@ import { useAddProduct } from "@/services/hooks/product-hook"
 import { redirect } from "next/navigation"
 
 function AddPage() {
-  const form = useForm({ resolver: zodResolver(productValidation.addProduct) })
+  const form = useForm({
+    resolver: zodResolver(productValidation.addProduct),
+    defaultValues: {
+      name: "",
+      price: 0,
+      category: "",
+      minStock: 0,
+      sku: "",
+      description: "",
+      image: undefined,
+    },
+  })
   const [previewImg, setPreviewImg] = useState(null)
   const [image, setImage] = useState(undefined)
   const { isPending, data: categories } = useGetAllCategories()
@@ -72,7 +83,7 @@ function AddPage() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/products">Product</BreadcrumbLink>
+            <BreadcrumbLink href="/products">Products</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -118,30 +129,32 @@ function AddPage() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Category</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue
-                          placeholder={
-                            isPending ? "Loading..." : "Select category"
-                          }
-                          disabled={isPending}
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectGroup>
-                        {categories?.map((category) => (
-                          <SelectItem key={category._id} value={category._id}>
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue
+                            placeholder={
+                              isPending ? "Loading..." : "Select category"
+                            }
+                            disabled={isPending}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectGroup>
+                          {categories?.map((category) => (
+                            <SelectItem key={category._id} value={category._id}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -193,25 +206,23 @@ function AddPage() {
               <FormItem>
                 <FormLabel>Image</FormLabel>
                 <FormControl>
-                  <>
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                    />
-                    {previewImg && (
-                      <div className="relative size-36 rounded-sm overflow-hidden">
-                        <Image
-                          src={previewImg}
-                          fill
-                          alt="Preview"
-                          className="object-cover"
-                        />
-                      </div>
-                    )}
-                  </>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
                 </FormControl>
                 <FormMessage />
+                {previewImg && (
+                  <div className="relative size-36 rounded-sm overflow-hidden">
+                    <Image
+                      src={previewImg}
+                      fill
+                      alt="Preview"
+                      className="object-cover"
+                    />
+                  </div>
+                )}
               </FormItem>
             )}
           />

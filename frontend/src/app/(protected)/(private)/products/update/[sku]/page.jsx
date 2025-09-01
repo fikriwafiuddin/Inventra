@@ -120,7 +120,7 @@ function UpdatePage({ params }) {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/products">Product</BreadcrumbLink>
+            <BreadcrumbLink href="/products">Products</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -242,25 +242,23 @@ function UpdatePage({ params }) {
               <FormItem>
                 <FormLabel>Image</FormLabel>
                 <FormControl>
-                  <>
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                    />
-                    {previewImg && (
-                      <div className="relative size-36 rounded-sm overflow-hidden">
-                        <Image
-                          src={previewImg}
-                          fill
-                          alt="Preview"
-                          className="object-cover"
-                        />
-                      </div>
-                    )}
-                  </>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
                 </FormControl>
                 <FormMessage />
+                {previewImg && (
+                  <div className="relative size-36 rounded-sm overflow-hidden">
+                    <Image
+                      src={previewImg}
+                      fill
+                      alt="Preview"
+                      className="object-cover"
+                    />
+                  </div>
+                )}
               </FormItem>
             )}
           />
