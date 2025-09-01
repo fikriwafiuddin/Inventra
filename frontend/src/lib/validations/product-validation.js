@@ -49,7 +49,7 @@ const addProduct = z.object({
     .max(10, "SKU must be at most 10 characters"),
   description: z
     .string()
-    .max(100, "Description must be at most 100 characters")
+    .max(500, "Description must be at most 500 characters")
     .optional(),
 })
 
