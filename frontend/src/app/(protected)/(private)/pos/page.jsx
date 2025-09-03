@@ -36,12 +36,17 @@ import { useState } from "react"
 import { toast } from "sonner"
 import { useGetAllCategories } from "@/services/hooks/category-hook"
 import AppPagination from "@/components/AppPagination"
+import ReceiptModal from "./ReceiptModal"
+import { set } from "zod"
 
 function PosPage() {
   const [cart, setCart] = useState([])
   const [category, setCategory] = useState("all")
   const [search, setSearch] = useState("")
   const [page, setPage] = useState(1)
+  const [showReceiptModal, setShowReceiptModal] = useState(false)
+  const [currentOrderData, setCurrentOrderData] = useState(null)
+  const [openCart, setOpenCart] = useState(false)
   const { isPending, data, error } = useGetAllProducts(page, category, search)
   const { isPending: paying, mutate: pay } = useAddOrder()
   const { isPending: fetchingCategories, data: categories } =
@@ -111,11 +116,29 @@ function PosPage() {
       items: cart,
       date: new Date(),
     }
-    pay(data)
+    pay(data, {
+      onSuccess: (data) => {
+        setCurrentOrderData(data?.body?.order)
+        setShowReceiptModal(true)
+        setOpenCart(false)
+        setCart([])
+      },
+    })
+  }
+
+  const handleCloseReceipt = () => {
+    setShowReceiptModal(false)
+    setCurrentOrderData(null)
   }
 
   return (
     <div className="space-y-4">
+      <ReceiptModal
+        isOpen={showReceiptModal}
+        onClose={handleCloseReceipt}
+        orderData={currentOrderData}
+      />
+
       {/* FILTER */}
       <div className="flex gap-2">
         {/* SEARCH */}
@@ -161,7 +184,7 @@ function PosPage() {
       {/* CART */}
       <div className="flex justify-end items-center gap-2 relative">
         {cart.length} selected
-        <Sheet>
+        <Sheet open={openCart} onOpenChange={setOpenCart}>
           <SheetTrigger asChild>
             <Button variant="outline">
               <ShoppingCartIcon className="size-6" />
@@ -245,7 +268,11 @@ function PosPage() {
                   variant="outline"
                   onClick={handleSubmit}
                 >
-                  Pay
+                  {paying ? (
+                    <Loader2Icon className="animate-spin size-4" />
+                  ) : (
+                    "Pay"
+                  )}
                 </Button>
               </div>
             </SheetFooter>
