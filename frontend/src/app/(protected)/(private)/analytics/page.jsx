@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import Stats from "./Stats"
 import {
   Select,
@@ -15,16 +15,21 @@ import BottomProducts from "./BottomProducts"
 import PurchaseChart from "./PurchaseChart"
 
 function AnalyticsPage() {
+  const [timePeriod, setTimePeriod] = useState("1d")
+
   return (
     <div className="space-y-4">
-      <Select>
+      <Select value={timePeriod} onValueChange={setTimePeriod}>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Pilih Periode" />
+          <SelectValue placeholder="Select Period" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="bulan-ini">Bulan Ini</SelectItem>
-          <SelectItem value="3-bulan-terakhir">3 Bulan Terakhir</SelectItem>
-          <SelectItem value="tahun-ini">Tahun Ini</SelectItem>
+          <SelectItem value="1d">1 Day</SelectItem>
+          <SelectItem value="7d">1 Week</SelectItem>
+          <SelectItem value="30d">1 Month</SelectItem>
+          <SelectItem value="90d">3 Months</SelectItem>
+          <SelectItem value="180d">6 Months</SelectItem>
+          <SelectItem value="1y">1 Year</SelectItem>
         </SelectContent>
       </Select>
 
