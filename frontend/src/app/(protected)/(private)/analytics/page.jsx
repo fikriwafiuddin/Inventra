@@ -10,6 +10,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import SalesChart from "./SalesChart"
+import TopProducts from "./TopProducts"
+import BottomProducts from "./BottomProducts"
+import PurchaseChart from "./PurchaseChart"
 
 function AnalyticsPage() {
   return (
@@ -28,6 +31,13 @@ function AnalyticsPage() {
       <Stats />
 
       <SalesChart />
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <TopProducts />
+        <BottomProducts />
+      </div>
+
+      <PurchaseChart />
     </div>
   )
 }
