@@ -22,9 +22,9 @@ const purchaseData = [
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
-        <p className="font-medium text-gray-900">{label}</p>
-        <p className="text-green-600">Purchases: {payload[0].value}</p>
+      <div className="bg-card p-3 rounded-lg shadow-lg">
+        <p className="font-medium">{label}</p>
+        <p className="text-success">Purchases: {payload[0].value}</p>
       </div>
     )
   }
