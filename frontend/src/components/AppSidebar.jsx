@@ -63,7 +63,7 @@ const navLinks = [
   {
     label: "Analytics & More",
     items: [
-      { title: "Reports", url: "/reports", icon: ChartAreaIcon },
+      { title: "Analytics", url: "/analytics", icon: ChartAreaIcon },
       { title: "Settings", url: "/settings", icon: Settings },
     ],
   },
