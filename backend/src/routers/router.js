@@ -11,6 +11,7 @@ import customerReturnRouter from "./customerReturnRouter.js"
 import supplierReturnRouter from "./supplierReturn-router.js"
 import opnameRouter from "./opname-router.js"
 import stockMovementRouter from "./stockMovement-router.js"
+import ananlysisRouter from "./ananlysis-router.js"
 
 const router = express.Router()
 
@@ -25,6 +26,7 @@ router.use("/customer-return", customerReturnRouter)
 router.use("/supplier-return", supplierReturnRouter)
 router.use("/opname", opnameRouter)
 router.use("/stock-movement", stockMovementRouter)
+router.use("/analysis", ananlysisRouter)
 
 router.use(errorMiddleware)
 
