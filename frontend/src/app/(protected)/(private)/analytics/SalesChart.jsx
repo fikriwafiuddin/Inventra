@@ -8,15 +8,8 @@ import {
 import { XAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts"
 import { TrendingUp } from "lucide-react"
 import { formatCurrency } from "@/lib/formatters"
-const salesData = [
-  { date: "2024-01-15", revenue: 3200000 },
-  { date: "2024-01-16", revenue: 4800000 },
-  { date: "2024-01-17", revenue: 2400000 },
-  { date: "2024-01-18", revenue: 6000000 },
-  { date: "2024-01-19", revenue: 3600000 },
-  { date: "2024-01-20", revenue: 7200000 },
-  { date: "2024-01-21", revenue: 2000000 },
-]
+import { useAnalysisSales } from "@/services/hooks/analysis-hook"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -32,7 +25,10 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null
 }
 
-function SalesChart() {
+function SalesChart({ timePeriod }) {
+  const { data: salesData, isPending, error } = useAnalysisSales(timePeriod)
+  console.log(salesData)
+
   return (
     <Card>
       <CardHeader>
@@ -46,33 +42,37 @@ function SalesChart() {
       </CardHeader>
       <CardContent>
         <div className="h-80">
-          <ResponsiveContainer width="100%" height="100%" config>
-            <AreaChart data={salesData}>
-              <defs>
-                <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
-                  <stop
-                    offset="5%"
-                    stopColor="var(--chart-2)"
-                    stopOpacity={0.8}
-                  />
-                  <stop
-                    offset="95%"
-                    stopColor="var(--chart-2)"
-                    stopOpacity={0.1}
-                  />
-                </linearGradient>
-              </defs>
-              <XAxis dataKey="date" hide={true} />
-              <Tooltip content={<CustomTooltip />} />
-              <Area
-                type="natural"
-                dataKey="revenue"
-                stroke="var(--chart-2)"
-                fill="url(#fillRevenue)"
-                strokeWidth={3}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
+          {isPending ? (
+            <Skeleton className="h-full w-full" />
+          ) : (
+            <ResponsiveContainer width="100%" height="100%" config>
+              <AreaChart data={salesData}>
+                <defs>
+                  <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
+                    <stop
+                      offset="5%"
+                      stopColor="var(--chart-2)"
+                      stopOpacity={0.8}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor="var(--chart-2)"
+                      stopOpacity={0.1}
+                    />
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="date" hide={true} />
+                <Tooltip content={<CustomTooltip />} />
+                <Area
+                  type="natural"
+                  dataKey="revenue"
+                  stroke="var(--chart-2)"
+                  fill="url(#fillRevenue)"
+                  strokeWidth={3}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          )}
         </div>
       </CardContent>
     </Card>

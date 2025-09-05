@@ -35,7 +35,7 @@ function AnalyticsPage() {
 
       <Stats />
 
-      <SalesChart />
+      <SalesChart timePeriod={timePeriod} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <TopProducts />
