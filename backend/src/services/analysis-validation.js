@@ -1,7 +1,7 @@
 import ResponseError from "../error/error-response.js"
-import Order from "../models/Order.js"
+import Order from "../models/order-model.js"
 import analysisValidation from "../validations/ananlysis-validation.js"
-import { validation } from "../validations/validation.js"
+import validation from "../validations/validation.js"
 
 const sales = async (request, user) => {
   const { timePeriod } = validation(

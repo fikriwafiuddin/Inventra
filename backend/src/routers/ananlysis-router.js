@@ -8,7 +8,7 @@ const ananlysisRouter = express.Router()
 ananlysisRouter.get(
   "/sales",
   clerkMiddleware(),
-  authMiddleware(),
+  authMiddleware,
   analysisController.sales
 )
 
