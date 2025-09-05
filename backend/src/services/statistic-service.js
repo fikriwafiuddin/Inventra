@@ -177,6 +177,11 @@ const topProducts = async (user, limit = 5) => {
   return products
 }
 
+const bottomProducts = async (user, limit = 5) => {
+  const products = await Product.find({ user }).sort({ sold: 1 }).limit(limit)
+  return products
+}
+
 const stockAlert = async (request, user) => {
   const { page, limit } = validation(statisticValidation.stockAlert, request)
   const filter = { $expr: { $lt: ["$stock", "$minStock"] } }
@@ -212,5 +217,6 @@ const statisticService = {
   topProducts,
   stockAlert,
   latestStockMovements,
+  bottomProducts,
 }
 export default statisticService

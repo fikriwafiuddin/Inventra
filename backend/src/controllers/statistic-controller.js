@@ -118,6 +118,21 @@ const topProducts = async (req, res, next) => {
   }
 }
 
+const bottomProducts = async (req, res, next) => {
+  try {
+    const user = req.user
+
+    const bottomProducts = await statisticService.bottomProducts(user)
+
+    return res.status(200).json({
+      message: "Bottom products retrieved successfully",
+      body: { bottomProducts },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const stockAlert = async (req, res, next) => {
   try {
     const user = req.user
@@ -162,5 +177,6 @@ const statisticController = {
   latestOrders,
   topProducts,
   stockAlert,
+  bottomProducts,
 }
 export default statisticController

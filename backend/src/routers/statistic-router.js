@@ -54,6 +54,12 @@ statisticRouter.get(
   statisticController.topProducts
 )
 statisticRouter.get(
+  "/bottom-products",
+  clerkMiddleware(),
+  authMiddleware,
+  statisticController.bottomProducts
+)
+statisticRouter.get(
   "/stock-alert",
   clerkMiddleware(),
   authMiddleware,
