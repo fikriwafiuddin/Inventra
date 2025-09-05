@@ -106,6 +106,19 @@ export const useGetTopProducts = () => {
   })
 }
 
+export const useGetBottomProducts = () => {
+  const { getToken } = useAuth()
+
+  return useQuery({
+    queryKey: ["bottom-products"],
+    queryFn: async () => {
+      const token = await getToken()
+      return await statisticApi.bottomProducts(token)
+    },
+    staleTime: 5 * 60 * 1000,
+  })
+}
+
 export const useGetStockAlert = (page = 1, limit = 10) => {
   const { getToken } = useAuth()
   const request = { page, limit }

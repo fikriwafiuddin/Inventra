@@ -6,11 +6,13 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useGetTopProducts } from "@/services/hooks/statistic-hook"
+import { useGetBottomProducts } from "@/services/hooks/statistic-hook"
 import Image from "next/image"
 
 function BottomProducts() {
-  const { isPending, data: bottomProducts } = useGetTopProducts()
+  const { isPending, data: bottomProducts, error } = useGetBottomProducts()
+  console.log(error)
+
   return (
     <Card>
       <CardHeader>

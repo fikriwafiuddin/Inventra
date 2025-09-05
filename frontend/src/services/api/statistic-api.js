@@ -75,6 +75,15 @@ const topProducts = async (token) => {
   return response.data.body.topProducts
 }
 
+const bottomProducts = async (token) => {
+  const response = await axiosInstance.get("/statistic/bottom-products", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return response.data.body.bottomProducts
+}
+
 const stockAlert = async (request, token) => {
   const response = await axiosInstance.get("/statistic/stock-alert", {
     headers: {
@@ -108,5 +117,6 @@ const statisticApi = {
   topProducts,
   stockAlert,
   latestStockMovements,
+  bottomProducts,
 }
 export default statisticApi
