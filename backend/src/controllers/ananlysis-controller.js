@@ -1,8 +1,11 @@
-import analysisService from "../services/analysis-validation.js"
+import analysisService from "../services/analysis-service.js"
 
 const sales = async (req, res, next) => {
   try {
-    const salesData = await analysisService.sales(req, user)
+    const user = req.user
+    const request = req.query
+
+    const salesData = await analysisService.sales(request, user)
 
     res.status(200).json({
       message: "Sales data retrieved successfully",
