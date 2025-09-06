@@ -18,7 +18,7 @@ function AnalyticsPage() {
         <BottomProducts />
       </div>
 
-      <PurchaseChart />
+      {/* <PurchaseChart /> */}
     </div>
   )
 }
