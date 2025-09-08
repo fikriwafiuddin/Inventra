@@ -79,7 +79,7 @@ const sampleOrder = {
   ],
 }
 
-const ReceiptModal = ({ isOpen, onClose, orderData }) => {
+const ReceiptModal = ({ isOpen, onClose, orderData, user }) => {
   const receiptRef = useRef()
 
   if (!orderData) {
@@ -159,9 +159,11 @@ const ReceiptModal = ({ isOpen, onClose, orderData }) => {
           className="flex-grow overflow-y-auto p-4 border border-dashed print:border-none print:p-0"
         >
           <div className="header mb-4 text-center">
-            <h3 className="text-xl font-bold">Nama Toko Anda</h3>
-            <p className="text-sm">Jl. Contoh No. 123, Kota Anda</p>
-            <p className="text-sm">Telp: (021) 12345678</p>
+            <h3 className="text-xl font-bold">
+              {user?.unsafeMetadata?.businessName || "-"}
+            </h3>
+            <p className="text-sm">{user?.unsafeMetadata?.address || "-"}</p>
+            <p className="text-sm">{user?.unsafeMetadata?.phone || "-"}</p>
           </div>
 
           <div className="info mb-4 text-sm">

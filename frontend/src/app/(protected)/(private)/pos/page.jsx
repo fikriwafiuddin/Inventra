@@ -38,6 +38,7 @@ import { useGetAllCategories } from "@/services/hooks/category-hook"
 import AppPagination from "@/components/AppPagination"
 import ReceiptModal from "./ReceiptModal"
 import { set } from "zod"
+import { useUser } from "@clerk/nextjs"
 
 function PosPage() {
   const [cart, setCart] = useState([])
@@ -51,6 +52,7 @@ function PosPage() {
   const { isPending: paying, mutate: pay } = useAddOrder()
   const { isPending: fetchingCategories, data: categories } =
     useGetAllCategories()
+  const { user, isLoaded } = useUser()
 
   const handleSearch = (e) => {
     setPage(1)
@@ -131,12 +133,21 @@ function PosPage() {
     setCurrentOrderData(null)
   }
 
+  if (!isLoaded) {
+    return (
+      <div className="flex justify-center mt-4">
+        <Loader2Icon className="animate-spin size-10 text-muted-foreground" />
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-4">
       <ReceiptModal
         isOpen={showReceiptModal}
         onClose={handleCloseReceipt}
         orderData={currentOrderData}
+        user={user}
       />
 
       {/* FILTER */}

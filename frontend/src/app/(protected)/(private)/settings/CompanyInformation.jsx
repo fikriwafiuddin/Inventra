@@ -33,7 +33,7 @@ function CompanyInformation({ user }) {
         unsafeMetadata: {
           businessName: values.companyName,
           address: values.address,
-          phoneNumber: values.phone,
+          phone: values.phone,
         },
       })
     },
@@ -47,9 +47,9 @@ function CompanyInformation({ user }) {
   }
 
   const isCompanyInfoComplete =
-    user.publicMetadata.businessName &&
-    user.publicMetadata.address &&
-    user.publicMetadata.phone
+    user.unsafeMetadata.businessName &&
+    user.unsafeMetadata.address &&
+    user.unsafeMetadata.phone
 
   return (
     <Form {...form}>
