@@ -37,8 +37,8 @@ import { toast } from "sonner"
 import { useGetAllCategories } from "@/services/hooks/category-hook"
 import AppPagination from "@/components/AppPagination"
 import ReceiptModal from "./ReceiptModal"
-import { set } from "zod"
 import { useUser } from "@clerk/nextjs"
+import Link from "next/link"
 
 function PosPage() {
   const [cart, setCart] = useState([])
@@ -48,7 +48,12 @@ function PosPage() {
   const [showReceiptModal, setShowReceiptModal] = useState(false)
   const [currentOrderData, setCurrentOrderData] = useState(null)
   const [openCart, setOpenCart] = useState(false)
-  const { isPending, data, error } = useGetAllProducts(page, category, search)
+  const { isPending, data, error } = useGetAllProducts(
+    page,
+    category,
+    search,
+    12
+  )
   const { isPending: paying, mutate: pay } = useAddOrder()
   const { isPending: fetchingCategories, data: categories } =
     useGetAllCategories()
@@ -321,23 +326,22 @@ function PosPage() {
                     {product.name}
                   </h2>
                 </CardTitle>
-                <p className="text-xs text-muted-foreground font-medium mb-2">
-                  {product.description}
-                </p>
-                <div className="flex justify-between items-center mb-1">
+                <div className="flex flex-col md:flex-row justify-between md:items-center mb-1">
                   <span>{formatCurrency(product.price)}</span>
                   <span className="text-xs font-medium">
                     Stock: {product.stock}
                   </span>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid lg:grid-cols-2 gap-2">
                   <Button
                     onClick={() => addToCart(product)}
                     disabled={product.stock == 0}
                   >
                     Add to Cart
                   </Button>
-                  <Button>Show</Button>
+                  <Button asChild>
+                    <Link href={`/pos/${product.sku}`}>Show</Link>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
