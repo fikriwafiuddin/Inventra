@@ -17,10 +17,6 @@ const currencies = [
     id: "USD",
     label: "US Dollar (USD)",
   },
-  {
-    id: "EUR",
-    label: "Euro (EUR)",
-  },
 ]
 
 const languages = [

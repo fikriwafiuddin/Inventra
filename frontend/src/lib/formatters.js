@@ -1,10 +1,27 @@
 /**
- * Format a number as Indonesian Rupiah
+ * Format a number as currency
  */
 export const formatCurrency = (amount) => {
-  return new Intl.NumberFormat("id-ID", {
+  if (typeof window === "undefined") return amount // cegah error SSR
+
+  const supportedCurrencies = ["USD", "IDR"]
+  const currency = localStorage.getItem("currency")
+
+  const finalCurrency = supportedCurrencies.includes(currency)
+    ? currency
+    : "USD"
+
+  // Tentukan locale sesuai currency
+  const localeMap = {
+    IDR: "id-ID", // Indonesia
+    USD: "en-US", // Amerika
+  }
+
+  const locale = localeMap[finalCurrency] || "en-US"
+
+  return new Intl.NumberFormat(locale, {
     style: "currency",
-    currency: "IDR",
+    currency: finalCurrency,
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount)
@@ -17,7 +34,7 @@ export const formatDate = (dateString) => {
   const date = new Date(dateString)
   return new Intl.DateTimeFormat("id-ID", {
     year: "numeric",
-    month: "long",
+    month: "numeric",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
