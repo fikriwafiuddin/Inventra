@@ -184,7 +184,7 @@ const bottomProducts = async (user, limit = 5) => {
 
 const stockAlert = async (request, user) => {
   const { page, limit } = validation(statisticValidation.stockAlert, request)
-  const filter = { $expr: { $lt: ["$stock", "$minStock"] } }
+  const filter = { $expr: { $lt: ["$stock", "$minStock"] }, user }
 
   const totalProducts = await Product.countDocuments(filter)
 
