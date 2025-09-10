@@ -46,5 +46,11 @@ const customerReturnSchema = new mongoose.Schema({
   },
 })
 
+customerReturnSchema.index({ user: 1, date: -1 })
+customerReturnSchema.index({ user: 1, orderId: 1 })
+customerReturnSchema.index({ date: 1 })
+customerReturnSchema.index({ "items.condition": 1 })
+customerReturnSchema.index({ user: 1, date: 1, totalRefund: -1 })
+
 const CustomerReturn = mongoose.model("CustomerReturn", customerReturnSchema)
 export default CustomerReturn

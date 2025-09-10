@@ -9,12 +9,15 @@ const categorySchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      minlength: 3,
-      maxlength: 20,
+      trim: true,
     },
   },
   { timestamps: true }
 )
+
+categorySchema.index({ user: 1 })
+categorySchema.index({ user: 1, createdAt: -1 })
+categorySchema.index({ user: 1, updatedAt: -1 })
 
 const Category = mongoose.model("Category", categorySchema)
 export default Category

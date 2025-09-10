@@ -28,5 +28,10 @@ const adjustmenSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
+adjustmenSchema.index({ user: 1, createdAt: -1 })
+adjustmenSchema.index({ user: 1, "product.id": 1 })
+adjustmenSchema.index({ user: 1, date: -1 })
+adjustmenSchema.index({ "product.id": 1 })
+
 const Adjustment = mongoose.model("Adjustment", adjustmenSchema)
 export default Adjustment
