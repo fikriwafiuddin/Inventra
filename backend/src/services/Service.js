@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import logger from "../utils/logger.js"
+import cloudinary from "../utils/clodinary.js"
 
 class Service {
   static async withTransaction(callback) {
@@ -20,6 +21,16 @@ class Service {
       logger.error("Transaction failed", error)
       throw error
     }
+  }
+
+  async removeImg(image) {
+    await cloudinary.uploader.destroy(image.cloudinaryId, (error) => {
+      if (error) {
+        logger.error(
+          `Failed to delete image from Cloudinary: ${error.message}, image: ${image.url}`
+        )
+      }
+    })
   }
 }
 

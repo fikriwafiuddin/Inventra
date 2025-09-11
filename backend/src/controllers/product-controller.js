@@ -1,12 +1,15 @@
-import productService from "../services/product-service.js"
+// import productService from "../services/product-service.js"s
+import ProductService from "../services/ProductService.js"
 
-const add = async (req, res, next) => {
+const productService = new ProductService()
+
+const create = async (req, res, next) => {
   try {
     const image = req.file
     const user = req.user
     const request = req.body
 
-    const newProduct = await productService.add(
+    const newProduct = await productService.create(
       {
         ...request,
         image: { url: image?.secure_url, cloudinaryId: image?.public_id },
@@ -78,8 +81,9 @@ const update = async (req, res, next) => {
           image: { url: image?.secure_url, cloudinaryId: image?.public_id },
         }
       : req.body
+    const id = req.params.id
 
-    const updatedProduct = await productService.update(request, user)
+    const updatedProduct = await productService.update({ id, ...request }, user)
     return res.status(200).json({
       message: "Product updated successfully",
       body: { updatedProduct },
@@ -106,7 +110,7 @@ const search = async (req, res, next) => {
 }
 
 const productController = {
-  add,
+  create,
   getAll,
   remove,
   detail,

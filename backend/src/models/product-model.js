@@ -15,7 +15,6 @@ const productSchema = new mongoose.Schema(
     },
     sku: {
       type: String,
-      required: true,
       uppercase: true,
       match: /^[A-Z0-9\-]+$/,
     },
@@ -86,6 +85,7 @@ productSchema.index({ user: 1, createdAt: -1 }) // Newest products
 productSchema.pre("save", async function (next) {
   if (this.isNew && !this.sku) {
     this.sku = await generateSKU(this.user, this.name, this.category)
+    console.log(this.sku)
   }
 
   // Auto-update lastRestock jika stock bertambah

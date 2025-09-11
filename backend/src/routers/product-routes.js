@@ -6,12 +6,18 @@ import uploadFile from "../middlewares/uploadeFile.js"
 
 const productRouter = express.Router()
 
+productRouter.get(
+  "/search",
+  clerkMiddleware(),
+  authMiddleware,
+  productController.search
+)
 productRouter.post(
-  "/add",
+  "/",
   clerkMiddleware(),
   authMiddleware,
   uploadFile,
-  productController.add
+  productController.create
 )
 productRouter.get(
   "/",
@@ -20,29 +26,23 @@ productRouter.get(
   productController.getAll
 )
 productRouter.delete(
-  "/delete/:id",
+  "/:id",
   clerkMiddleware(),
   authMiddleware,
   productController.remove
 )
 productRouter.get(
-  "/detail/:sku",
+  "/:sku",
   clerkMiddleware(),
   authMiddleware,
   productController.detail
 )
 productRouter.patch(
-  "/update",
+  "/:id",
   clerkMiddleware(),
   authMiddleware,
   uploadFile,
   productController.update
-)
-productRouter.get(
-  "/search",
-  clerkMiddleware(),
-  authMiddleware,
-  productController.search
 )
 
 export default productRouter

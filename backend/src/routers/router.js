@@ -16,7 +16,7 @@ import ananlysisRouter from "./ananlysis-router.js"
 const router = express.Router()
 
 router.use("/category", categoryRouter)
-router.use("/product", productRouter)
+router.use("/products", productRouter)
 router.use("/statistic", statisticRouter)
 router.use("/supplier", supplierRouter)
 router.use("/purchase", purchaseRouter)
