@@ -74,7 +74,6 @@ class ProductService extends Service {
   }
 
   async update(request, user) {
-    console.log(request)
     const data = validation(productValidation.update, request)
 
     const existingProductName = await this.productRepository.find({

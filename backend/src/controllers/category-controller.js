@@ -1,9 +1,13 @@
-import categoryService from "../services/category-service.js"
+import CategoryService from "../services/CategoryService.js"
 
-const add = async (req, res, next) => {
+const categoryService = new CategoryService()
+
+const create = async (req, res, next) => {
   try {
     const user = req.user
-    const category = await categoryService.add(req.body, user)
+    const request = req.body
+    console.log(request)
+    const category = await categoryService.create(request, user)
 
     return res.status(201).json({
       message: "Category added successfully",
@@ -31,7 +35,8 @@ const getAll = async (req, res, next) => {
 const remove = async (req, res, next) => {
   try {
     const { id } = req.params
-    const deletedCategory = await categoryService.remove(id)
+    const user = req.user
+    const deletedCategory = await categoryService.remove(id, user)
 
     return res.status(200).json({
       message: "Category deleted successfully",
@@ -46,8 +51,10 @@ const update = async (req, res, next) => {
   try {
     const { name } = req.body
     const { id } = req.params
+    const request = { id, name }
+    const user = req.user
 
-    const updatedCategory = await categoryService.update({ name, id })
+    const updatedCategory = await categoryService.update(request, user)
     return res.status(200).json({
       message: "Category updated successfully",
       body: { updatedCategory },
@@ -58,7 +65,7 @@ const update = async (req, res, next) => {
 }
 
 const categoryController = {
-  add,
+  create,
   getAll,
   remove,
   update,

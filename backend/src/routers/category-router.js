@@ -6,10 +6,10 @@ import authMiddleware from "../middlewares/auth-middleware.js"
 const categoryRouter = express.Router()
 
 categoryRouter.post(
-  "/add",
+  "/",
   clerkMiddleware(),
   authMiddleware,
-  categoryController.add
+  categoryController.create
 )
 categoryRouter.get(
   "/",
@@ -18,13 +18,13 @@ categoryRouter.get(
   categoryController.getAll
 )
 categoryRouter.delete(
-  "/delete/:id",
+  "/:id",
   clerkMiddleware(),
   authMiddleware,
   categoryController.remove
 )
 categoryRouter.put(
-  "/update/:id",
+  "/:id",
   clerkMiddleware(),
   authMiddleware,
   categoryController.update
