@@ -1,12 +1,13 @@
-import supplierService from "../services/supplier-service.js"
+import SupplierService from "../services/SupplierService.js"
 
-const add = async (req, res, next) => {
+const supplierService = new SupplierService()
+
+const create = async (req, res, next) => {
   try {
     const request = req.body
     const user = req.user
-    console.log(request)
 
-    const newSupplier = await supplierService.add(request, user)
+    const newSupplier = await supplierService.create(request, user)
 
     return res.status(201).json({
       message: "Supplier added successfully",
@@ -104,7 +105,7 @@ const search = async (req, res, next) => {
 }
 
 const supplierController = {
-  add,
+  create,
   getAll,
   update,
   updateStatus,

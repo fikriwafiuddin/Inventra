@@ -6,10 +6,16 @@ import supplierController from "../controllers/supplier-controller.js"
 const supplierRouter = express.Router()
 
 supplierRouter.post(
-  "/add",
+  "/",
   clerkMiddleware(),
   authMiddleware,
-  supplierController.add
+  supplierController.create
+)
+supplierRouter.get(
+  "/search",
+  clerkMiddleware(),
+  authMiddleware,
+  supplierController.search
 )
 supplierRouter.get(
   "/",
@@ -18,28 +24,22 @@ supplierRouter.get(
   supplierController.getAll
 )
 supplierRouter.patch(
-  "/update/:id",
-  clerkMiddleware(),
-  authMiddleware,
-  supplierController.update
-)
-supplierRouter.patch(
-  "/update/status/:id",
+  "/status/:id",
   clerkMiddleware(),
   authMiddleware,
   supplierController.updateStatus
 )
+supplierRouter.patch(
+  "/:id",
+  clerkMiddleware(),
+  authMiddleware,
+  supplierController.update
+)
 supplierRouter.delete(
-  "/delete/:id",
+  "/:id",
   clerkMiddleware(),
   authMiddleware,
   supplierController.remove
-)
-supplierRouter.get(
-  "/search",
-  clerkMiddleware(),
-  authMiddleware,
-  supplierController.search
 )
 
 export default supplierRouter
