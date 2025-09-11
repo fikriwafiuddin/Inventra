@@ -1,6 +1,6 @@
-import { email, z } from "zod"
+import { z } from "zod"
 
-const add = z.object({
+const create = z.object({
   name: z.string({
     error: (issue) =>
       issue.input === undefined ? "Name is required" : "Invalid name",
@@ -16,8 +16,7 @@ const add = z.object({
   address: z
     .string()
     .min(10, { error: "Address must be at least 10 characters long" })
-    .max(200, { error: "Address must be at most 200 characters long" })
-    .optional(),
+    .max(200, { error: "Address must be at most 200 characters long" }),
 })
 
 const update = z.object({
@@ -91,7 +90,7 @@ const getAll = z.object({
 })
 
 const supplierValidation = {
-  add,
+  create,
   update,
   status,
   search,
