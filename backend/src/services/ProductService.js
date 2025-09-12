@@ -1,4 +1,5 @@
 import ResponseError from "../error/error-response.js"
+import CategoryRepository from "../repositories/CategoryRepository.js"
 import ProductRepository from "../repositories/ProductRepository.js"
 import productValidation from "../validations/product-validation.js"
 import validation from "../validations/validation.js"
@@ -8,6 +9,7 @@ class ProductService extends Service {
   constructor() {
     super()
     this.productRepository = new ProductRepository()
+    this.categoryRepository = new CategoryRepository()
   }
 
   async getAll(request, user) {
@@ -54,6 +56,16 @@ class ProductService extends Service {
       })
     }
 
+    const category = await this.categoryRepository.findOne({
+      _id: data.category,
+      user,
+    })
+    if (!category) {
+      throw new ResponseError("Category not found", 404, {
+        category: ["category not found"],
+      })
+    }
+
     return await this.productRepository.create({ ...data, user })
   }
 
@@ -68,7 +80,7 @@ class ProductService extends Service {
       })
     }
 
-    await this.removeImg(deletedProduct.image.cloudinaryId)
+    await this.removeImg(deletedProduct.image)
 
     return deletedProduct
   }
