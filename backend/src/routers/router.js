@@ -28,6 +28,10 @@ router.use("/opname", opnameRouter)
 router.use("/stock-movement", stockMovementRouter)
 router.use("/analysis", ananlysisRouter)
 
+router.all(/.*/, (req, res) =>
+  res.status(404).json({ message: "Route not found", errors: {} })
+)
+
 router.use(errorMiddleware)
 
 export default router
