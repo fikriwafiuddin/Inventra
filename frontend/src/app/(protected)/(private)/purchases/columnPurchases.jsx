@@ -50,9 +50,9 @@ const columnPurchases = [
     enableHiding: false,
   },
   {
-    accessorKey: "fracture",
-    header: "Fracture",
-    cell: ({ row }) => row.getValue("fracture"),
+    accessorKey: "invoice",
+    header: "Invoice",
+    cell: ({ row }) => row.getValue("invoice"),
   },
   {
     accessorKey: "supplier",
@@ -75,7 +75,7 @@ const columnPurchases = [
       return (
         <div className="space-x-2">
           <Button asChild>
-            <Link href={`/purchases/${purchase.fracture}`}>
+            <Link href={`/purchases/${purchase.invoice}`}>
               <EyeIcon />
             </Link>
           </Button>

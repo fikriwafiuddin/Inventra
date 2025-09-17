@@ -12,6 +12,7 @@ function PurchasesTable({ start, end, search }) {
     data: purchases,
     error,
   } = useGetAllPurchases(start, end, search)
+  console.log(purchases)
 
   if (error) {
     return (

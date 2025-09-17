@@ -9,7 +9,7 @@ import {
 import DetailPurchase from "./DetailPurchase"
 
 async function DetailPurchasePage({ params }) {
-  const { fracture } = await params
+  const { invoice } = await params
 
   return (
     <div className="space-y-4">
@@ -25,7 +25,7 @@ async function DetailPurchasePage({ params }) {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <DetailPurchase fracture={fracture} />
+      <DetailPurchase invoice={invoice} />
     </div>
   )
 }

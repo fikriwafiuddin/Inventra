@@ -34,10 +34,10 @@ const getAll = async (req, res, next) => {
 
 const detail = async (req, res, next) => {
   try {
-    const { fracture } = req.params
+    const { invoice } = req.params
     const user = req.user
 
-    const purchase = await purchaseService.detail(fracture, user)
+    const purchase = await purchaseService.detail(invoice, user)
 
     return res.status(200).json({
       message: "Purchase details retrieved successfully",

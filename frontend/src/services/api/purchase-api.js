@@ -19,8 +19,8 @@ const getAll = async (request, token) => {
   return response.data.body.purchases
 }
 
-const detail = async (fracture, token) => {
-  const response = await axiosInstance.get(`/purchase/${fracture}`, {
+const detail = async (invoice, token) => {
+  const response = await axiosInstance.get(`/purchase/${invoice}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

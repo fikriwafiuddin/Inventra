@@ -8,14 +8,14 @@ const add = z.object({
     })
     .min(1, { error: "Supplier is required" })
     .length(24, { error: "Invalid supplier" }),
-  fracture: z
+  invoice: z
     .string({
       error: (issue) =>
         issue.input === undefined
-          ? "Fracture is required"
-          : "fracture must be a string",
+          ? "Invoice is required"
+          : "Invoice must be a string",
     })
-    .min(1, { error: "Fracture is required" })
+    .min(1, { error: "Invoice is required" })
     .trim(),
   date: z.preprocess(
     (val) => new Date(val),

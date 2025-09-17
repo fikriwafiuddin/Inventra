@@ -6,15 +6,14 @@ import supplierReturnValidation from "../validations/supplierReturn-validation.j
 import validation from "../validations/validation.js"
 import Product from "../models/product-model.js"
 import stockMovementService from "./stockMovement-service.js"
-import { request } from "express"
 
 const add = async (request, user) => {
-  const { fracture, items, notes, date } = validation(
+  const { invoice, items, notes, date } = validation(
     supplierReturnValidation.add,
     request
   )
 
-  const purchase = await Purchase.findOne({ user, fracture })
+  const purchase = await Purchase.findOne({ user, invoice })
   if (!purchase) {
     throw new ResponseError("Purchase not found", 404)
   }
@@ -30,6 +29,7 @@ const add = async (request, user) => {
       refundItems.push({
         id: purchaseItem.product.id,
         name: purchaseItem.product.name,
+        sku: purchaseItem.product.sku,
         condition: item.condition,
         quantity:
           item.quantity > purchaseItem.quantity
@@ -45,7 +45,7 @@ const add = async (request, user) => {
   try {
     const supplierReturn = new SupplierReturn({
       user,
-      fracture,
+      invoice,
       items: refundItems,
       notes,
       date,

@@ -10,7 +10,7 @@ import stockMovementService from "./stockMovement-service.js"
 const add = async (request, user) => {
   const {
     supplier: supplierId,
-    fracture,
+    invoice,
     date,
     items,
   } = validation(purchaseValidation.add, request)
@@ -54,6 +54,7 @@ const add = async (request, user) => {
         product: {
           id: String(p._id),
           name: p.name,
+          sku: p.sku,
         },
         quantity: qty,
         totalPrice: lineTotal,
@@ -66,7 +67,7 @@ const add = async (request, user) => {
         id: String(supplier._id),
         name: supplier.name,
       },
-      fracture,
+      invoice,
       date: new Date(date),
       items: finalItems,
     })
@@ -119,19 +120,19 @@ const getAll = async (request, user) => {
     },
   }
   if (search) {
-    filter.fracture = { $regex: search, $options: "i" }
+    filter.invoice = { $regex: search, $options: "i" }
   }
 
   const purchases = await Purchase.find(filter, {
-    fracture: 1,
+    invoice: 1,
     supplier: 1,
     date: 1,
   })
   return purchases
 }
 
-const detail = async (fracture, user) => {
-  const purchase = await Purchase.findOne({ fracture, user })
+const detail = async (invoice, user) => {
+  const purchase = await Purchase.findOne({ invoice, user })
   if (!purchase) {
     throw new ResponseError("Purchase not found", 404)
   }

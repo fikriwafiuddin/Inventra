@@ -13,8 +13,8 @@ import {
 
 const columns = [
   {
-    accessorKey: "fracture",
-    header: "Fracture",
+    accessorKey: "invoice",
+    header: "Invoice",
   },
   {
     accessorKey: "date",
@@ -41,8 +41,8 @@ const columns = [
               <DialogTitle>View Refund Details</DialogTitle>
             </DialogHeader>
             <div className="grid grid-cols-3">
-              <p>Fracture</p>
-              <p className="col-span-2">: {row.getValue("fracture")}</p>
+              <p>Invoice</p>
+              <p className="col-span-2">: {row.getValue("invoice")}</p>
               <p>Total Refund</p>
               <p className="col-span-2">: {formatCurrency(totalRefund)}</p>
               <p>Date</p>

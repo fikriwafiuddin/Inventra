@@ -114,7 +114,7 @@ function FormSupplierReturn() {
       }))
 
     const data = {
-      fracture: selectedTransaction.fracture,
+      invoice: selectedTransaction.invoice,
       items,
       notes,
       date: new Date(),
@@ -151,10 +151,10 @@ function FormSupplierReturn() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
             <div className="md:col-span-2 space-y-2">
-              <Label htmlFor="searchValue">Fracture</Label>
+              <Label htmlFor="searchValue">Invoice</Label>
               <Input
                 id="searchValue"
-                placeholder="Masukkan fracture..."
+                placeholder="Masukkan invoice..."
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSearch()}
@@ -189,8 +189,8 @@ function FormSupplierReturn() {
                 <h4 className="font-semibold mb-2">Informasi Transaksi</h4>
                 <div className="space-y-1 text-sm">
                   <p>
-                    <span className="font-medium">Fracture:</span>{" "}
-                    {selectedTransaction.fracture}
+                    <span className="font-medium">Invoice:</span>{" "}
+                    {selectedTransaction.invoice}
                   </p>
                   <p>
                     <span className="font-medium">Tanggal:</span>{" "}

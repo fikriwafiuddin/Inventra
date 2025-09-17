@@ -47,14 +47,14 @@ export const useGetAllPurchases = (start, end, search) => {
   })
 }
 
-export const useGetDetailPurchase = (fracture) => {
+export const useGetDetailPurchase = (invoice) => {
   const { getToken } = useAuth()
 
   return useQuery({
     queryKey: ["purchase"],
     queryFn: async () => {
       const token = await getToken()
-      return await purchaseApi.detail(fracture, token)
+      return await purchaseApi.detail(invoice, token)
     },
     staleTime: 5 * 60 * 1000,
   })

@@ -18,7 +18,7 @@ purchaseRouter.get(
   purchaseController.getAll
 )
 purchaseRouter.get(
-  "/:fracture",
+  "/:invoice",
   clerkMiddleware(),
   authMiddleware,
   purchaseController.detail

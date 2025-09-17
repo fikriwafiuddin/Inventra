@@ -1,14 +1,14 @@
 import { z } from "zod"
 
 const add = z.object({
-  fracture: z
+  invoice: z
     .string({
       error: (issue) =>
         issue.input === undefined
-          ? "Fracture is required"
-          : "Fracture must be a string",
+          ? "Invoice is required"
+          : "Invoice must be a string",
     })
-    .min(1, { error: "Fracture is required" }),
+    .min(1, { error: "Invoice is required" }),
   items: z
     .array(
       z.object({

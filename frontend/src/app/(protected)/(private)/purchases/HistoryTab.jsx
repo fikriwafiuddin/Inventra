@@ -40,7 +40,7 @@ function HistoryTab() {
           <Input
             className="pl-8 w-full"
             type="search"
-            placeholder="Search purchases by fracture"
+            placeholder="Search purchases by invoice"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />

@@ -51,7 +51,7 @@ function FormTab() {
     resolver: zodResolver(purchaseValidation.addPurchase),
     defaultValues: {
       supplier: "",
-      fracture: "",
+      invoice: "",
       date: "",
       items: [{ product: "", quantity: 0, totalPrice: 0 }],
     },
@@ -171,17 +171,13 @@ function FormTab() {
                 />
                 <FormField
                   control={form.control}
-                  name="fracture"
+                  name="invoice"
                   render={({ field }) => (
                     <FormItem>
                       <div className="space-y-1">
-                        <FormLabel>Fracture</FormLabel>
+                        <FormLabel>Invoice</FormLabel>
                         <FormControl>
-                          <Input
-                            type="text"
-                            placeholder="fracture"
-                            {...field}
-                          />
+                          <Input type="text" placeholder="invoice" {...field} />
                         </FormControl>
                         <FormMessage />
                       </div>

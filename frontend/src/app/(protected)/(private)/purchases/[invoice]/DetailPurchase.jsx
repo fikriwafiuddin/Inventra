@@ -13,9 +13,8 @@ import { useGetDetailPurchase } from "@/services/hooks/purchase-hook"
 import { Loader2Icon } from "lucide-react"
 import columns from "./columns"
 
-function DetailPurchase({ fracture }) {
-  const { isPending, data: purchase, error } = useGetDetailPurchase(fracture)
-  console.log(error, purchase)
+function DetailPurchase({ invoice }) {
+  const { isPending, data: purchase, error } = useGetDetailPurchase(invoice)
 
   if (error) {
     return (
@@ -51,10 +50,10 @@ function DetailPurchase({ fracture }) {
           <CardContent className="p-6 space-y-4">
             <div className="flex justify-between items-center border-b pb-2">
               <span className="text-sm font-medium text-muted-foreground">
-                Fracture
+                Invoice
               </span>
               <span className="text-base font-semibold text-right">
-                {purchase.fracture}
+                {purchase.invoice}
               </span>
             </div>
 
