@@ -9,15 +9,9 @@ const productSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      minlength: 3,
-      maxlength: 50,
-      unique: true,
-      trim: true,
     },
     sku: {
       type: String,
-      required: true,
-      unique: true,
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
@@ -61,6 +55,40 @@ const productSchema = new mongoose.Schema(
   },
   { timestamps: true }
 )
+
+productSchema.pre("save", async function (next) {
+  if (this.isNew && !this.sku) {
+    this.sku = await generateSKU(this.user, this.name, this.category)
+  }
+
+  if (
+    this.isModified("stock") &&
+    this.stock > this.get("stock", null, { getters: false })
+  ) {
+    this.lastRestock = new Date()
+  }
+
+  next()
+})
+
+productSchema.statics.generateSKU = async function (
+  userId,
+  productName,
+  categoryId
+) {
+  const category = await mongoose.model("Category").findById(categoryId)
+  const categoryCode = category?.name?.substring(0, 3).toUpperCase() || "GEN"
+
+  const userProductCount = await this.countDocuments({ user: userId })
+  const sequentialNumber = (userProductCount + 1).toString().padStart(4, "0")
+
+  const productCode = productName
+    .substring(0, 3)
+    .toUpperCase()
+    .replace(/[^A-Z]/g, "")
+
+  return `${categoryCode}-${productCode}-${sequentialNumber}`
+}
 
 const Product = mongoose.model("Product", productSchema)
 export default Product

@@ -23,6 +23,10 @@ const adjustmenSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
+      sku: {
+        type: String,
+        required: true,
+      },
     },
   },
   { timestamps: true }

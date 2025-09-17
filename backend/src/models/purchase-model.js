@@ -15,13 +15,16 @@ const purchaseSchema = new mongoose.Schema({
       required: true,
     },
   },
-  fracture: {
+  invoice: {
     type: String,
     required: true,
   },
   date: {
     type: Date,
     required: true,
+  },
+  amount: {
+    type: Number,
   },
   items: [
     {
@@ -34,6 +37,10 @@ const purchaseSchema = new mongoose.Schema({
           type: String,
           required: true,
         },
+        sku: {
+          type: String,
+          required: true,
+        },
       },
       quantity: {
         type: Number,
@@ -43,8 +50,28 @@ const purchaseSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
+      unitPrice: {
+        type: Number,
+      },
     },
   ],
+})
+
+purchaseSchema.pre("save", function (next) {
+  this.items.forEach((item) => {
+    if (item.quantity > 0) {
+      item.unitPrice = item.totalPrice / item.quantity
+    } else {
+      item.unitPrice = 0
+    }
+  })
+
+  if (this.isModified("items")) {
+    this.totalAmount = this.items.reduce((total, item) => {
+      return total + (item.totalPrice || 0)
+    }, 0)
+  }
+  next()
 })
 
 const Purchase = mongoose.model("Purchase", purchaseSchema)
