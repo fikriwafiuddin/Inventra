@@ -40,13 +40,6 @@ const add = z.object({
       })
       .nonnegative({ error: "Min stock must be a non-negative number" })
   ),
-  sku: z
-    .string({
-      error: (issue) =>
-        issue.input === undefined ? "SKU is required" : "Invalid SKU",
-    })
-    .min(4, "SKU must be at least 4 characters")
-    .max(10, "SKU must be at most 10 characters"),
   image: z.object({
     url: z.url({
       error: (issue) =>
@@ -111,13 +104,6 @@ const update = z.object({
       })
       .nonnegative({ error: "Min stock must be a non-negative number" })
   ),
-  sku: z
-    .string({
-      error: (issue) =>
-        issue.input === undefined ? "SKU is required" : "Invalid SKU",
-    })
-    .min(4, "SKU must be at least 4 characters")
-    .max(10, "SKU must be at most 10 characters"),
   image: z
     .object({
       url: z.url({

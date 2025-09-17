@@ -45,7 +45,6 @@ function AddPage() {
       price: 0,
       category: "",
       minStock: 0,
-      sku: "",
       description: "",
       image: undefined,
     },
@@ -173,19 +172,6 @@ function AddPage() {
               )}
             />
           </div>
-          <FormField
-            control={form.control}
-            name="sku"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>SKU</FormLabel>
-                <FormControl>
-                  <Input placeholder="example: PSU-001" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="description"

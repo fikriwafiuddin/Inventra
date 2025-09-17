@@ -1,4 +1,5 @@
 import ResponseError from "../error/error-response.js"
+import Category from "../models/category-model.js"
 import Product from "../models/product-model.js"
 import cloudinary from "../utils/clodinary.js"
 import logger from "../utils/logger.js"
@@ -8,25 +9,19 @@ import validation from "../validations/validation.js"
 const add = async (request, user) => {
   const data = validation(productValidation.add, request)
 
+  const category = await Category.findOne({ user, _id: data.category })
+  if (!category) {
+    throw new ResponseError("Category not found")
+  }
+
   const product = await Product.findOne({
-    $and: [
-      {
-        $or: [{ name: data.name }, { sku: data.sku }],
-      },
-      { user: user._id },
-    ],
+    user,
+    name: data.name,
   })
   if (product) {
-    if (product.name === data.name) {
-      throw new ResponseError("Product with this name already exists", 400, {
-        name: ["Product with this name already exists"],
-      })
-    }
-    if (product.sku === data.sku) {
-      throw new ResponseError("Product with this SKU already exists", 400, {
-        sku: ["Product with this SKU already exists"],
-      })
-    }
+    throw new ResponseError("Product with this name already exists", 400, {
+      name: ["Product with this name already exists"],
+    })
   }
 
   const newProduct = new Product({
@@ -102,13 +97,6 @@ const update = async (request, user) => {
   if (existingProductName.length > 1) {
     throw new ResponseError("Name already exists", 400, {
       name: ["Name already exists"],
-    })
-  }
-
-  const existingProductSku = await Product.find({ user, sku: data.sku })
-  if (existingProductSku.length > 1) {
-    throw new ResponseError("SKU already exists", 400, {
-      sku: ["SKU already exists"],
     })
   }
 

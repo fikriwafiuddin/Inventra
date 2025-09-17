@@ -90,5 +90,9 @@ productSchema.statics.generateSKU = async function (
   return `${categoryCode}-${productCode}-${sequentialNumber}`
 }
 
+const generateSKU = async (userId, productName, categoryId) => {
+  return await Product.generateSKU(userId, productName, categoryId)
+}
+
 const Product = mongoose.model("Product", productSchema)
 export default Product
