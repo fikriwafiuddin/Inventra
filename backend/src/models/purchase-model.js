@@ -25,6 +25,7 @@ const purchaseSchema = new mongoose.Schema({
   },
   amount: {
     type: Number,
+    default: 0,
   },
   items: [
     {
@@ -67,7 +68,7 @@ purchaseSchema.pre("save", function (next) {
   })
 
   if (this.isModified("items")) {
-    this.totalAmount = this.items.reduce((total, item) => {
+    this.amount = this.items.reduce((total, item) => {
       return total + (item.totalPrice || 0)
     }, 0)
   }

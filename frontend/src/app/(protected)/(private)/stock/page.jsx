@@ -140,14 +140,14 @@ const StockManagementPage = () => {
       href: "/stock/history",
       stats: "47 movements hari ini",
     },
-    {
-      title: "Stock Reports",
-      description: "Analisis dan laporan stock komprehensif",
-      icon: BarChart3,
-      color: "bg-indigo-500",
-      href: "/stock-reports",
-      stats: "5 laporan tersedia",
-    },
+    // {
+    //   title: "Stock Reports",
+    //   description: "Analisis dan laporan stock komprehensif",
+    //   icon: BarChart3,
+    //   color: "bg-indigo-500",
+    //   href: "/stock-reports",
+    //   stats: "5 laporan tersedia",
+    // },
   ]
 
   return (
