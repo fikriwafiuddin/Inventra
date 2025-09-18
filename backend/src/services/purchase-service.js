@@ -20,6 +20,10 @@ const add = async (request, user) => {
     throw new ResponseError("Supplier not found", 404)
   }
 
+  if (supplier.status === "inactive") {
+    throw new ResponseError("Supplier is inactive", 400)
+  }
+
   const mergedMap = new Map()
   for (const it of items) {
     const pid = String(it.product)

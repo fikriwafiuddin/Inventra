@@ -85,7 +85,7 @@ const search = async (request, user) => {
 
   const suppliers = await Supplier.find(
     { name: { $regex: regex }, user },
-    { _id: 1, name: 1 }
+    { _id: 1, name: 1, status: 1 }
   )
     .limit(limit)
     .exec()

@@ -45,6 +45,7 @@ import { useState } from "react"
 import { useSearchSuppliers } from "@/services/hooks/supplier-hook"
 import { useSearchProducts } from "@/services/hooks/product-hook"
 import { useAddPurchase } from "@/services/hooks/purchase-hook"
+import { Badge } from "@/components/ui/badge"
 
 function FormTab() {
   const form = useForm({
@@ -141,6 +142,7 @@ function FormTab() {
                                 <CommandGroup>
                                   {suppliers?.map((supplier) => (
                                     <CommandItem
+                                      disabled={supplier.status === "inactive"}
                                       value={supplier._id}
                                       key={supplier._id}
                                       onSelect={() => {
@@ -157,6 +159,13 @@ function FormTab() {
                                         )}
                                       />
                                       {supplier.name}
+                                      {supplier.status === "active" ? (
+                                        <Badge variant="success">Active</Badge>
+                                      ) : (
+                                        <Badge variant="destructive">
+                                          Inactive
+                                        </Badge>
+                                      )}
                                     </CommandItem>
                                   ))}
                                 </CommandGroup>
