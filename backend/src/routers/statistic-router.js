@@ -71,5 +71,11 @@ statisticRouter.get(
   authMiddleware,
   statisticController.latestStockMovements
 )
+statisticRouter.get(
+  "/product-sales-stats/:sku",
+  clerkMiddleware(),
+  authMiddleware,
+  statisticController.productSalesStats
+)
 
 export default statisticRouter

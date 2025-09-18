@@ -206,6 +206,84 @@ const latestStockMovements = async (user) => {
   return movements
 }
 
+const productSalesStats = async (user, sku) => {
+  const today = new Date()
+  today.setHours(23, 59, 59, 999)
+
+  const sevenDaysAgo = new Date(today)
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6)
+  sevenDaysAgo.setHours(0, 0, 0, 0)
+
+  const aggregationResult = await Order.aggregate([
+    {
+      $match: {
+        user,
+        "items.sku": sku,
+        date: {
+          $gte: sevenDaysAgo,
+          $lte: today,
+        },
+      },
+    },
+    {
+      $unwind: "$items",
+    },
+    {
+      $match: {
+        "items.sku": sku,
+      },
+    },
+    {
+      $group: {
+        _id: {
+          $dateToString: { format: "%Y-%m-%d", date: "$date" },
+        },
+        totalSales: { $sum: "$items.quantity" },
+        totalRevenue: {
+          $sum: { $multiply: ["$items.quantity", "$items.price"] },
+        },
+      },
+    },
+    {
+      $sort: {
+        _id: 1,
+      },
+    },
+  ])
+
+  const dates = []
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date()
+    date.setDate(date.getDate() - i)
+    date.setHours(0, 0, 0, 0)
+    dates.push(date)
+  }
+
+  const salesData = dates.map((dateObj) => {
+    const dateString = dateObj.toISOString().split("T")[0]
+    const dayOfWeek = dateObj.toLocaleDateString("en-US", { weekday: "short" })
+    const foundData = aggregationResult.find((data) => data._id === dateString)
+
+    return {
+      date: dateString,
+      day: dayOfWeek,
+      sales: foundData ? foundData.totalSales : 0,
+      revenue: foundData ? foundData.totalRevenue : 0,
+    }
+  })
+
+  const totalSales = salesData.reduce((sum, item) => sum + item.sales, 0)
+  const totalRevenue = salesData.reduce((sum, item) => sum + item.revenue, 0)
+  const averageSales = (totalSales / 7).toFixed(2)
+
+  return {
+    totalUnitSold: totalSales,
+    totalRevenue: totalRevenue,
+    averageUnitSoldPerDay: parseFloat(averageSales),
+    salesData: salesData,
+  }
+}
+
 const statisticService = {
   product,
   supplier,
@@ -218,5 +296,6 @@ const statisticService = {
   stockAlert,
   latestStockMovements,
   bottomProducts,
+  productSalesStats,
 }
 export default statisticService

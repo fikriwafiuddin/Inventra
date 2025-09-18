@@ -43,7 +43,16 @@ import { redirect } from "next/navigation"
 function UpdatePage({ params }) {
   const { sku } = use(params)
 
-  const form = useForm({ resolver: zodResolver(productValidation.update) })
+  const form = useForm({
+    resolver: zodResolver(productValidation.update),
+    defaultValues: {
+      name: "",
+      price: 0,
+      minStock: 0,
+      description: "",
+      image: undefined,
+    },
+  })
   const [previewImg, setPreviewImg] = useState(null)
   const [image, setImage] = useState(undefined)
   const { isPending, data: categories } = useGetAllCategories()
@@ -65,10 +74,8 @@ function UpdatePage({ params }) {
       form.setValue("description", product.description)
       form.setValue("price", product.price)
       form.setValue("category", product.category._id)
-      form.setValue("sku", product.sku)
       form.setValue("minStock", product.minStock)
       setPreviewImg(product.image.url)
-      console.log(product.category._id)
     }
   }, [product])
 
@@ -166,31 +173,33 @@ function UpdatePage({ params }) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Category</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={product.category._id}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue
-                          placeholder={
-                            isPending ? "Loading..." : "Select category"
-                          }
-                          disabled={isPending}
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectGroup>
-                        {categories?.map((category) => (
-                          <SelectItem key={category._id} value={category._id}>
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={product.category._id}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue
+                            placeholder={
+                              isPending ? "Loading..." : "Select category"
+                            }
+                            disabled={isPending}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectGroup>
+                          {categories?.map((category) => (
+                            <SelectItem key={category._id} value={category._id}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -209,19 +218,6 @@ function UpdatePage({ params }) {
               )}
             />
           </div>
-          <FormField
-            control={form.control}
-            name="sku"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>SKU</FormLabel>
-                <FormControl>
-                  <Input placeholder="example: PSU-001" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="description"

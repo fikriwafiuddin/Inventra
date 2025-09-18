@@ -2,7 +2,7 @@
 
 import { DataTable } from "@/components/DataTable"
 import { Skeleton } from "@/components/ui/skeleton"
-import { formatCurrency } from "@/lib/formatters"
+import { formatCurrency, formatDate } from "@/lib/formatters"
 import { useGetLatestOrders } from "@/services/hooks/statistic-hook"
 
 export const columns = [
@@ -13,6 +13,7 @@ export const columns = [
   {
     accessorKey: "date",
     header: "Date",
+    cell: ({ row }) => formatDate(row.getValue("date")),
   },
   {
     accessorKey: "amount",

@@ -145,3 +145,16 @@ export const useGetLatestStockMovements = () => {
     staleTime: 5 * 60 * 1000,
   })
 }
+
+export const useGetProductSalesStats = (sku) => {
+  const { getToken } = useAuth()
+
+  return useQuery({
+    queryKey: ["product-sales-stats", sku],
+    queryFn: async () => {
+      const token = await getToken()
+      return await statisticApi.productSalesStats(sku, token)
+    },
+    staleTime: 5 * 60 * 1000,
+  })
+}

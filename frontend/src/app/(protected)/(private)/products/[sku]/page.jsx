@@ -37,7 +37,7 @@ async function DetailProductPage({ params }) {
           <DetailsTab sku={sku} />
         </TabsContent>
         <TabsContent value="sales">
-          <SalesTab />
+          <SalesTab sku={sku} />
         </TabsContent>
       </Tabs>
     </div>
