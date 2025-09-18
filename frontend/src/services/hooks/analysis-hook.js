@@ -15,3 +15,17 @@ export const useAnalysisSales = (timePeriod) => {
     staleTime: 1000 * 60 * 5,
   })
 }
+
+export const useAnalysisPurchases = (timePeriod) => {
+  const { getToken } = useAuth()
+  const request = { timePeriod }
+
+  return useQuery({
+    queryKey: ["analysis-purchases", timePeriod],
+    queryFn: async () => {
+      const token = await getToken()
+      return analysisApi.purchases(request, token)
+    },
+    staleTime: 1000 * 60 * 5,
+  })
+}

@@ -16,7 +16,25 @@ const sales = async (req, res, next) => {
   }
 }
 
+const purchases = async (req, res, next) => {
+  try {
+    const user = req.user
+    const request = req.query
+
+    const purchasesData = await analysisService.purchases(request, user)
+    console.log(purchasesData)
+
+    res.status(200).json({
+      message: "Purchases data retrieved successfully",
+      data: { purchasesData },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const analysisController = {
   sales,
+  purchases,
 }
 export default analysisController

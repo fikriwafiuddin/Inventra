@@ -11,5 +11,11 @@ ananlysisRouter.get(
   authMiddleware,
   analysisController.sales
 )
+ananlysisRouter.get(
+  "/purchases",
+  clerkMiddleware(),
+  authMiddleware,
+  analysisController.purchases
+)
 
 export default ananlysisRouter
