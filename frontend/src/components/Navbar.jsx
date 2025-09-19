@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
-import { LogOutIcon, Moon, Sun, UserIcon } from "lucide-react"
+import { GlobeIcon, LogOutIcon, Moon, Sun, UserIcon } from "lucide-react"
 import { useTheme } from "next-themes"
 import { SidebarTrigger } from "./ui/sidebar"
 import Link from "next/link"
@@ -37,6 +37,22 @@ function Navbar() {
           placeholder="Search"
           className="hidden sm:inline"
         />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <GlobeIcon className="h-[1.2rem] w-[1.2rem]" />
+              <span className="sr-only">Toggle language</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem className="px-2 text-sm py-1.5">
+              Bahasa
+            </DropdownMenuItem>
+            <DropdownMenuItem className="px-2 text-sm py-1.5">
+              English
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
