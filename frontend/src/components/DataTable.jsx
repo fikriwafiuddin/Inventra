@@ -14,7 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import FloatingSelectionActions from "./FloatingSelectionActions"
+// import FloatingSelectionActions from "./FloatingSelectionActions"
 
 export function DataTable({ columns, data, onBulkAction }) {
   const table = useReactTable({
@@ -24,19 +24,19 @@ export function DataTable({ columns, data, onBulkAction }) {
     enableRowSelection: true,
   })
 
-  const selectedRowCount = table.getFilteredSelectedRowModel().rows.length
+  // const selectedRowCount = table.getFilteredSelectedRowModel().rows.length
 
-  const handleClearSelection = () => {
-    table.toggleAllPageRowsSelected(false)
-  }
+  // const handleClearSelection = () => {
+  //   table.toggleAllPageRowsSelected(false)
+  // }
   return (
     <>
       {/* FLOATING SELECTIONS */}
-      <FloatingSelectionActions
+      {/* <FloatingSelectionActions
         selectedCount={selectedRowCount}
         onClear={handleClearSelection}
         onBulkAction={onBulkAction}
-      />
+      /> */}
 
       <div className="rounded-md border">
         <Table>
