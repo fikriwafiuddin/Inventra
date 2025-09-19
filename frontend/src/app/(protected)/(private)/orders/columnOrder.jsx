@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/dialog"
 import { formatCurrency, formatDate } from "@/lib/formatters"
 import { EyeIcon, Trash2Icon } from "lucide-react"
+import ReceiptModal from "./ReceiptModal"
 
 const columnOrders = [
   {
@@ -90,48 +91,7 @@ const columnOrders = [
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button>
-                <EyeIcon />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>View Order Details</DialogTitle>
-              </DialogHeader>
-              <div className="grid grid-cols-3">
-                <p>Order Id</p>
-                <p className="col-span-2">: {row.getValue("orderId")}</p>
-                <p>Amount</p>
-                <p className="col-span-2">
-                  : {formatCurrency(row.getValue("amount"))}
-                </p>
-                <p>Order Date</p>
-                <p className="col-span-2">
-                  : {formatDate(row.getValue("date"))}
-                </p>
-              </div>
-              <div className="">
-                <p>Items:</p>
-                <ul>
-                  {order.items.map((item) => (
-                    <li key={item.orderId} className="flex justify-between">
-                      <span>
-                        {item.name} {item.quantity}x
-                      </span>
-                      <span>{formatCurrency(item.price)}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button>Close</Button>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          <ReceiptModal orderData={order} />
         </div>
       )
     },
