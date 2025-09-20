@@ -1,3 +1,5 @@
+"use client"
+
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -6,14 +8,23 @@ import { useGetStockAlert } from "@/services/hooks/statistic-hook"
 import { AlertTriangleIcon, EyeIcon } from "lucide-react"
 import Link from "next/link"
 
-function LowStockAlert() {
+function LowStockAlert({ translations }) {
   const { isPending, data } = useGetStockAlert(1, 2)
   const getStockStatus = (current, min) => {
     if (current === 0)
-      return { status: "Habis", color: "bg-red-100 text-destructive" }
+      return {
+        status: translations.status.outOfStock,
+        color: "bg-red-100 text-destructive",
+      }
     if (current <= min)
-      return { status: "Rendah", color: "bg-yellow-100 text-warning" }
-    return { status: "Normal", color: "bg-green-100 text-success" }
+      return {
+        status: translations.status.lowStock,
+        color: "bg-yellow-100 text-warning",
+      }
+    return {
+      status: translations.status.inStock,
+      color: "bg-green-100 text-success",
+    }
   }
 
   return (
@@ -21,7 +32,7 @@ function LowStockAlert() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <AlertTriangleIcon className="h-5 w-5 text-warning" />
-          Stock Alert
+          {translations.title}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -41,7 +52,8 @@ function LowStockAlert() {
                       </div>
                       <div className="text-right">
                         <p className="text-sm font-medium">
-                          Stock: {item.stock} / Min: {item.minStock}
+                          {translations.stock}: {item.stock} /{" "}
+                          {translations.min}: {item.minStock}
                         </p>
                         <Badge className={`text-xs ${stockStatus.color}`}>
                           {stockStatus.status}
@@ -55,7 +67,7 @@ function LowStockAlert() {
             <Link href="/stock/alert" passHref>
               <Button variant="outline" className="w-full mt-4">
                 <EyeIcon className="h-4 w-4 mr-2" />
-                Lihat Semua Alert
+                {translations.link}
               </Button>
             </Link>
           </>

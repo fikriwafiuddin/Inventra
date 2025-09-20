@@ -9,18 +9,19 @@ import {
 import { useGetWeeklyIncomeInMonth } from "@/services/hooks/statistic-hook"
 import { Skeleton } from "@/components/ui/skeleton"
 
-function ChartRevenue() {
+function ChartRevenue({ translations }) {
   const { isPending, data: chartData } = useGetWeeklyIncomeInMonth()
   const chartConfig = {
     revenue: {
-      label: "Revenue",
+      label: translations.labelChart,
       color: "var(--chart-2)",
     },
   }
+
   return (
     <div className="lg:col-span-2 bg-secondary rounded-lg p-2">
       <h3 className="text-lg font-medium mb-2 text-center">
-        Revenue this month
+        {translations.title}
       </h3>
       {isPending ? (
         <Skeleton className="h-[200px] w-full" />

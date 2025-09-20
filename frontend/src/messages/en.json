@@ -1,0 +1,37 @@
+{
+  "DashboardPage": {
+    "title": "Dashboard",
+    "stats": {
+      "revenue": "Revenue",
+      "products": "Products",
+      "orders": "Orders",
+      "outOfStock": "Out of stock"
+    },
+    "chartRevenue": {
+      "title": "Revenue this month",
+      "labelChart": "Revenue"
+    },
+    "topProducts": {
+      "title": "Top 5 Products"
+    },
+    "orderTable": {
+      "title": "Latest Orders",
+      "tableHead": {
+        "orderId": "Order Id",
+        "date": "Date",
+        "amount": "Amount"
+      }
+    },
+    "stockAlert": {
+      "title": "Stock Alert",
+      "status": {
+        "outOfStock": "Out of stock",
+        "lowStock": "Low Stock",
+        "inStock": "In Stock"
+      },
+      "stock": "Stock",
+      "min": "Min",
+      "link": "View All Alerts"
+    }
+  }
+}

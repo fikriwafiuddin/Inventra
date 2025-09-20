@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/sidebar"
 import { Separator } from "./ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { usePathname } from "next/navigation"
 
 const navLinks = [

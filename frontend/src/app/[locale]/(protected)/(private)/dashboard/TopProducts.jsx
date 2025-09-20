@@ -1,13 +1,17 @@
+"use client"
+
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useGetTopProducts } from "@/services/hooks/statistic-hook"
 import Image from "next/image"
 
-function TopProducts() {
+function TopProducts({ translations }) {
   const { isPending, data: topProducts } = useGetTopProducts()
   return (
     <div className="bg-secondary rounded-lg p-2">
-      <h3 className="text-lg font-medium mb-2 text-center">Top 5 Products</h3>
+      <h3 className="text-lg font-medium mb-2 text-center">
+        {translations.title}
+      </h3>
       <div className="flex flex-col gap-2">
         {isPending ? (
           <Skeleton className="h-[200px]" />

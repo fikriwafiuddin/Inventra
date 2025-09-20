@@ -1,0 +1,37 @@
+{
+  "DashboardPage": {
+    "title": "Dashboard",
+    "stats": {
+      "revenue": "Pendapatan",
+      "products": "Produk",
+      "orders": "Pesanan",
+      "outOfStock": "Stok habis"
+    },
+    "chartRevenue": {
+      "title": "Penghasilan bulan ini",
+      "labelChart": "Penghasilan"
+    },
+    "topProducts": {
+      "title": "Top 5 Produk"
+    },
+    "orderTable": {
+      "title": "Pesanan Terbaru",
+      "tableHead": {
+        "orderId": "Order Id",
+        "date": "Tanggal",
+        "amount": "Jumlah"
+      }
+    },
+    "stockAlert": {
+      "title": "Peringatan stok",
+      "status": {
+        "outOfStock": "Habis",
+        "lowStock": "Rendah",
+        "inStock": "Normal"
+      },
+      "stock": "Stok",
+      "min": "Minimum",
+      "link": "Lihat Semua Peringatan"
+    }
+  }
+}

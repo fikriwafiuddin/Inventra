@@ -1,3 +1,5 @@
+"use client"
+
 import StatCard from "@/components/StatCard"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useGetDashboard } from "@/services/hooks/statistic-hook"
@@ -8,7 +10,7 @@ import {
   TriangleAlertIcon,
 } from "lucide-react"
 
-function Stats() {
+function Stats({ translations }) {
   const { isPending, data } = useGetDashboard()
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -22,23 +24,23 @@ function Stats() {
       ) : (
         <>
           <StatCard
-            title="Revenue"
+            title={translations.revenue}
             value={data?.revenue || 0}
             icon={<BanknoteIcon />}
             isCurrency
           />
           <StatCard
-            title="Products"
+            title={translations.products}
             value={data?.totalProducts || 0}
             icon={<Inbox />}
           />
           <StatCard
-            title="Orders"
+            title={translations.orders}
             value={data?.totalOrders || 0}
             icon={<CalendarIcon />}
           />
           <StatCard
-            title="Out of stock"
+            title={translations.outOfStock}
             value={data?.outOfStock || 0}
             icon={<TriangleAlertIcon />}
           />
