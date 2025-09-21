@@ -1,4 +1,30 @@
 {
+  "Sidebar": {
+    "nav": {
+      "dashboard": {
+        "title": "",
+        "dashboard": "Dasbor"
+      },
+      "masterData": {
+        "title": "Data Master",
+        "products": "Produk",
+        "categories": "Kategori",
+        "suppliers": "Pemasok",
+        "stock": "Stok"
+      },
+      "transaction": {
+        "title": "Transaksi",
+        "pos": "POS",
+        "orders": "Pesanan",
+        "purchases": "Pembelian"
+      },
+      "analysis": {
+        "title": "Analisis & Lainnya",
+        "analysis": "Analisis",
+        "settings": "Pengaturan"
+      }
+    }
+  },
   "DashboardPage": {
     "title": "Dashboard",
     "stats": {

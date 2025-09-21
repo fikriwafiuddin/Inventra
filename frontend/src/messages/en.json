@@ -1,4 +1,30 @@
 {
+  "Sidebar": {
+    "nav": {
+      "dashboard": {
+        "title": "",
+        "dashboard": "Dashbord"
+      },
+      "masterData": {
+        "title": "Master Data",
+        "products": "Products",
+        "categories": "Categories",
+        "suppliers": "Suppliers",
+        "stock": "Stock"
+      },
+      "transaction": {
+        "title": "Transaction",
+        "pos": "POS",
+        "orders": "Orders",
+        "purchases": "Purchases"
+      },
+      "analysis": {
+        "title": "Analysis & More",
+        "analysis": "Analysis",
+        "settings": "Settings"
+      }
+    }
+  },
   "DashboardPage": {
     "title": "Dashboard",
     "stats": {

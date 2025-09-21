@@ -32,44 +32,66 @@ import { usePathname } from "next/navigation"
 
 const navLinks = [
   {
-    label: "",
+    labelKey: "nav.dashboard.title",
     items: [
       {
-        label: "",
-        title: "Dashboard",
+        titleKey: "nav.dashboard.dashboard",
         url: "/dashboard",
         icon: LayoutDashboard,
       },
     ],
   },
   {
-    label: "Master Data",
+    labelKey: "nav.masterData.title",
     items: [
-      { title: "Products", url: "/products", icon: Inbox },
-      { title: "Categories", url: "/categories", icon: FolderClosedIcon },
-      { title: "Suppliers", url: "/suppliers", icon: TruckIcon },
-      { title: "Stock", url: "/stock", icon: BoxIcon },
+      {
+        titleKey: "nav.masterData.products",
+        url: "/products",
+        icon: Inbox,
+      },
+      {
+        titleKey: "nav.masterData.categories",
+        url: "/categories",
+        icon: FolderClosedIcon,
+      },
+      {
+        titleKey: "nav.masterData.suppliers",
+        url: "/suppliers",
+        icon: TruckIcon,
+      },
+      {
+        titleKey: "nav.masterData.stock",
+        url: "/stock",
+        icon: BoxIcon,
+      },
     ],
   },
   {
-    label: "Transaction",
+    labelKey: "nav.transaction.title",
     items: [
-      { title: "POS", url: "/pos", icon: TouchpadIcon },
-      { title: "Orders", url: "/orders", icon: Calendar },
-      { title: "Purchases", url: "/purchases", icon: ShoppingCartIcon },
+      { titleKey: "nav.transaction.pos", url: "/pos", icon: TouchpadIcon },
+      { titleKey: "nav.transaction.orders", url: "/orders", icon: Calendar },
+      {
+        titleKey: "nav.transaction.purchases",
+        url: "/purchases",
+        icon: ShoppingCartIcon,
+      },
     ],
   },
-  ,
   {
-    label: "Analysis & More",
+    labelKey: "nav.analysis.title",
     items: [
-      { title: "Analysis", url: "/analysis", icon: ChartAreaIcon },
-      { title: "Settings", url: "/settings", icon: Settings },
+      {
+        titleKey: "nav.analysis.analysis",
+        url: "/analysis",
+        icon: ChartAreaIcon,
+      },
+      { titleKey: "nav.analysis.settings", url: "/settings", icon: Settings },
     ],
   },
 ]
 
-export function AppSidebar() {
+export function AppSidebar({ transalations }) {
   const pathname = usePathname()
 
   return (
@@ -89,14 +111,16 @@ export function AppSidebar() {
       <Separator />
       <SidebarContent>
         {navLinks.map((group) => (
-          <SidebarGroup key={group.label}>
-            {group.label && (
-              <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+          <SidebarGroup key={group.labelKey}>
+            {group.labelKey && (
+              <SidebarGroupLabel>
+                {transalations[group.labelKey]}
+              </SidebarGroupLabel>
             )}
             <SidebarGroupContent>
               <SidebarMenu>
                 {group.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
+                  <SidebarMenuItem key={item.titleKey}>
                     <SidebarMenuButton
                       asChild
                       className={
@@ -106,7 +130,7 @@ export function AppSidebar() {
                     >
                       <Link href={item.url}>
                         <item.icon />
-                        <span>{item.title}</span>
+                        <span>{transalations[item.titleKey]}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
