@@ -108,5 +108,33 @@
     "descriptionLabel": "Description",
     "imageLabel": "Image",
     "saveButton": "Save"
+  },
+  "CategoriesPage": {
+    "buttonAdd": "Add Category",
+    "categoriesTable": {
+      "tableHead": {
+        "name": "Name",
+        "createdAt": "Created At",
+        "updatedAt": "Updated At",
+        "actions": "Actions"
+      },
+      "buttonActions": {
+        "edit": "Edit",
+        "delete": "Delete"
+      }
+    },
+    "confirmDelete": {
+      "title": "Are you absolutely sure?",
+      "description": "This action cannot be undone. This will permanently delete your category and product data and remove your data from our servers.",
+      "cancelButton": "Cancel"
+    },
+    "formCategory": {
+      "titleAdd": "Add Category",
+      "titleEdit": "Edit Category",
+      "labelName": "Name",
+      "placeholderName": "name",
+      "buttonSave": "Save",
+      "buttonCancel": "Cancel"
+    }
   }
 }

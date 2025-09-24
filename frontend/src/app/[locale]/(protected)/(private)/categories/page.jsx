@@ -8,6 +8,7 @@ import FormCategory from "./FormCategory"
 import AppPagination from "@/components/AppPagination"
 import { useGetAllCategories } from "@/services/hooks/category-hook"
 import CategoriesTable from "./CategoriesTable"
+import { useTranslations } from "next-intl"
 
 // const categories = [
 //   {
@@ -43,21 +44,59 @@ import CategoriesTable from "./CategoriesTable"
 // ]
 
 function categoriesPage() {
+  const t = useTranslations("CategoriesPage")
+  const translations = {
+    buttonAdd: t("buttonAdd"),
+    formCategory: {
+      titleAdd: t("formCategory.titleAdd"),
+      titleEdit: t("formCategory.titleEdit"),
+      labelName: t("formCategory.labelName"),
+      placeholderName: t("formCategory.placeholderName"),
+      buttonSave: t("formCategory.buttonSave"),
+      buttonCancel: t("formCategory.buttonCancel"),
+    },
+    categoriesTable: {
+      tableHead: {
+        name: t("categoriesTable.tableHead.name"),
+        createdAt: t("categoriesTable.tableHead.createdAt"),
+        updatedAt: t("categoriesTable.tableHead.updatedAt"),
+        actions: t("categoriesTable.tableHead.actions"),
+      },
+      buttonActions: {
+        edit: t("categoriesTable.buttonActions.edit"),
+        delete: t("categoriesTable.buttonActions.delete"),
+      },
+      confirmDelete: {
+        title: t("categoriesTable.confirmDelete.title"),
+        description: t("categoriesTable.confirmDelete.description"),
+        cancelButton: t("categoriesTable.confirmDelete.cancelButton"),
+      },
+      formCategory: {
+        titleAdd: t("formCategory.titleAdd"),
+        titleEdit: t("formCategory.titleEdit"),
+        labelName: t("formCategory.labelName"),
+        placeholderName: t("formCategory.placeholderName"),
+        buttonSave: t("formCategory.buttonSave"),
+        buttonCancel: t("formCategory.buttonCancel"),
+      },
+    },
+  }
+
   return (
     <div className="space-y-4">
       <div className="space-y-2">
         {/* ADD PRODUCT */}
         <Sheet>
           <SheetTrigger asChild>
-            <Button>+ Add Category</Button>
+            <Button>+ {translations.buttonAdd}</Button>
           </SheetTrigger>
-          <FormCategory />
+          <FormCategory translations={translations.formCategory} />
         </Sheet>
 
         {/* FILTER */}
         <div className="">
           {/* SEARCH */}
-          <div className="relative flex-1 h-max">
+          {/* <div className="relative flex-1 h-max">
             <div className="absolute top-0 bottom-0 left-2 flex items-center">
               <SearchIcon className="size-4" />
             </div>
@@ -66,11 +105,11 @@ function categoriesPage() {
               type="search"
               placeholder="Search products"
             />
-          </div>
+          </div> */}
         </div>
       </div>
 
-      <CategoriesTable />
+      <CategoriesTable translations={translations} />
     </div>
   )
 }

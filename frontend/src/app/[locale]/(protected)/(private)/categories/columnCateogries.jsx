@@ -26,90 +26,92 @@ import FormCategory from "./FormCategory"
 import { useRemoveCategory } from "@/services/hooks/category-hook"
 import { formatDate } from "@/lib/formatters"
 
-const columnCategories = [
-  {
-    accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => row.getValue("name"),
-  },
-  {
-    accessorKey: "createdAt",
-    header: "Created At",
-    cell: ({ row }) => formatDate(row.getValue("createdAt")),
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
-    cell: ({ row }) => formatDate(row.getValue("updatedAt")),
-  },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }) => {
-      const { mutate, isPending } = useRemoveCategory()
-      const handleDelete = () => {
-        mutate(row.original._id)
-      }
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button size="sm" variant="ghost">
-              ...
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="">
-            <Sheet>
-              <SheetTrigger asChild>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  <EditIcon /> Edit
-                </DropdownMenuItem>
-              </SheetTrigger>
-              <FormCategory category={row.original} />
-            </Sheet>
-            <DropdownMenuItem asChild>
-              <Link href={`products/${row.getValue("name")}`}>
-                <EyeIcon /> Detail
-              </Link>
-            </DropdownMenuItem>
-
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  <TrashIcon /> Delete
-                </DropdownMenuItem>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your category and product data and remove your data from our
-                    servers.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction asChild>
-                    <button
-                      type="button"
-                      onClick={handleDelete}
-                      disabled={isPending}
-                    >
-                      {isPending ? (
-                        <Loader2Icon className="animate-spin" />
-                      ) : (
-                        "Delete"
-                      )}
-                    </button>
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
+const createColumnCategories = (translations) => {
+  return [
+    {
+      accessorKey: "name",
+      header: translations.tableHead.name,
+      cell: ({ row }) => row.getValue("name"),
     },
-  },
-]
+    {
+      accessorKey: "createdAt",
+      header: translations.tableHead.createdAt,
+      cell: ({ row }) => formatDate(row.getValue("createdAt")),
+    },
+    {
+      accessorKey: "updatedAt",
+      header: translations.tableHead.updatedAt,
+      cell: ({ row }) => formatDate(row.getValue("updatedAt")),
+    },
+    {
+      id: "actions",
+      header: translations.tableHead.actions,
+      cell: ({ row }) => {
+        const { mutate, isPending } = useRemoveCategory()
+        const handleDelete = () => {
+          mutate(row.original._id)
+        }
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm" variant="ghost">
+                ...
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <EditIcon /> {translations.buttonActions.edit}
+                  </DropdownMenuItem>
+                </SheetTrigger>
+                <FormCategory
+                  category={row.original}
+                  translations={translations.formCategory}
+                />
+              </Sheet>
 
-export default columnCategories
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <TrashIcon /> {translations.buttonActions.delete}
+                  </DropdownMenuItem>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      {translations.confirmDelete.title}
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {translations.confirmDelete.description}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>
+                      {translations.confirmDelete.cancelButton}
+                    </AlertDialogCancel>
+                    <AlertDialogAction asChild>
+                      <button
+                        type="button"
+                        onClick={handleDelete}
+                        disabled={isPending}
+                      >
+                        {isPending ? (
+                          <Loader2Icon className="animate-spin" />
+                        ) : (
+                          translations.buttonActions.delete
+                        )}
+                      </button>
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )
+      },
+    },
+  ]
+}
+
+export default createColumnCategories

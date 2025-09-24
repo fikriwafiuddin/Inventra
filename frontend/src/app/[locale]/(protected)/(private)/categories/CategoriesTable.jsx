@@ -4,9 +4,11 @@ import { DataTable } from "@/components/DataTable"
 import { Loader2Icon } from "lucide-react"
 import columnCategories from "./columnCateogries"
 import { useGetAllCategories } from "@/services/hooks/category-hook"
+import createColumnCategories from "./columnCateogries"
 
-function CategoriesTable() {
+function CategoriesTable({ translations }) {
   const { isPending, data: categories, error } = useGetAllCategories()
+  const columnCategories = createColumnCategories(translations.categoriesTable)
 
   if (error) {
     return (

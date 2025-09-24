@@ -108,5 +108,33 @@
     "descriptionLabel": "Deskrisi",
     "imageLabel": "Gambar",
     "saveButton": "Simpan"
+  },
+  "CategoriesPage": {
+    "buttonAdd": "Tambah Kategori",
+    "categoriesTable": {
+      "tableHead": {
+        "name": "Nama",
+        "createdAt": "Dibuat",
+        "updatedAt": "Diubah",
+        "actions": "Aksi"
+      },
+      "buttonActions": {
+        "edit": "Edit",
+        "delete": "Hapus"
+      },
+      "confirmDelete": {
+        "title": "Apakah Anda benar-benar yakin?",
+        "description": "Tindakan ini tidak dapat dibatalkan. Ini akan menghapus data kategori dan produk Anda secara permanen dan menghapus data Anda dari server kami.",
+        "cancelButton": "Batal"
+      }
+    },
+    "formCategory": {
+      "titleAdd": "Tambah Kategori",
+      "titleEdit": "Edit Kategori",
+      "labelName": "Nama",
+      "placeholderName": "nama",
+      "buttonSave": "Simpan",
+      "buttonCancel": "Batal"
+    }
   }
 }

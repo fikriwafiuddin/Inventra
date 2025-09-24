@@ -26,7 +26,7 @@ import {
 } from "@/services/hooks/category-hook"
 import { Loader2Icon } from "lucide-react"
 
-function FormCategory({ category }) {
+function FormCategory({ translations, category }) {
   const form = useForm({
     resolver: zodResolver(categoryValidation.addCategory),
     defaultValues: {
@@ -47,7 +47,9 @@ function FormCategory({ category }) {
   return (
     <SheetContent side="right">
       <SheetHeader>
-        <SheetTitle>{category ? "Edit" : "Add"} Category</SheetTitle>
+        <SheetTitle>
+          {category ? translations.titleEdit : translations.titleAdd}
+        </SheetTitle>
       </SheetHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 px-4">
@@ -56,9 +58,12 @@ function FormCategory({ category }) {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>{translations.labelName}</FormLabel>
                 <FormControl>
-                  <Input placeholder="name" {...field} />
+                  <Input
+                    placeholder={translations.placeholderName}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -72,15 +77,13 @@ function FormCategory({ category }) {
           >
             {isPending || isUpdatePending ? (
               <Loader2Icon className="animate-spin" />
-            ) : category ? (
-              "Update"
             ) : (
-              "Add"
+              translations.buttonSave
             )}
           </Button>
           <SheetClose asChild>
             <Button disabled={isPending || isUpdatePending} variant="outline">
-              Close
+              {translations.buttonCancel}
             </Button>
           </SheetClose>
         </form>
