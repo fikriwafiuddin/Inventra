@@ -59,5 +59,31 @@
       "min": "Min",
       "link": "View All Alerts"
     }
+  },
+  "ProductsPage": {
+    "stats": {
+      "totalProducts": "Total Products",
+      "outOfStock": "Out of Stock"
+    },
+    "buttonAdd": "Add Product",
+    "placeHolderSearch": "Search products",
+    "categoryLabel": "Categories",
+    "selectAll": "All",
+    "productsTable": {
+      "tableHead": {
+        "sku": "SKU",
+        "name": "Name",
+        "price": "Price",
+        "stock": "Stock",
+        "minStock": "Min Stock",
+        "sold": "Sold",
+        "actions": "Actions"
+      },
+      "buttonActions": {
+        "edit": "Edit",
+        "detail": "Detail",
+        "delete": "Delete"
+      }
+    }
   }
 }

@@ -59,5 +59,31 @@
       "min": "Minimum",
       "link": "Lihat Semua Peringatan"
     }
+  },
+  "ProductsPage": {
+    "stats": {
+      "totalProducts": "Total Produk",
+      "outOfStock": "Stok Habis"
+    },
+    "buttonAdd": "Tambah Produk",
+    "placeHolderSearch": "Cari produk",
+    "categoryLabel": "Kategori",
+    "selectAll": "Semua",
+    "productsTable": {
+      "tableHead": {
+        "sku": "SKU",
+        "name": "Nama",
+        "price": "Harga",
+        "stock": "Stok",
+        "minStock": "Minimum Stok",
+        "sold": "Terjual",
+        "actions": "Aksi"
+      },
+      "buttonActions": {
+        "edit": "Edit",
+        "detail": "Detail",
+        "delete": "Hapus"
+      }
+    }
   }
 }

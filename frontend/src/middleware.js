@@ -94,26 +94,15 @@ const isProtectedRoute = createRouteMatcher([
   "/suppliers(.*)",
 ])
 
-const isPublicApiRoute = createRouteMatcher([
-  "/api(.*)",
-  "/trpc(.*)",
-  "/_next(.*)",
-  "/favicon.ico",
-])
-
 export default clerkMiddleware(async (auth, req) => {
-  if (isPublicApiRoute(req)) {
-    return
+  if (isProtectedRoute(req)) {
+    await auth.protect()
   }
 
   const intlResponse = intlMiddleware(req)
 
   if (intlResponse && intlResponse.status !== 200) {
     return intlResponse
-  }
-
-  if (isProtectedRoute(req)) {
-    await auth.protect()
   }
 
   return intlResponse
