@@ -92,6 +92,12 @@
       "add": "Tambah"
     }
   },
+  "UpdateProductPage": {
+    "breadcrumb": {
+      "products": "Produk",
+      "edit": "Edit"
+    }
+  },
   "FormProduct": {
     "labelName": "Nama",
     "placeholderName": "nama",

@@ -92,6 +92,12 @@
       "add": "Add"
     }
   },
+  "UpdateProductPage": {
+    "breadcrumb": {
+      "products": "Products",
+      "edit": "Edit"
+    }
+  },
   "FormProduct": {
     "labelName": "Name",
     "placeholderName": "name",
