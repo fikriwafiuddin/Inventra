@@ -136,5 +136,58 @@
       "buttonSave": "Simpan",
       "buttonCancel": "Batal"
     }
+  },
+  "SuppliersPage": {
+    "stats": {
+      "totalSuppliers": "Total Pemasok",
+      "activeSuppliers": "Pemasok Aktif",
+      "inactiveSuppliers": "Pemasok Tidak Aktif"
+    },
+    "addButton": "Tambah Pemasok",
+    "errorFetchingSuppliers": "Terjadi kesalahan saat mengambil pemasok.",
+    "suppliersTable": {
+      "placeholderSearch": "Cari pemasok",
+      "allStatus": "Semua",
+      "statusLabel": "Status",
+      "status": {
+        "active": "Aktif",
+        "inactive": "Tidak Aktif"
+      },
+      "tableHead": {
+        "name": "Nama",
+        "email": "Email",
+        "phone": "Telepon",
+        "address": "Alamat",
+        "status": "Status",
+        "createdAt": "Dibuat",
+        "actions": "Aksi"
+      },
+      "actionsButton": {
+        "edit": "Edit",
+        "delete": "Hapus"
+      },
+      "confirmDelete": {
+        "title": "Apakah Anda benar-benar yakin?",
+        "description": "Hapus pemasok",
+        "cancelButton": "Batal",
+        "confirmButton": "Hapus"
+      },
+      "confirmChange": {
+        "title": "Apakah Anda benar-benar yakin?",
+        "description": "Mengubah status pemasok",
+        "cancelButton": "Batal",
+        "changeButton": "Ubah"
+      }
+    },
+    "formSupplier": {
+      "titleAdd": "Tambah Pemasok",
+      "titleEdit": "Edit Pemasok",
+      "labelName": "Nama",
+      "labelPhone": "Telepon",
+      "labelEmail": "Email",
+      "labelAddress": "Alamat",
+      "buttonSave": "Simpan",
+      "buttonClose": "Tutup"
+    }
   }
 }

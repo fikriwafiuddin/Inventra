@@ -1,22 +1,9 @@
-"use client"
-
-import { useState } from "react"
 import Stats from "./Stats"
 import { Sheet, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
-import { SearchIcon } from "lucide-react"
-import { Input } from "@/components/ui/input"
 import FormSupplier from "./FormSupplier"
 import SuppliersTable from "./SuppliersTable"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { useTranslations } from "next-intl"
 
 const suppliers = [
   {
@@ -97,55 +84,75 @@ const suppliers = [
 ]
 
 function SuppliersPage() {
-  const [status, setStatus] = useState("all")
-  const [search, setSearch] = useState("")
+  const t = useTranslations("SuppliersPage")
+
+  const formTranslations = {
+    titleAdd: t("formSupplier.titleAdd"),
+    titleEdit: t("formSupplier.titleEdit"),
+    labelName: t("formSupplier.labelName"),
+    labelPhone: t("formSupplier.labelPhone"),
+    labelEmail: t("formSupplier.labelEmail"),
+    labelAddress: t("formSupplier.labelAddress"),
+    buttonSave: t("formSupplier.buttonSave"),
+    buttonSave: t("formSupplier.buttonSave"),
+  }
+  const translations = {
+    stats: {
+      totalSuppliers: t("stats.totalSuppliers"),
+      activeSuppliers: t("stats.activeSuppliers"),
+      inactiveSuppliers: t("stats.inactiveSuppliers"),
+    },
+    addButton: t("addButton"),
+    suppliersTable: {
+      placeholderSearch: t("suppliersTable.placeholderSearch"),
+      allStatus: t("suppliersTable.allStatus"),
+      statusLabel: t("suppliersTable.statusLabel"),
+      status: {
+        active: t("suppliersTable.status.active"),
+        inactive: t("suppliersTable.status.inactive"),
+      },
+      tableHead: {
+        name: t("suppliersTable.tableHead.name"),
+        email: t("suppliersTable.tableHead.email"),
+        phone: t("suppliersTable.tableHead.phone"),
+        address: t("suppliersTable.tableHead.address"),
+        status: t("suppliersTable.tableHead.status"),
+        createdAt: t("suppliersTable.tableHead.createdAt"),
+        actions: t("suppliersTable.tableHead.actions"),
+      },
+      actionsButton: {
+        edit: t("suppliersTable.actionsButton.edit"),
+        delete: t("suppliersTable.actionsButton.delete"),
+      },
+      confirmDelete: {
+        title: t("suppliersTable.confirmDelete.title"),
+        description: t("suppliersTable.confirmDelete.description"),
+        cancelButton: t("suppliersTable.confirmDelete.cancelButton"),
+        confirmButton: t("suppliersTable.confirmDelete.confirmButton"),
+      },
+      confirmChange: {
+        title: t("suppliersTable.confirmChange.title"),
+        description: t("suppliersTable.confirmChange.description"),
+        cancelButton: t("suppliersTable.confirmChange.cancelButton"),
+        changeButton: t("suppliersTable.confirmChange.changeButton"),
+      },
+      formSupplier: formTranslations,
+    },
+  }
 
   return (
     <div className="space-y-4">
-      <Stats />
+      <Stats translations={translations.stats} />
 
-      <div className="space-y-2">
-        {/* ADD PRODUCT */}
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button>+ Add Category</Button>
-          </SheetTrigger>
-          <FormSupplier />
-        </Sheet>
+      {/* ADD PRODUCT */}
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button className="mb-2">+ {translations.addButton}</Button>
+        </SheetTrigger>
+        <FormSupplier translations={formTranslations} />
+      </Sheet>
 
-        {/* FILTER */}
-        <div className="flex gap-2">
-          {/* SEARCH */}
-          <div className="relative flex-1 h-max">
-            <div className="absolute top-0 bottom-0 left-2 flex items-center">
-              <SearchIcon className="size-4" />
-            </div>
-            <Input
-              className="pl-8 w-full"
-              type="search"
-              placeholder="Search supplier"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-          {/* SELECT BY STATUS */}
-          <Select value={status} onValueChange={setStatus}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Status</SelectLabel>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
-      <SuppliersTable status={status} search={search} />
+      <SuppliersTable translations={translations.suppliersTable} />
     </div>
   )
 }

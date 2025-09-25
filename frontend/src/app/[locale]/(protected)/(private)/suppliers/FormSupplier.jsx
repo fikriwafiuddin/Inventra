@@ -26,7 +26,7 @@ import {
 import { Loader2Icon } from "lucide-react"
 import supplierValidation from "@/lib/validations/supplier-validations"
 
-function FormSupplier({ supplier }) {
+function FormSupplier({ translations, supplier }) {
   const form = useForm({
     resolver: zodResolver(supplierValidation.addSupplier),
     defaultValues: {
@@ -50,7 +50,9 @@ function FormSupplier({ supplier }) {
   return (
     <SheetContent side="right">
       <SheetHeader>
-        <SheetTitle>{supplier ? "Edit" : "Add"} Supplier</SheetTitle>
+        <SheetTitle>
+          {supplier ? translations.titleEdit : translations.titleAdd}
+        </SheetTitle>
       </SheetHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 px-4">
@@ -59,9 +61,9 @@ function FormSupplier({ supplier }) {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>{translations.labelName}</FormLabel>
                 <FormControl>
-                  <Input placeholder="name" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -72,9 +74,9 @@ function FormSupplier({ supplier }) {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone</FormLabel>
+                <FormLabel>{translations.labelPhone}</FormLabel>
                 <FormControl>
-                  <Input placeholder="phone" type="phone" {...field} />
+                  <Input type="phone" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -85,9 +87,9 @@ function FormSupplier({ supplier }) {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{translations.labelEmail}</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="email" {...field} />
+                  <Input type="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -98,7 +100,7 @@ function FormSupplier({ supplier }) {
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>address</FormLabel>
+                <FormLabel>{translations.labelAddress}</FormLabel>
                 <FormControl>
                   <Textarea {...field} />
                 </FormControl>
@@ -111,12 +113,12 @@ function FormSupplier({ supplier }) {
             {adding || updating ? (
               <Loader2Icon className="animate-spin" />
             ) : (
-              "Save"
+              translations.buttonSave
             )}
           </Button>
           <SheetClose asChild>
             <Button disabled={adding || updating} variant="outline">
-              Close
+              {translations.buttonClose}
             </Button>
           </SheetClose>
         </form>

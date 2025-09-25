@@ -136,5 +136,58 @@
       "buttonSave": "Save",
       "buttonCancel": "Cancel"
     }
+  },
+  "SuppliersPage": {
+    "stats": {
+      "totalSuppliers": "Total Suppliers",
+      "activeSuppliers": "Akctive Suppliers",
+      "inactiveSuppliers": "Inactive Supplier"
+    },
+    "addButton": "Add Supplier",
+    "errorFetchingSuppliers": "An error occurred while fetching suppliers.",
+    "suppliersTable": {
+      "placeholderSearch": "Search suppliers",
+      "allStatus": "All",
+      "statusLabel": "Status",
+      "status": {
+        "active": "Aktive",
+        "inactive": "Inactive"
+      },
+      "tableHead": {
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "address": "address",
+        "status": "Status",
+        "createdAt": "Created At",
+        "actions": "Actions"
+      },
+      "actionsButton": {
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "confirmDelete": {
+        "title": "Are you absolutely sure?",
+        "description": "Delete supplier",
+        "cancelButton": "Cancel",
+        "confirmButton": "Delete"
+      },
+      "confirmChange": {
+        "title": "Are you absolutely sure?",
+        "description": "Change supplier status",
+        "cancelButton": "Cancel",
+        "changeButton": "Change"
+      }
+    },
+    "formSupplier": {
+      "titleAdd": "Add Supplier",
+      "titleEdit": "Edit Supplier",
+      "labelName": "Name",
+      "labelPhone": "Phone",
+      "labelEmail": "Email",
+      "labelAddress": "Address",
+      "buttonSave": "Save",
+      "buttonClose": "Close"
+    }
   }
 }
