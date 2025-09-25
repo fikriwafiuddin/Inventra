@@ -189,5 +189,50 @@
       "buttonSave": "Save",
       "buttonClose": "Close"
     }
+  },
+  "StockPage": {
+    "stats": {
+      "totalProducts": "Total Products",
+      "outOfStock": "Out of Stock",
+      "lowStock": "Low Stock",
+      "todayMovement": "Today's Movements"
+    },
+    "navigations": {
+      "title": "Manage Stock",
+      "stockAdjustment": {
+        "title": "Stock Adjustment",
+        "description": "Adjust stock of goods due to damage, loss or correction"
+      },
+      "customerReturns": {
+        "title": "Customer Returns",
+        "description": "Manage returns from customers"
+      },
+      "supplierReturns": {
+        "title": "Supplier Returns",
+        "description": "The process of returning goods to the supplier"
+      },
+      "stockOpname": {
+        "title": "Stock Opname",
+        "description": "Conduct physical stock counts periodically"
+      },
+      "stockHistory": {
+        "title": "Stock History",
+        "description": "Comprehensive stock analysis and reports"
+      },
+      "buttonNavigation": "Open Page"
+    },
+    "stockAlert": {
+      "title": "Stock Alert",
+      "stock": "Stock",
+      "buttonNavigation": "View All Alerts",
+      "status": {
+        "outOfStock": "Out of stock",
+        "low": "Low"
+      }
+    },
+    "latestMovementStock": {
+      "title": "Latest Stock Movements",
+      "buttonNavigation": "View Full History"
+    }
   }
 }

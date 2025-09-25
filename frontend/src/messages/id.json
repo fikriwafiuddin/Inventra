@@ -189,5 +189,50 @@
       "buttonSave": "Simpan",
       "buttonClose": "Tutup"
     }
+  },
+  "StockPage": {
+    "stats": {
+      "totalProducts": "Total Produk",
+      "outOfStock": "Stok Habis",
+      "lowStock": "Stok Rendah",
+      "todayMovement": "Pergerakan Hari Ini"
+    },
+    "navigations": {
+      "title": "Kelola Stok",
+      "stockAdjustment": {
+        "title": "Penyesuaian Stok",
+        "description": "Sesuaikan stock barang karena kerusakan, kehilangan, atau koreksi"
+      },
+      "customerReturns": {
+        "title": "Pengembalian Pelanggan",
+        "description": "Kelola pengembalian barang dari pelanggan"
+      },
+      "supplierReturns": {
+        "title": "Pengembalian Pemasok",
+        "description": "Proses pengembalian barang ke pemasok"
+      },
+      "stockOpname": {
+        "title": "Opname Stok",
+        "description": "Lakukan perhitungan fisik stock secara berkala"
+      },
+      "stockHistory": {
+        "title": "Riwayat Stok",
+        "description": "Lihat riwayat pergerakan stock semua produk"
+      },
+      "buttonNavigation": "Buka Halaman"
+    },
+    "stockAlert": {
+      "title": "Peringatan stok",
+      "stock": "Stok",
+      "buttonNavigation": "Lihat Semua Peringatan",
+      "status": {
+        "outOfStock": "Habis",
+        "low": "Rendah"
+      }
+    },
+    "latestMovementStock": {
+      "title": "Pergerakan Stock Terbaru",
+      "buttonNavigation": "Lihat Riwayat Lengkap"
+    }
   }
 }

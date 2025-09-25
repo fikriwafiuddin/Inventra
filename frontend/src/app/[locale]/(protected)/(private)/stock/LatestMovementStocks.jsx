@@ -17,7 +17,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { formatDate } from "@/lib/formatters"
 
-function LatestMovementStocks() {
+function LatestMovementStocks({ translations }) {
   const { data, isPending } = useGetLatestStockMovements()
 
   const getMovementIcon = (type) => {
@@ -62,7 +62,7 @@ function LatestMovementStocks() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <History className="h-5 w-5 text-muted-foreground" />
-          Pergerakan Stock Terbaru
+          {translations.title}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -100,7 +100,7 @@ function LatestMovementStocks() {
             <Link href="/stock/history" passHref>
               <Button variant="outline" className="w-full mt-4">
                 <History className="h-4 w-4 mr-2" />
-                Lihat Riwayat Lengkap
+                {translations.buttonNavigation}
               </Button>
             </Link>
           </>
