@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -44,7 +46,7 @@ import { useForm } from "react-hook-form"
 import { useSearchProducts } from "@/services/hooks/product-hook"
 import { useAddAdjustment } from "@/services/hooks/adjustment-hook"
 
-function FormAdjustment() {
+function FormAdjustment({ translations }) {
   const form = useForm({
     resolver: zodResolver(adjustmentValidation.add),
   })
@@ -67,7 +69,7 @@ function FormAdjustment() {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Card>
           <CardHeader>
-            <CardTitle>Adjustments</CardTitle>
+            <CardTitle>{translations.title}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -77,7 +79,7 @@ function FormAdjustment() {
                 render={({ field }) => (
                   <FormItem>
                     <div className="space-y-2">
-                      <FormLabel>Quantity</FormLabel>
+                      <FormLabel>{translations.label.quantity}</FormLabel>
                       <FormControl>
                         <div className="flex gap-2">
                           <Select onValueChange={setType} defaultValue={type}>
@@ -86,10 +88,10 @@ function FormAdjustment() {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="increase">
-                                Increase +
+                                {translations.counterSelect.increase} +
                               </SelectItem>
                               <SelectItem value="decrease">
-                                Decrease -
+                                {translations.counterSelect.decrease} -
                               </SelectItem>
                             </SelectContent>
                           </Select>
@@ -109,7 +111,7 @@ function FormAdjustment() {
                 render={({ field }) => (
                   <FormItem>
                     <div className="space-y-2">
-                      <FormLabel>Reason</FormLabel>
+                      <FormLabel>{translations.label.reason}</FormLabel>
                       <FormControl>
                         <div>
                           <Select
@@ -125,21 +127,34 @@ function FormAdjustment() {
                             defaultValue={isCustom ? "" : field.value}
                           >
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Select reason" />
+                              <SelectValue
+                                placeholder={translations.placeholder.reason}
+                              />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="damaged">Damaged</SelectItem>
-                              <SelectItem value="lost">Lost</SelectItem>
-                              <SelectItem value="found">Found</SelectItem>
-                              <SelectItem value="correction">
-                                Corection
+                              <SelectItem value="damaged">
+                                {translations.reason.damaged}
                               </SelectItem>
-                              <SelectItem value="custom">Custom</SelectItem>
+                              <SelectItem value="lost">
+                                {translations.reason.lost}
+                              </SelectItem>
+                              <SelectItem value="found">
+                                {translations.reason.found}
+                              </SelectItem>
+                              <SelectItem value="correction">
+                                {translations.reason.correction}
+                              </SelectItem>
+                              <SelectItem value="custom">
+                                {" "}
+                                {translations.reason.custom}
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                           {isCustom && (
                             <Input
-                              placeholder="Enter your custom reason"
+                              placeholder={
+                                translations.placeholder.customReason
+                              }
                               {...field}
                             />
                           )}
@@ -157,7 +172,7 @@ function FormAdjustment() {
                 render={({ field }) => (
                   <FormItem>
                     <div className="space-y-1">
-                      <FormLabel>Product</FormLabel>
+                      <FormLabel>{translations.label.product}</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -171,7 +186,7 @@ function FormAdjustment() {
                             >
                               {field.value
                                 ? selectedProduct?.name
-                                : "Select product"}
+                                : translations.placeholder.product}
                               <ChevronsUpDownIcon className="opacity-50" />
                             </Button>
                           </FormControl>

@@ -234,5 +234,54 @@
       "title": "Pergerakan Stock Terbaru",
       "buttonNavigation": "Lihat Riwayat Lengkap"
     }
+  },
+  "AdjustmentStockPage": {
+    "breadcrumb": {
+      "stock": "Stok",
+      "adjustment": "Penyesuaian"
+    },
+    "tabs": {
+      "adjustment": "Penyesuaian",
+      "history": "Riwayat"
+    },
+    "reason": {
+      "damaged": "Rusak",
+      "lost": "Hilang",
+      "found": "Ditemukan",
+      "correction": "Koreksi",
+      "custom": "Kustom"
+    },
+    "form": {
+      "title": "Penyesuaian",
+      "label": {
+        "quantity": "Kuantitas",
+        "reason": "Alasan",
+        "product": "Produk"
+      },
+      "placeholder": {
+        "reason": "Pilih Alasan",
+        "product": "Pilih Produk",
+        "customReason": "Masukkan alasan kustom"
+      },
+      "counterSelect": {
+        "increase": "Tambah",
+        "decrease": "Kurangi"
+      },
+      "buttonSave": "Simpan"
+    },
+    "history": {
+      "filter": {
+        "from": "Dari",
+        "To": "Sampai"
+      },
+      "historiesTable": {
+        "tableHead": {
+          "product": "Produk",
+          "quantity": "Kuantitas",
+          "date": "Tanggal",
+          "reason": "Alasan"
+        }
+      }
+    }
   }
 }

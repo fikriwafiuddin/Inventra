@@ -234,5 +234,54 @@
       "title": "Latest Stock Movements",
       "buttonNavigation": "View Full History"
     }
+  },
+  "AdjustmentStockPage": {
+    "breadcrumb": {
+      "stock": "Stock",
+      "adjustment": "Adjustment"
+    },
+    "tabs": {
+      "adjustment": "Adjustment",
+      "history": "History"
+    },
+    "reason": {
+      "damaged": "Damaged",
+      "lost": "Lost",
+      "found": "Found",
+      "correction": "Correction",
+      "custom": "Custom"
+    },
+    "form": {
+      "title": "Adjustment",
+      "label": {
+        "quantity": "Quantity",
+        "reason": "Reason",
+        "product": "Product"
+      },
+      "placeholder": {
+        "reason": "Select Reason",
+        "product": "Select Product",
+        "customReason": "Enter your custom reason"
+      },
+      "counterSelect": {
+        "increase": "Increase",
+        "decrease": "decrease"
+      },
+      "buttonSave": "Save"
+    },
+    "history": {
+      "filter": {
+        "from": "From",
+        "To": "To"
+      },
+      "historiesTable": {
+        "tableHead": {
+          "product": "Product",
+          "quantity": "Quantity",
+          "date": "Date",
+          "reason": "Reason"
+        }
+      }
+    }
   }
 }
