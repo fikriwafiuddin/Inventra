@@ -283,5 +283,68 @@
         }
       }
     }
+  },
+  "CustomerReturnsPage": {
+    "breadcrumb": {
+      "stock": "Stok",
+      "customerReturns": "Retur Pelanggan"
+    },
+    "tabs": {
+      "return": "Retur",
+      "history": "Riwayat"
+    },
+    "form": {
+      "searchTitle": "Pencarian Transaksi Penjualan",
+      "orderId": "ID Pesanan",
+      "searchPlaceholder": "Masukkan ID pesanan...",
+      "searchButton": "Cari Transaksi",
+      "transactionSummary": "Ringkasan Transaksi",
+      "transactionInfo": "Informasi Transaksi",
+      "invoice": "Faktur",
+      "date": "Tanggal",
+      "totalTransaction": "Total Transaksi",
+      "statistics": "Statistik",
+      "itemsCount": "Jumlah Item",
+      "totalUnits": "Total Unit",
+      "returnItems": "Daftar Item untuk Retur",
+      "product": "Produk",
+      "qtyPurchased": "Qty Dibeli",
+      "qtyReturn": "Qty Retur",
+      "condition": "Kondisi",
+      "returnPrice": "Harga Retur",
+      "subtotal": "Subtotal",
+      "conditionOptions": {
+        "good": "Baik/Layak Jual",
+        "damaged": "Rusak",
+        "defective": "Cacat"
+      },
+      "returnSummary": "Ringkasan Pengembalian",
+      "totalReturnItems": "Total Item Diretur",
+      "totalRefund": "Total Refund",
+      "notes": "Catatan Tambahan",
+      "notesPlaceholder": "Tambahkan catatan mengenai retur ini...",
+      "cancel": "Batal",
+      "processReturn": "Proses Retur"
+    },
+    "help": {
+      "title": "Cara Menggunakan:",
+      "step1": "1. Masukkan Order Id dan klik \"Cari Transaksi\"",
+      "step2": "2. Pilih item yang akan diretur dan tentukan kondisinya",
+      "step3": "3. Klik \"Proses Retur\" untuk menyelesaikan"
+    },
+    "history": {
+      "from": "Dari",
+      "to": "Sampai",
+      "error": "Terjadi kesalahan saat mengambil data retur pelanggan."
+    },
+    "table": {
+      "orderId": "ID Pesanan",
+      "totalRefund": "Total Refund",
+      "date": "Tanggal",
+      "actions": "Aksi",
+      "viewDetails": "Lihat Detail Refund",
+      "items": "Item",
+      "close": "Tutup"
+    }
   }
 }

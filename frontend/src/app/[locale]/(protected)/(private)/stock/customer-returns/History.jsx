@@ -1,3 +1,5 @@
+"use client"
+
 import { useGetAllCustomerReturns } from "@/services/hooks/customerReturn-hook"
 import { Loader2Icon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
@@ -13,7 +15,7 @@ import { useState } from "react"
 import { DataTable } from "@/components/DataTable"
 import { Button } from "@/components/ui/button"
 
-function History() {
+function History({ translations }) {
   const [openStart, setOpenStart] = useState(false)
   const [openEnd, setOpenEnd] = useState(false)
   const now = new Date()
@@ -32,7 +34,7 @@ function History() {
       <div className="text-destructive text-center mt-4">
         {error.response?.data.message ||
           error.message ||
-          "An error occurred while fetching customer returns."}
+          translations.history.error}
       </div>
     )
   }
@@ -50,7 +52,7 @@ function History() {
       <div className="flex flex-col sm:flex-row gap-1 mb-4">
         <div className="flex">
           <Label htmlFor="start" className="px-1">
-            From
+            {translations.history.from}
           </Label>
           <Popover open={openStart} onOpenChange={setOpenStart}>
             <PopoverTrigger asChild>
@@ -81,7 +83,7 @@ function History() {
         </div>
         <div className="flex">
           <Label htmlFor="end" className="px-1">
-            To
+            {translations.history.to}
           </Label>
           <Popover open={openEnd} onOpenChange={setOpenEnd}>
             <PopoverTrigger asChild>
@@ -111,7 +113,7 @@ function History() {
           </Popover>
         </div>
       </div>
-      <DataTable columns={columns} data={customerReturns} />
+      <DataTable columns={columns(translations)} data={customerReturns} />
     </>
   )
 }

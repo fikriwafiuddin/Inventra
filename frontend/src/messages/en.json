@@ -283,5 +283,68 @@
         }
       }
     }
+  },
+  "CustomerReturnsPage": {
+    "breadcrumb": {
+      "stock": "Stock",
+      "customerReturns": "Customer Returns"
+    },
+    "tabs": {
+      "return": "Return",
+      "history": "History"
+    },
+    "form": {
+      "searchTitle": "Sales Transaction Search",
+      "orderId": "Order ID",
+      "searchPlaceholder": "Enter order ID...",
+      "searchButton": "Search Transaction",
+      "transactionSummary": "Transaction Summary",
+      "transactionInfo": "Transaction Information",
+      "invoice": "Invoice",
+      "date": "Date",
+      "totalTransaction": "Total Transaction",
+      "statistics": "Statistics",
+      "itemsCount": "Number of Items",
+      "totalUnits": "Total Units",
+      "returnItems": "Items to Return",
+      "product": "Product",
+      "qtyPurchased": "Qty Purchased",
+      "qtyReturn": "Qty Return",
+      "condition": "Condition",
+      "returnPrice": "Return Price",
+      "subtotal": "Subtotal",
+      "conditionOptions": {
+        "good": "Good/Resellable",
+        "damaged": "Damaged",
+        "defective": "Defective"
+      },
+      "returnSummary": "Return Summary",
+      "totalReturnItems": "Total Items Returned",
+      "totalRefund": "Total Refund",
+      "notes": "Additional Notes",
+      "notesPlaceholder": "Add notes about this return...",
+      "cancel": "Cancel",
+      "processReturn": "Process Return"
+    },
+    "help": {
+      "title": "How to Use:",
+      "step1": "1. Enter the Order ID and click \"Search Transaction\"",
+      "step2": "2. Select the items to be returned and set their condition",
+      "step3": "3. Click \"Process Return\" to complete"
+    },
+    "history": {
+      "from": "From",
+      "to": "To",
+      "error": "An error occurred while fetching customer returns."
+    },
+    "table": {
+      "orderId": "Order ID",
+      "totalRefund": "Total Refund",
+      "date": "Date",
+      "actions": "Actions",
+      "viewDetails": "View Refund Details",
+      "items": "Items",
+      "close": "Close"
+    }
   }
 }
