@@ -508,5 +508,48 @@
       "statusMatch": "Match",
       "statusMismatch": "Mismatch"
     }
+  },
+  "HistoryStockPage": {
+    "breadcrumb": {
+      "stock": "Stock",
+      "history": "History"
+    },
+    "stats": {
+      "totalTransactions": "Total Transactions",
+      "stockIn": "Stock In",
+      "stockOut": "Stock Out",
+      "netChange": "Net Change"
+    },
+    "filters": {
+      "from": "From",
+      "to": "To",
+      "selectDate": "Select date",
+      "categories": "Categories",
+      "all": "All",
+      "adjustment": "Adjustment",
+      "customerReturn": "Customer Return",
+      "supplierReturn": "Supplier Return",
+      "opname": "Opname",
+      "sales": "Sales",
+      "purchase": "Purchase"
+    },
+    "table": {
+      "date": "Date",
+      "product": "Product",
+      "movementType": "Movement Type",
+      "sales": "Sales",
+      "adjustment": "Adjustment",
+      "purchase": "Purchase",
+      "opname": "Opname",
+      "customerReturn": "Customer Return",
+      "supplierReturn": "Supplier Return",
+      "change": "Change",
+      "initialStock": "Initial Stock",
+      "finalStock": "Final Stock",
+      "reason": "Reason"
+    },
+    "errors": {
+      "fetching": "An error occurred while fetching stock movements."
+    }
   }
 }

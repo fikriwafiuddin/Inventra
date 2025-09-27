@@ -8,7 +8,7 @@ import {
   TrendingUpIcon,
 } from "lucide-react"
 
-function Stats() {
+function Stats({ translations }) {
   const { isPending, data: statistic } = useGetstockMovementSummary()
 
   return (
@@ -23,22 +23,22 @@ function Stats() {
       ) : (
         <>
           <StatCard
-            title="Total Transactions"
+            title={translations.stats.totalTransactions}
             value={statistic?.totalTransactions || 0}
             icon={<PackageIcon />}
           />
           <StatCard
-            title="Stock In"
+            title={translations.stats.stockIn}
             value={statistic?.stockIn || 0}
             icon={<ArrowUpIcon className="text-success" />}
           />
           <StatCard
-            title="Stock Out"
+            title={translations.stats.stockOut}
             value={statistic?.stockOut || 0}
             icon={<ArrowDownIcon className="text-destructive" />}
           />
           <StatCard
-            title="Net Change"
+            title={translations.stats.netChange}
             value={(statistic?.stockIn || 0) - (statistic?.stockOut || 0)}
             icon={<TrendingUpIcon />}
           />

@@ -507,5 +507,48 @@
       "statusMatch": "Sesuai",
       "statusMismatch": "Ada selisih"
     }
+  },
+  "HistoryStockPage": {
+    "breadcrumb": {
+      "stock": "Stok",
+      "history": "Riwayat"
+    },
+    "stats": {
+      "totalTransactions": "Total Transaksi",
+      "stockIn": "Stok Masuk",
+      "stockOut": "Stok Keluar",
+      "netChange": "Perubahan Bersih"
+    },
+    "filters": {
+      "from": "Dari",
+      "to": "Sampai",
+      "selectDate": "Pilih tanggal",
+      "categories": "Kategori",
+      "all": "Semua",
+      "adjustment": "Penyesuaian",
+      "customerReturn": "Retur Pelanggan",
+      "supplierReturn": "Retur Supplier",
+      "opname": "Opname",
+      "sales": "Penjualan",
+      "purchase": "Pembelian"
+    },
+    "table": {
+      "date": "Tanggal",
+      "product": "Produk",
+      "movementType": "Tipe Pergerakan",
+      "sales": "Penjualan",
+      "adjustment": "Penyesuaian",
+      "purchase": "Pembelian",
+      "opname": "Opname",
+      "customerReturn": "Retur Pelanggan",
+      "supplierReturn": "Retur Supplier",
+      "change": "Perubahan",
+      "initialStock": "Stok Awal",
+      "finalStock": "Stok Akhir",
+      "reason": "Alasan"
+    },
+    "errors": {
+      "fetching": "Terjadi kesalahan saat mengambil data pergerakan stok."
+    }
   }
 }

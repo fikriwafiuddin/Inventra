@@ -1,14 +1,14 @@
 import { Badge } from "@/components/ui/badge"
 import { formatDate } from "@/lib/formatters"
 
-const columns = [
+const columns = (translations) => [
   {
     accessorKey: "timestamp",
-    header: "Date",
+    header: translations.table.date,
     cell: ({ row }) => formatDate(row.getValue("timestamp")),
   },
   {
-    header: "Product",
+    header: translations.table.product,
     cell: ({ row }) => {
       const product = row.original.product
       return (
@@ -21,27 +21,37 @@ const columns = [
   },
   {
     accessorKey: "movementType",
-    header: "Movement Type",
+    header: translations.table.movementType,
     cell: ({ row }) => {
       const movementType = row.getValue("movementType")
       switch (movementType) {
         case "sales":
-          return <Badge variant="destructive">Sales</Badge>
+          return <Badge variant="destructive">{translations.table.sales}</Badge>
         case "adjustment":
-          return <Badge variant="warning">Adjustment</Badge>
+          return (
+            <Badge variant="warning">{translations.table.adjustment}</Badge>
+          )
         case "purchase":
-          return <Badge variant="success">Purchase</Badge>
+          return <Badge variant="success">{translations.table.purchase}</Badge>
         case "opname":
-          return <Badge variant="secondary">Opname</Badge>
+          return <Badge variant="secondary">{translations.table.opname}</Badge>
         case "customerReturn":
-          return <Badge variant="destructive">Customer Return</Badge>
+          return (
+            <Badge variant="destructive">
+              {translations.table.customerReturn}
+            </Badge>
+          )
         case "supplierReturn":
-          return <Badge variant="destructive">Supplier Return</Badge>
+          return (
+            <Badge variant="destructive">
+              {translations.table.supplierReturn}
+            </Badge>
+          )
       }
     },
   },
   {
-    header: "Change",
+    header: translations.table.change,
     cell: ({ row }) => {
       const change = row.getValue("finalStock") - row.getValue("initialStock")
       if (change < 0) {
@@ -53,15 +63,15 @@ const columns = [
   },
   {
     accessorKey: "initialStock",
-    header: "Initial Stock",
+    header: translations.table.initialStock,
   },
   {
     accessorKey: "finalStock",
-    header: "Final Stock",
+    header: translations.table.finalStock,
   },
   {
     accessorKey: "reason",
-    header: "Reason",
+    header: translations.table.reason,
     cell: ({ row }) => row.getValue("reason"),
   },
 ]

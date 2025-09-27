@@ -1,9 +1,9 @@
 import { DataTable } from "@/components/DataTable"
-import columns from "./columns"
 import { Loader2Icon } from "lucide-react"
 import { useGetAllStockMovements } from "@/services/hooks/stockMovement-hook"
+import columns from "./columns"
 
-function HistoryTable({ start, end, type }) {
+function HistoryTable({ start, end, type, translations }) {
   const {
     isPending,
     error,
@@ -15,7 +15,7 @@ function HistoryTable({ start, end, type }) {
       <div className="text-destructive text-center mt-4">
         {error.response?.data.message ||
           error.message ||
-          "An error occurred while fetching stock movements."}
+          translations.errors.fetching}
       </div>
     )
   }
@@ -27,7 +27,7 @@ function HistoryTable({ start, end, type }) {
       </div>
     )
   }
-  return <DataTable data={stockMovements} columns={columns} />
+  return <DataTable data={stockMovements} columns={columns(translations)} />
 }
 
 export default HistoryTable
