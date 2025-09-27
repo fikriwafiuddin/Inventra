@@ -1,7 +1,6 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import {
   Dialog,
   DialogContent,
@@ -10,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Plus, CheckCircle, Loader2Icon } from "lucide-react"
+import { Plus } from "lucide-react"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,113 +18,110 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import opnameValidation from "@/lib/validations/opname-validation"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { useAddOpname } from "@/services/hooks/opname-hook"
-import { useRouter } from "next/navigation"
 import History from "./History"
+import FormOpname from "./Form"
+import { useTranslations } from "next-intl"
 
 const StockOpnamePage = () => {
-  const form = useForm({
-    resolver: zodResolver(opnameValidation.add),
-    defaultValues: {
-      name: "",
-    },
-  })
-  const { isPending: adding, mutate: add } = useAddOpname()
-  const router = useRouter()
+  const t = useTranslations("StockOpnamePage")
 
-  const onSubmit = (data) => {
-    add(data, {
-      onSuccess: (data) => router.push(`/stock/opname/${data.body.opname._id}`),
-    })
+  const translations = {
+    breadcrumb: {
+      stock: t("breadcrumb.stock"),
+      opname: t("breadcrumb.opname"),
+    },
+    header: {
+      title: t("header.title"),
+      subtitle: t("header.subtitle"),
+    },
+    dialog: {
+      button: t("dialog.button"),
+      title: t("dialog.title"),
+      description: t("dialog.description"),
+    },
+    form: {
+      nameLabel: t("form.nameLabel"),
+      namePlaceholder: t("form.namePlaceholder"),
+      startButton: t("form.startButton"),
+    },
+    history: {
+      from: t("history.from"),
+      to: t("history.to"),
+      selectDate: t("history.selectDate"),
+      selectStatus: t("history.selectStatus"),
+      categories: t("history.categories"),
+      all: t("history.all"),
+      completed: t("history.completed"),
+      incomplete: t("history.incomplete"),
+      listTitle: t("history.listTitle"),
+      error: t("history.error"),
+    },
+    table: {
+      name: t("table.name"),
+      startDate: t("table.startDate"),
+      endDate: t("table.endDate"),
+      status: t("table.status"),
+      completed: t("table.completed"),
+      incomplete: t("table.incomplete"),
+      productsCount: t("table.productsCount"),
+      totalDifference: t("table.totalDifference"),
+      actions: t("table.actions"),
+      continue: t("table.continue"),
+      viewDetails: t("table.viewDetails"),
+    },
   }
 
   return (
     <div className="space-y-4">
+      {/* Breadcrumb */}
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/stock">Stock</BreadcrumbLink>
+            <BreadcrumbLink href="/stock">
+              {translations.breadcrumb.stock}
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Opname</BreadcrumbPage>
+            <BreadcrumbPage>{translations.breadcrumb.opname}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
+      {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Stock Opname</h1>
+          <h1 className="text-3xl font-bold">{translations.header.title}</h1>
           <p className="text-muted-foreground">
-            Kelola sesi stock opname dan penghitungan stok fisik
+            {translations.header.subtitle}
           </p>
         </div>
+
+        {/* Dialog */}
         <Dialog>
           <DialogTrigger asChild>
             <Button>
               <Plus className="w-4 h-4 mr-2" />
-              Mulai Sesi Stock Opname Baru
+              {translations.dialog.button}
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Mulai Sesi Stock Opname Baru</DialogTitle>
+              <DialogTitle>{translations.dialog.title}</DialogTitle>
               <DialogDescription>
-                Buat sesi stock opname baru untuk memulai penghitungan fisik
-                stok
+                {translations.dialog.description}
               </DialogDescription>
             </DialogHeader>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="space-y-4 pt-4">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <div className="space-y-2">
-                          <FormLabel>Nama Sesi</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="text"
-                              placeholder="Contoh: Stock Opname Akhir Tahun 2025"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit" disabled={adding}>
-                    {adding ? (
-                      <Loader2Icon className="animate-spin" />
-                    ) : (
-                      <>
-                        <CheckCircle className="w-4 h-4 mr-2" />
-                        Mulai Sekarang
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </form>
-            </Form>
+            <FormOpname translations={translations.form} />
           </DialogContent>
         </Dialog>
       </div>
 
-      <History />
+      {/* History */}
+      <History
+        translations={translations.history}
+        tableTranslations={translations.table}
+      />
     </div>
   )
 }

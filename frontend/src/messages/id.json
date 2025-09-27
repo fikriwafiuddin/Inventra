@@ -407,5 +407,50 @@
       "items": "Item",
       "close": "Tutup"
     }
+  },
+  "StockOpnamePage": {
+    "breadcrumb": {
+      "stock": "Stok",
+      "opname": "Opname"
+    },
+    "header": {
+      "title": "Stock Opname",
+      "subtitle": "Kelola sesi stock opname dan penghitungan stok fisik"
+    },
+    "dialog": {
+      "button": "Mulai Sesi Stock Opname Baru",
+      "title": "Mulai Sesi Stock Opname Baru",
+      "description": "Buat sesi stock opname baru untuk memulai penghitungan fisik stok"
+    },
+    "form": {
+      "nameLabel": "Nama Sesi",
+      "namePlaceholder": "Contoh: Stock Opname Akhir Tahun 2025",
+      "startButton": "Mulai Sekarang"
+    },
+    "history": {
+      "from": "Dari",
+      "to": "Sampai",
+      "selectDate": "Pilih tanggal",
+      "selectStatus": "Pilih status",
+      "categories": "Kategori",
+      "all": "Semua",
+      "completed": "Selesai",
+      "incomplete": "Belum Selesai",
+      "listTitle": "Daftar Sesi Stock Opname",
+      "error": "Terjadi kesalahan saat mengambil data sesi stock opname."
+    },
+    "table": {
+      "name": "Nama Sesi",
+      "startDate": "Tanggal Mulai",
+      "endDate": "Tanggal Selesai",
+      "status": "Status",
+      "completed": "Completed",
+      "incomplete": "Incompleted",
+      "productsCount": "Jumlah Produk",
+      "totalDifference": "Total Selisih",
+      "actions": "Aksi",
+      "continue": "Lanjutkan",
+      "viewDetails": "Lihat Detail"
+    }
   }
 }

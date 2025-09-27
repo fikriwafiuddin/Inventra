@@ -1,3 +1,5 @@
+"use client"
+
 import { Calendar } from "@/components/ui/calendar"
 import { Label } from "@/components/ui/label"
 import {
@@ -22,7 +24,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useGetAllOpnames } from "@/services/hooks/opname-hook"
 import { Button } from "@/components/ui/button"
 
-function History() {
+function History({ translations, tableTranslations }) {
   const now = new Date()
   const firstDay = new Date(now.getFullYear(), now.getMonth(), 1)
   const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0)
@@ -48,20 +50,19 @@ function History() {
   if (error) {
     return (
       <div className="text-destructive text-center mt-4">
-        {error.response?.data.message ||
-          error.message ||
-          "An error occurred while fetching opnames stock."}
+        {error.response?.data.message || error.message || translations.error}
       </div>
     )
   }
 
   return (
     <>
+      {/* Filter */}
       <div className="flex flex-col md:flex-row justify-between gap-2 md:gap-0">
         <div className="flex flex-col sm:flex-row gap-1 mb-4">
           <div className="flex">
             <Label htmlFor="start" className="px-1">
-              From
+              {translations.from}
             </Label>
             <Popover open={openStart} onOpenChange={setOpenStart}>
               <PopoverTrigger asChild>
@@ -70,7 +71,7 @@ function History() {
                   id="start"
                   className="w-48 justify-between font-normal"
                 >
-                  {start ? start.toLocaleDateString() : "Select date"}
+                  {start ? start.toLocaleDateString() : translations.selectDate}
                   <ChevronDownIcon />
                 </Button>
               </PopoverTrigger>
@@ -80,7 +81,7 @@ function History() {
               >
                 <Calendar
                   mode="single"
-                  selected={end}
+                  selected={start}
                   captionLayout="dropdown"
                   onSelect={(date) => {
                     setStart(date)
@@ -92,7 +93,7 @@ function History() {
           </div>
           <div className="flex">
             <Label htmlFor="end" className="px-1">
-              To
+              {translations.to}
             </Label>
             <Popover open={openEnd} onOpenChange={setOpenEnd}>
               <PopoverTrigger asChild>
@@ -101,7 +102,7 @@ function History() {
                   id="end"
                   className="w-48 justify-between font-normal"
                 >
-                  {end ? end.toLocaleDateString() : "Select date"}
+                  {end ? end.toLocaleDateString() : translations.selectDate}
                   <ChevronDownIcon />
                 </Button>
               </PopoverTrigger>
@@ -122,30 +123,39 @@ function History() {
             </Popover>
           </div>
         </div>
+
+        {/* Status Filter */}
         <Select value={status} onValueChange={setStatus}>
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select status" />
+            <SelectValue placeholder={translations.selectStatus} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Categories</SelectLabel>
-              <SelectItem value="all">All</SelectItem>
-              <SelectItem value="completed">Completed</SelectItem>
-              <SelectItem value="incomplete">Incomplete</SelectItem>
+              <SelectLabel>{translations.categories}</SelectLabel>
+              <SelectItem value="all">{translations.all}</SelectItem>
+              <SelectItem value="completed">
+                {translations.completed}
+              </SelectItem>
+              <SelectItem value="incomplete">
+                {translations.incomplete}
+              </SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
       </div>
 
+      {/* Table */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <PackageIcon className="w-5 h-5" />
-            Daftar Sesi Stock Opname
+            {translations.listTitle}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {opnames && <DataTable columns={columns} data={opnames} />}
+          {opnames && (
+            <DataTable columns={columns(tableTranslations)} data={opnames} />
+          )}
         </CardContent>
       </Card>
     </>

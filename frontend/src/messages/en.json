@@ -408,5 +408,50 @@
       "items": "Items",
       "close": "Close"
     }
+  },
+  "StockOpnamePage": {
+    "breadcrumb": {
+      "stock": "Stock",
+      "opname": "Opname"
+    },
+    "header": {
+      "title": "Stock Opname",
+      "subtitle": "Manage stock opname sessions and physical stock counting"
+    },
+    "dialog": {
+      "button": "Start New Stock Opname Session",
+      "title": "Start New Stock Opname Session",
+      "description": "Create a new stock opname session to begin physical stock counting"
+    },
+    "form": {
+      "nameLabel": "Session Name",
+      "namePlaceholder": "Example: Year-End Stock Opname 2025",
+      "startButton": "Start Now"
+    },
+    "history": {
+      "from": "From",
+      "to": "To",
+      "selectDate": "Select date",
+      "selectStatus": "Select status",
+      "categories": "Categories",
+      "all": "All",
+      "completed": "Completed",
+      "incomplete": "Incomplete",
+      "listTitle": "Stock Opname Session List",
+      "error": "An error occurred while fetching stock opname sessions."
+    },
+    "table": {
+      "name": "Session Name",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "status": "Status",
+      "completed": "Selesai",
+      "incomplete": "Belum selesai",
+      "productsCount": "Products Count",
+      "totalDifference": "Total Difference",
+      "actions": "Actions",
+      "continue": "Continue",
+      "viewDetails": "View Details"
+    }
   }
 }
