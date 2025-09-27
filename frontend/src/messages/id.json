@@ -346,5 +346,66 @@
       "items": "Item",
       "close": "Tutup"
     }
+  },
+  "SupplierReturnsPage": {
+    "breadcrumb": {
+      "stock": "Stok",
+      "supplierReturns": "Retur Supplier"
+    },
+    "tabs": {
+      "return": "Retur",
+      "history": "Riwayat"
+    },
+    "form": {
+      "searchTitle": "Pencarian Transaksi Pembelian",
+      "invoice": "Invoice",
+      "searchPlaceholder": "Masukkan invoice...",
+      "searchButton": "Cari Transaksi",
+      "transactionSummary": "Ringkasan Transaksi",
+      "transactionInfo": "Informasi Transaksi",
+      "date": "Tanggal",
+      "totalTransaction": "Total Transaksi",
+      "statistics": "Statistik",
+      "itemsCount": "Jumlah Item",
+      "totalUnits": "Total Unit",
+      "returnItems": "Daftar Item untuk Retur",
+      "product": "Produk",
+      "qtyPurchased": "Qty Dibeli",
+      "qtyReturn": "Qty Retur",
+      "condition": "Kondisi",
+      "conditionPlaceholder": "Pilih Kondisi",
+      "conditionOptions": {
+        "good": "Baik/Layak Jual",
+        "damaged": "Rusak",
+        "defective": "Cacat"
+      },
+      "returnSummary": "Ringkasan Pengembalian",
+      "totalReturn": "Total Pengembalian",
+      "totalReturnItems": "Total Item Diretur",
+      "notes": "Catatan Tambahan",
+      "notesPlaceholder": "Tambahkan catatan mengenai retur ini...",
+      "cancel": "Batal",
+      "processReturn": "Proses Retur"
+    },
+    "help": {
+      "title": "Cara Menggunakan:",
+      "step1": "1. Masukkan Invoice dan klik \"Cari Transaksi\"",
+      "step2": "2. Pilih item yang akan diretur dan tentukan kondisinya",
+      "step3": "3. Klik \"Proses Retur\" untuk menyelesaikan"
+    },
+    "history": {
+      "from": "Dari",
+      "to": "Sampai",
+      "error": "Terjadi kesalahan saat mengambil data retur supplier."
+    },
+    "table": {
+      "invoice": "Invoice",
+      "totalRefund": "Total Refund",
+      "date": "Tanggal",
+      "actions": "Aksi",
+      "viewDetails": "Lihat Detail Refund",
+      "items": "Item",
+      "close": "Tutup"
+    }
   }
 }

@@ -11,18 +11,18 @@ import {
   DialogClose,
 } from "@/components/ui/dialog"
 
-const columns = [
+const columns = (translations) => [
   {
     accessorKey: "invoice",
-    header: "Invoice",
+    header: translations.table.invoice,
   },
   {
     accessorKey: "date",
-    header: "Date",
+    header: translations.table.date,
     cell: ({ row }) => formatDate(row.getValue("date")),
   },
   {
-    header: "Actions",
+    header: translations.table.actions,
     cell: ({ row }) => {
       const items = row.original.items
       const totalRefund = items.reduce(
@@ -38,20 +38,20 @@ const columns = [
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>View Refund Details</DialogTitle>
+              <DialogTitle>{translations.table.viewDetails}</DialogTitle>
             </DialogHeader>
             <div className="grid grid-cols-3">
-              <p>Invoice</p>
+              <p>{translations.table.invoice}</p>
               <p className="col-span-2">: {row.getValue("invoice")}</p>
-              <p>Total Refund</p>
+              <p>{translations.table.totalRefund}</p>
               <p className="col-span-2">: {formatCurrency(totalRefund)}</p>
-              <p>Date</p>
+              <p>{translations.table.date}</p>
               <p className="col-span-2">: {formatDate(row.getValue("date"))}</p>
               <p>Notes</p>
               <p className="col-span-2">: {row.original.notes}</p>
             </div>
-            <div className="">
-              <p>Items:</p>
+            <div>
+              <p>{translations.table.items}:</p>
               <ul>
                 {items.map((item) => (
                   <li key={item.id}>
@@ -70,7 +70,7 @@ const columns = [
             </div>
             <DialogFooter>
               <DialogClose asChild>
-                <Button>Close</Button>
+                <Button>{translations.table.close}</Button>
               </DialogClose>
             </DialogFooter>
           </DialogContent>

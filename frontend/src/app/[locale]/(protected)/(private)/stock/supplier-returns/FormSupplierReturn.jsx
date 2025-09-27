@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -35,7 +37,7 @@ import { useAuth } from "@clerk/nextjs"
 import { formatCurrency, formatDate } from "@/lib/formatters"
 import { useAddSupplierReturn } from "@/services/hooks/supplierReturn-hook"
 
-function FormSupplierReturn() {
+function FormSupplierReturn({ translations }) {
   const [searchValue, setSearchValue] = useState("")
   const [selectedTransaction, setSelectedTransaction] = useState(null)
   const [returnItems, setReturnItems] = useState([])
@@ -145,16 +147,16 @@ function FormSupplierReturn() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Search className="h-5 w-5" />
-            Pencarian Transaksi Pembelian
+            {translations.form.searchTitle}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
             <div className="md:col-span-2 space-y-2">
-              <Label htmlFor="searchValue">Invoice</Label>
+              <Label htmlFor="searchValue">{translations.form.invoice}</Label>
               <Input
                 id="searchValue"
-                placeholder="Masukkan invoice..."
+                placeholder={translations.form.searchPlaceholder}
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSearch()}
@@ -166,7 +168,7 @@ function FormSupplierReturn() {
               ) : (
                 <>
                   <Search className="h-4 w-4 mr-2" />
-                  Cari Transaksi
+                  {translations.form.searchButton}
                 </>
               )}
             </Button>
@@ -180,37 +182,51 @@ function FormSupplierReturn() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileText className="h-5 w-5" />
-              Ringkasan Transaksi
+              {translations.form.transactionSummary}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 rounded-lg">
               <div>
-                <h4 className="font-semibold mb-2">Informasi Transaksi</h4>
+                <h4 className="font-semibold mb-2">
+                  {translations.form.transactionInfo}
+                </h4>
                 <div className="space-y-1 text-sm">
                   <p>
-                    <span className="font-medium">Invoice:</span>{" "}
+                    <span className="font-medium">
+                      {translations.form.invoice}:
+                    </span>{" "}
                     {selectedTransaction.invoice}
                   </p>
                   <p>
-                    <span className="font-medium">Tanggal:</span>{" "}
+                    <span className="font-medium">
+                      {translations.form.date}:
+                    </span>{" "}
                     {formatDate(selectedTransaction.date)}
                   </p>
                   <p>
-                    <span className="font-medium">Total Transaksi: </span>
+                    <span className="font-medium">
+                      {translations.form.totalTransaction}:{" "}
+                    </span>
                     {getTotalTransaction()}
                   </p>
                 </div>
               </div>
               <div>
-                <h4 className="font-semibold mb-2">Statistik</h4>
+                <h4 className="font-semibold mb-2">
+                  {translations.form.statistics}
+                </h4>
                 <div className="space-y-1 text-sm">
                   <p>
-                    <span className="font-medium">Jumlah Item:</span>{" "}
+                    <span className="font-medium">
+                      {translations.form.itemsCount}:
+                    </span>{" "}
                     {selectedTransaction.items.length}
                   </p>
                   <p>
-                    <span className="font-medium">Total Unit:</span>{" "}
+                    <span className="font-medium">
+                      {translations.form.totalUnits}:
+                    </span>{" "}
                     {selectedTransaction.items.reduce(
                       (sum, item) => sum + item.quantity,
                       0
@@ -229,7 +245,7 @@ function FormSupplierReturn() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ShoppingCart className="h-5 w-5" />
-              Daftar Item untuk Retur
+              {translations.form.returnItems}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -237,10 +253,10 @@ function FormSupplierReturn() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Produk</TableHead>
-                    <TableHead>Qty Dibeli</TableHead>
-                    <TableHead>Qty Retur</TableHead>
-                    <TableHead>Kondisi</TableHead>
+                    <TableHead>{translations.form.product}</TableHead>
+                    <TableHead>{translations.form.qtyPurchased}</TableHead>
+                    <TableHead>{translations.form.qtyReturn}</TableHead>
+                    <TableHead>{translations.form.condition}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -285,14 +301,22 @@ function FormSupplierReturn() {
                           disabled={item.returnQuantity === 0}
                         >
                           <SelectTrigger className="w-40">
-                            <SelectValue placeholder="Pilih kondisi" />
+                            <SelectValue
+                              placeholder={
+                                translations.form.conditionPlaceholder
+                              }
+                            />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="good">
-                              Baik/Layak Jual
+                              {translations.form.conditionOptions.good}
                             </SelectItem>
-                            <SelectItem value="damaged">Rusak</SelectItem>
-                            <SelectItem value="defective">Cacat</SelectItem>
+                            <SelectItem value="damaged">
+                              {translations.form.conditionOptions.damaged}
+                            </SelectItem>
+                            <SelectItem value="defective">
+                              {translations.form.conditionOptions.defective}
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </TableCell>
@@ -309,16 +333,20 @@ function FormSupplierReturn() {
       {selectedTransaction && getTotalReturnQuantity() > 0 && (
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle>Ringkasan Pengembalian</CardTitle>
+            <CardTitle>{translations.form.returnSummary}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div className="p-4 bg-muted rounded-lg">
-                  <h4 className="font-semibold mb-2">Total Pengembalian</h4>
+                  <h4 className="font-semibold mb-2">
+                    {translations.form.totalReturn}
+                  </h4>
                   <div className="space-y-2">
                     <p className="text-sm">
-                      <span className="font-medium">Total Item Diretur:</span>{" "}
+                      <span className="font-medium">
+                        {translations.form.totalReturnItems}:
+                      </span>{" "}
                       {getTotalReturnQuantity()} unit
                     </p>
                   </div>
@@ -326,10 +354,10 @@ function FormSupplierReturn() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="notes">Catatan Tambahan</Label>
+                <Label htmlFor="notes">{translations.form.notes}</Label>
                 <Textarea
                   id="notes"
-                  placeholder="Tambahkan catatan mengenai retur ini..."
+                  placeholder={translations.form.notesPlaceholder}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   rows={4}
@@ -353,7 +381,7 @@ function FormSupplierReturn() {
             }}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Batal
+            {translations.form.cancel}
           </Button>
           <Button
             onClick={handleSubmitReturn}
@@ -365,7 +393,7 @@ function FormSupplierReturn() {
             ) : (
               <>
                 <Check className="h-4 w-4 mr-2" />
-                Proses Retur
+                {translations.form.processReturn}
               </>
             )}
           </Button>
@@ -373,7 +401,7 @@ function FormSupplierReturn() {
       )}
 
       {/* Help Text */}
-      {!selectedTransaction && <HelpText />}
+      {!selectedTransaction && <HelpText translations={translations} />}
     </>
   )
 }

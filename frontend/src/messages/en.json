@@ -311,6 +311,7 @@
       "qtyPurchased": "Qty Purchased",
       "qtyReturn": "Qty Return",
       "condition": "Condition",
+      "conditionPlaceholder": "Select Condition",
       "returnPrice": "Return Price",
       "subtotal": "Subtotal",
       "conditionOptions": {
@@ -339,6 +340,67 @@
     },
     "table": {
       "orderId": "Order ID",
+      "totalRefund": "Total Refund",
+      "date": "Date",
+      "actions": "Actions",
+      "viewDetails": "View Refund Details",
+      "items": "Items",
+      "close": "Close"
+    }
+  },
+  "SupplierReturnsPage": {
+    "breadcrumb": {
+      "stock": "Stock",
+      "supplierReturns": "Supplier Returns"
+    },
+    "tabs": {
+      "return": "Return",
+      "history": "History"
+    },
+    "form": {
+      "searchTitle": "Purchase Transaction Search",
+      "invoice": "Invoice",
+      "searchPlaceholder": "Enter invoice...",
+      "searchButton": "Search Transaction",
+      "transactionSummary": "Transaction Summary",
+      "transactionInfo": "Transaction Information",
+      "date": "Date",
+      "totalTransaction": "Total Transaction",
+      "statistics": "Statistics",
+      "itemsCount": "Number of Items",
+      "totalUnits": "Total Units",
+      "returnItems": "Items to Return",
+      "product": "Product",
+      "qtyPurchased": "Qty Purchased",
+      "qtyReturn": "Qty Return",
+      "condition": "Condition",
+      "conditionPlaceholder": "Select Condition",
+      "conditionOptions": {
+        "good": "Good/Resellable",
+        "damaged": "Damaged",
+        "defective": "Defective"
+      },
+      "returnSummary": "Return Summary",
+      "totalReturn": "Total Return",
+      "totalReturnItems": "Total Items Returned",
+      "notes": "Additional Notes",
+      "notesPlaceholder": "Add notes about this return...",
+      "cancel": "Cancel",
+      "processReturn": "Process Return"
+    },
+    "help": {
+      "title": "How to Use:",
+      "step1": "1. Enter the Invoice and click \"Search Transaction\"",
+      "step2": "2. Select the items to be returned and set their condition",
+      "step3": "3. Click \"Process Return\" to complete"
+    },
+    "history": {
+      "from": "From",
+      "to": "To",
+      "error": "An error occurred while fetching supplier returns."
+    },
+    "table": {
+      "invoice": "Invoice",
       "totalRefund": "Total Refund",
       "date": "Date",
       "actions": "Actions",
