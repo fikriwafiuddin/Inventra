@@ -452,5 +452,60 @@
       "continue": "Lanjutkan",
       "viewDetails": "Lihat Detail"
     }
+  },
+  "DetailOpnamePage": {
+    "breadcrumb": {
+      "stock": "Stok",
+      "opname": "Opname",
+      "details": "Detail"
+    },
+    "opname": {
+      "error": "Terjadi kesalahan saat mengambil data stock opname.",
+      "loading": "Memuat data stock opname..."
+    },
+    "details": {
+      "title": "Detail Sesi Stock Opname",
+      "sessionInfo": "Informasi Sesi",
+      "startDate": "Tanggal Mulai",
+      "endDate": "Tanggal Selesai",
+      "status": "Status",
+      "statistics": "Statistik",
+      "totalProducts": "Total Produk Dihitung",
+      "productsWithDifference": "Produk dengan Selisih",
+      "totalDifferenceValue": "Total Selisih Nilai",
+      "overallDifference": "Nilai Selisih Keseluruhan",
+      "reportTitle": "Laporan Selisih Stok",
+      "adjustStock": "Sesuaikan Stok Otomatis",
+      "exportReport": "Ekspor Laporan"
+    },
+    "counting": {
+      "title": "Penghitungan Stock Opname",
+      "sessionStarted": "Sesi dimulai",
+      "inProgress": "Sedang Berlangsung",
+      "countInput": "Input Penghitungan",
+      "searchProduct": "Cari Produk",
+      "searchPlaceholder": "Cari produk berdasarkan nama atau SKU...",
+      "systemStock": "Stok Sistem",
+      "dialog": {
+        "label": "Jumlah Fisik Dihitung",
+        "placeholder": "Masukkan jumlah fisik...",
+        "addButton": "Tambah ke Penghitungan"
+      },
+      "progressTitle": "Progress Penghitungan",
+      "countedProducts": "Produk Dihitung",
+      "saveTemp": "Simpan Sementara",
+      "completeSession": "Selesaikan Sesi",
+      "countedList": "Produk yang Sudah Dihitung"
+    },
+    "countingTable": {
+      "name": "Nama Produk",
+      "systemStock": "Stok Sistem",
+      "physicalStock": "Stok Fisik",
+      "difference": "Selisih",
+      "differenceValue": "Nilai Selisih",
+      "status": "Status",
+      "statusMatch": "Sesuai",
+      "statusMismatch": "Ada selisih"
+    }
   }
 }

@@ -1,33 +1,35 @@
 "use client"
 
 import { Badge } from "@/components/ui/badge"
+import { formatCurrency } from "@/lib/formatters"
 
-const { formatCurrency } = require("@/lib/formatters")
-
-const columns = [
+const columns = (translations) => [
   {
     accessorKey: "name",
-    header: "Name",
+    header: translations.name,
     cell: ({ row }) => (
       <span className="font-medium">{row.getValue("name")}</span>
     ),
   },
   {
     accessorKey: "systemStock",
-    header: "System Stock",
+    header: translations.systemStock,
     cell: ({ row }) => row.getValue("systemStock"),
   },
   {
     accessorKey: "physicalStock",
-    header: "Physical Stock",
+    header: translations.physicalStock,
     cell: ({ row }) => row.getValue("physicalStock"),
   },
   {
     accessorKey: "difference",
-    header: "Difference",
+    header: translations.difference,
     cell: ({ row }) => {
       const difference =
         row.getValue("systemStock") - row.getValue("physicalStock")
+      if (difference === 0) {
+        return <Badge variant="success">0</Badge>
+      }
       if (difference > 0) {
         return <Badge variant="success">{difference}</Badge>
       }
@@ -36,7 +38,7 @@ const columns = [
   },
   {
     id: "differenceValue",
-    header: "Difference Value",
+    header: translations.differenceValue,
     cell: ({ row }) => {
       const item = row.original
       const differenceValue =
@@ -51,13 +53,14 @@ const columns = [
   },
   {
     id: "status",
-    header: "Status",
+    header: translations.status,
     cell: ({ row }) => {
-      const difference = row.getValue("difference")
+      const difference =
+        row.getValue("systemStock") - row.getValue("physicalStock")
       if (difference === 0) {
-        return <Badge variant="success">Sesuai</Badge>
+        return <Badge variant="success">{translations.statusMatch}</Badge>
       }
-      return <Badge variant="destructive">Ada selisih</Badge>
+      return <Badge variant="destructive">{translations.statusMismatch}</Badge>
     },
   },
 ]

@@ -25,7 +25,7 @@ import { Progress } from "@/components/ui/progress"
 import { useUpdateOpname } from "@/services/hooks/opname-hook"
 import { useRouter } from "next/navigation"
 
-function Counting({ opname }) {
+function Counting({ opname, translations, tableTranslations }) {
   const [search, setSearch] = useState("")
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [items, setItems] = useState(opname.items || [])
@@ -37,10 +37,8 @@ function Counting({ opname }) {
 
   const addCountedProduct = () => {
     if (!selectedProduct) return
-
     const existingItem = items.find((item) => item.id === selectedProduct._id)
     if (existingItem) {
-      // Update existing item
       setItems(
         items.map((item) =>
           item.id === selectedProduct._id
@@ -53,7 +51,6 @@ function Counting({ opname }) {
         )
       )
     } else {
-      // Add new item
       setItems([
         ...items,
         {
@@ -67,7 +64,6 @@ function Counting({ opname }) {
         },
       ])
     }
-
     setSelectedProduct(null)
   }
 
@@ -104,51 +100,55 @@ function Counting({ opname }) {
             <DialogTitle>{selectedProduct?.name}</DialogTitle>
           </DialogHeader>
           <div className="space-y-2">
-            <Label htmlFor="physical-count">Jumlah Fisik Dihitung</Label>
+            <Label htmlFor="physical-count">{translations.dialog.label}</Label>
             <Input
               id="physical-count"
               type="number"
-              placeholder="Masukkan jumlah fisik..."
+              placeholder={translations.dialog.placeholder}
               value={physicalCount}
               onChange={(e) => setPhysicalCount(e.target.value)}
             />
           </div>
           <Button onClick={addCountedProduct} disabled={!physicalCount}>
             <PlusIcon className="w-4 h-4 mr-2" />
-            Tambah ke Penghitungan
+            {translations.dialog.addButton}
           </Button>
         </DialogContent>
       </Dialog>
 
+      {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold">Penghitungan Stock Opname</h1>
+          <h1 className="text-3xl font-bold">{translations.title}</h1>
           <p className="text-muted-foreground">{opname?.name}</p>
         </div>
         <div className="text-right">
           <p className="text-sm text-gray-500">
-            Sesi dimulai: {formatDate(opname?.startDate)}
+            {translations.sessionStarted}: {formatDate(opname?.startDate)}
           </p>
-          <Badge variant="info">Sedang Berlangsung</Badge>
+          <Badge variant="info">{translations.inProgress}</Badge>
         </div>
       </div>
 
+      {/* Input & Progress */}
       <div className="grid lg:grid-cols-2 gap-4">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ScanIcon className="w-5 h-5" />
-              Input Penghitungan
+              {translations.countInput}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 relative">
             <div className="space-y-2">
-              <Label htmlFor="product-search">Cari Produk</Label>
+              <Label htmlFor="product-search">
+                {translations.searchProduct}
+              </Label>
               <div className="relative">
                 <SearchIcon className="w-4 h-4 absolute left-3 top-3 text-muted-foreground" />
                 <Input
                   id="product-search"
-                  placeholder="Search product by name or sku..."
+                  placeholder={translations.searchPlaceholder}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="pl-10"
@@ -166,11 +166,7 @@ function Counting({ opname }) {
                 {products?.map((product) => (
                   <div
                     key={product._id}
-                    className={`p-3 border cursor-pointer hover:bg-secondary bg-primary-foreground ${
-                      selectedProduct?._id === product._id
-                        ? "border-primary"
-                        : ""
-                    }`}
+                    className="p-3 border cursor-pointer hover:bg-secondary bg-primary-foreground"
                     onClick={() => {
                       setSearch("")
                       setSelectedProduct(product)
@@ -178,7 +174,7 @@ function Counting({ opname }) {
                   >
                     <p className="font-medium">{product.name}</p>
                     <p className="text-sm text-muted-foreground">
-                      Stok Sistem: {product.stock}
+                      {translations.systemStock}: {product.stock}
                     </p>
                   </div>
                 ))}
@@ -187,9 +183,9 @@ function Counting({ opname }) {
           </CardContent>
         </Card>
 
-        <Card className="">
+        <Card>
           <CardHeader>
-            <CardTitle>Progress Penghitungan</CardTitle>
+            <CardTitle>{translations.progressTitle}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -198,7 +194,7 @@ function Counting({ opname }) {
               ) : (
                 <>
                   <div className="flex justify-between text-sm">
-                    <span>Produk Dihitung</span>
+                    <span>{translations.countedProducts}</span>
                     <span>
                       {items.length} / {statistic.totalProduct}
                     </span>
@@ -222,7 +218,7 @@ function Counting({ opname }) {
                 ) : (
                   <>
                     <SaveIcon className="w-4 h-4 mr-1" />
-                    Simpan Sementara
+                    {translations.saveTemp}
                   </>
                 )}
               </Button>
@@ -237,7 +233,7 @@ function Counting({ opname }) {
                 ) : (
                   <>
                     <CheckCircleIcon className="w-4 h-4 mr-1" />
-                    Selesaikan Sesi
+                    {translations.completeSession}
                   </>
                 )}
               </Button>
@@ -246,16 +242,15 @@ function Counting({ opname }) {
         </Card>
       </div>
 
-      <div className="">
-        <Card>
-          <CardHeader>
-            <CardTitle>Produk yang Sudah Dihitung</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <DataTable columns={columns} data={items} />
-          </CardContent>
-        </Card>
-      </div>
+      {/* Counted List */}
+      <Card>
+        <CardHeader>
+          <CardTitle>{translations.countedList}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <DataTable columns={columns(tableTranslations)} data={items} />
+        </CardContent>
+      </Card>
     </div>
   )
 }

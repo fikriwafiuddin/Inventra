@@ -453,5 +453,60 @@
       "continue": "Continue",
       "viewDetails": "View Details"
     }
+  },
+  "DetailOpnamePage": {
+    "breadcrumb": {
+      "stock": "Stock",
+      "opname": "Opname",
+      "details": "Details"
+    },
+    "opname": {
+      "error": "An error occurred while fetching stock opname.",
+      "loading": "Loading stock opname..."
+    },
+    "details": {
+      "title": "Stock Opname Session Details",
+      "sessionInfo": "Session Information",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "status": "Status",
+      "statistics": "Statistics",
+      "totalProducts": "Total Counted Products",
+      "productsWithDifference": "Products with Difference",
+      "totalDifferenceValue": "Total Difference Value",
+      "overallDifference": "Overall Stock Difference Value",
+      "reportTitle": "Stock Difference Report",
+      "adjustStock": "Adjust Stock Automatically",
+      "exportReport": "Export Report"
+    },
+    "counting": {
+      "title": "Stock Opname Counting",
+      "sessionStarted": "Session started",
+      "inProgress": "In Progress",
+      "countInput": "Counting Input",
+      "searchProduct": "Search Product",
+      "searchPlaceholder": "Search product by name or SKU...",
+      "systemStock": "System Stock",
+      "dialog": {
+        "label": "Physical Counted Quantity",
+        "placeholder": "Enter physical count...",
+        "addButton": "Add to Counting"
+      },
+      "progressTitle": "Counting Progress",
+      "countedProducts": "Counted Products",
+      "saveTemp": "Save Temporarily",
+      "completeSession": "Complete Session",
+      "countedList": "Counted Products List"
+    },
+    "countingTable": {
+      "name": "Product Name",
+      "systemStock": "System Stock",
+      "physicalStock": "Physical Stock",
+      "difference": "Difference",
+      "differenceValue": "Difference Value",
+      "status": "Status",
+      "statusMatch": "Match",
+      "statusMismatch": "Mismatch"
+    }
   }
 }
