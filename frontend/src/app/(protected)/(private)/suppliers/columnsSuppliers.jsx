@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,6 +33,7 @@ import {
   useRemoveSupplier,
   useUpdateStatusSupplier,
 } from "@/services/hooks/supplier-hook"
+import { useState } from "react"
 
 const columnSuppliers = [
   {
@@ -80,95 +80,109 @@ const columnSuppliers = [
       const supplier = row.original
       const { isPending: updating, mutate: update } = useUpdateStatusSupplier()
       const { isPending: deleting, mutate: remove } = useRemoveSupplier()
+      const [isConfirmDelete, setIsConfirmDelete] = useState(false)
+      const [isConfirmChangeStatus, setIsChangeStatus] = useState(false)
+
+      const handleRemoveSupplier = () => {
+        remove(supplier._id, {
+          onSuccess: () => setIsConfirmDelete(false),
+        })
+      }
+
+      const handleChangeStatusSupplier = () => {
+        update(
+          {
+            id: supplier._id,
+            status: supplier.status === "active" ? "inactive" : "active",
+          },
+          {
+            onSuccess: () => setIsChangeStatus(false),
+          }
+        )
+      }
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button size="sm" variant="ghost">
-              ...
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="">
-            <Sheet>
-              <SheetTrigger asChild>
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm" variant="ghost">
+                ...
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="">
+              <FormSupplier supplier={supplier}>
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                   <EditIcon /> Edit
                 </DropdownMenuItem>
-              </SheetTrigger>
-              <FormSupplier supplier={supplier} />
-            </Sheet>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  <TrashIcon /> Delete
-                </DropdownMenuItem>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Delete supplier {supplier.name}.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction asChild>
-                    <button
-                      onClick={() => remove(supplier._id)}
-                      disabled={deleting || updating}
-                    >
-                      {deleting ? (
-                        <Loader2Icon className="animate-spin" />
-                      ) : (
-                        "Delete"
-                      )}
-                    </button>
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  {supplier.status === "active" ? (
-                    <>
-                      <RefreshCwOffIcon /> Inactive
-                    </>
+              </FormSupplier>
+
+              <DropdownMenuItem onClick={() => setIsConfirmDelete(true)}>
+                <TrashIcon /> Delete
+              </DropdownMenuItem>
+
+              <DropdownMenuItem onClick={() => setIsChangeStatus(true)}>
+                {supplier.status === "active" ? (
+                  <>
+                    <RefreshCwOffIcon /> Inactive
+                  </>
+                ) : (
+                  <>
+                    <RefreshCwIcon /> Active
+                  </>
+                )}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <AlertDialog open={isConfirmDelete} onOpenChange={setIsConfirmDelete}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Delete supplier {supplier.name}.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <Button
+                  onClick={handleRemoveSupplier}
+                  disabled={deleting || updating}
+                >
+                  {deleting ? (
+                    <Loader2Icon className="animate-spin" />
                   ) : (
-                    <>
-                      <RefreshCwIcon /> Active
-                    </>
+                    "Delete"
                   )}
-                </DropdownMenuItem>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Change supplier status
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction asChild>
-                    <button
-                      disabled={updating || deleting}
-                      type="button"
-                      onClick={
-                        supplier.status === "active"
-                          ? () =>
-                              update({ id: supplier._id, status: "inactive" })
-                          : () => update({ id: supplier._id, status: "active" })
-                      }
-                    >
-                      {updating ? <Loader2Icon /> : "Change"}
-                    </button>
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </DropdownMenuContent>
-        </DropdownMenu>
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
+          <AlertDialog
+            open={isConfirmChangeStatus}
+            onOpenChange={setIsChangeStatus}
+          >
+            <AlertDialogTrigger asChild></AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Change supplier status
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <Button
+                  disabled={updating || deleting}
+                  type="button"
+                  onClick={handleChangeStatusSupplier}
+                >
+                  {updating ? <Loader2Icon /> : "Change"}
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </>
       )
     },
   },
