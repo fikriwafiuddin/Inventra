@@ -1,6 +1,7 @@
 "use client"
 
 import { DataTable } from "@/components/DataTable"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { formatCurrency, formatDate } from "@/lib/formatters"
 import { useGetLatestOrders } from "@/services/hooks/statistic-hook"
@@ -25,14 +26,20 @@ export const columns = [
 function LatestTransactions() {
   const { isPending, data: orders } = useGetLatestOrders()
   return (
-    <div className="bg-secondary rounded-lg p-2">
-      <h3 className="text-lg font-medium mb-2 text-center">Latest Orders</h3>
-      {isPending ? (
-        <Skeleton className="h-[250px]" />
-      ) : (
-        <DataTable columns={columns} data={orders} />
-      )}
-    </div>
+    <Card className="gap-2 p-2">
+      <CardHeader>
+        <CardTitle className="text-lg font-medium text-center">
+          Latest Orders
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="p-2">
+        {isPending ? (
+          <Skeleton className="h-[250px]" />
+        ) : (
+          <DataTable columns={columns} data={orders} />
+        )}
+      </CardContent>
+    </Card>
   )
 }
 

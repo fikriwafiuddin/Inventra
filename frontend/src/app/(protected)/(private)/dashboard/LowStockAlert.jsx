@@ -17,14 +17,14 @@ function LowStockAlert() {
   }
 
   return (
-    <Card>
+    <Card className="gap-2">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex justify-center items-center gap-2">
           <AlertTriangleIcon className="h-5 w-5 text-warning" />
           Stock Alert
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-2">
         {isPending ? (
           <Skeleton className="min-h-[200px]" />
         ) : (
