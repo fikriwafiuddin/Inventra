@@ -11,13 +11,10 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { formatCurrency } from "@/lib/formatters"
@@ -31,6 +28,7 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { useState } from "react"
 
 const columnProducts = [
   {
@@ -114,60 +112,65 @@ const columnProducts = [
     header: "Actions",
     cell: ({ row }) => {
       const { isPending, mutate: removeProduct } = useRemoveProduct()
+      const [isConfirmDelete, setIsConfirmDelete] = useState(false)
       const product = row.original
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button size="sm" variant="ghost">
-              ...
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="">
-            <DropdownMenuItem asChild>
-              <Link href={`products/update/${row.getValue("sku")}`}>
-                <EditIcon /> Edit
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href={`products/${row.getValue("sku")}`}>
-                <EyeIcon /> Detail
-              </Link>
-            </DropdownMenuItem>
+      const handleRemoveProduct = () => {
+        removeProduct(product._id, {
+          onSuccess: () => setIsConfirmDelete(false),
+        })
+      }
 
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  <TrashIcon /> Delete
-                </DropdownMenuItem>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your product and remove your data from our servers.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction asChild>
-                    <button
-                      onClick={() => removeProduct(product._id)}
-                      type="button"
-                    >
-                      {isPending ? (
-                        <Loader2Icon className="animate-spin" />
-                      ) : (
-                        "Delete"
-                      )}
-                    </button>
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      return (
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm" variant="ghost">
+                ...
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="">
+              <DropdownMenuItem asChild>
+                <Link href={`products/update/${row.getValue("sku")}`}>
+                  <EditIcon /> Edit
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href={`products/${row.getValue("sku")}`}>
+                  <EyeIcon /> Detail
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setIsConfirmDelete(true)}>
+                <TrashIcon /> Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <AlertDialog open={isConfirmDelete} onOpenChange={setIsConfirmDelete}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your product and remove your data from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <Button
+                  variant="destructive"
+                  onClick={handleRemoveProduct}
+                  type="button"
+                >
+                  {isPending ? (
+                    <Loader2Icon className="animate-spin" />
+                  ) : (
+                    "Delete"
+                  )}
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </>
       )
     },
   },
