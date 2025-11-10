@@ -27,7 +27,6 @@ function CategoriesTable() {
   }
 
   if (categories) {
-    console.log("CategoriesTable categories", categories, "hhhhhh")
     return (
       <>
         <DataTable data={categories} columns={columnCategories} />

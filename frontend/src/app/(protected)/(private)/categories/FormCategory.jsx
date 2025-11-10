@@ -13,20 +13,22 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import {
+  Sheet,
   SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
+  SheetTrigger,
 } from "@/components/ui/sheet"
 import { useForm } from "react-hook-form"
 import {
   useAddCategory,
-  useRemoveCategory,
   useUpdateCategory,
 } from "@/services/hooks/category-hook"
 import { Loader2Icon } from "lucide-react"
+import { useState } from "react"
 
-function FormCategory({ category }) {
+function FormCategory({ category, children }) {
   const form = useForm({
     resolver: zodResolver(categoryValidation.addCategory),
     defaultValues: {
@@ -36,56 +38,70 @@ function FormCategory({ category }) {
   const { mutate, isPending } = useAddCategory()
   const { mutate: updateMutate, isPending: isUpdatePending } =
     useUpdateCategory()
+  const [isOpenForm, setIsOpenForm] = useState(false)
 
   const onSubmit = (data) => {
     if (category) {
-      updateMutate({ id: category._id, name: data.name })
+      updateMutate(
+        { id: category._id, name: data.name },
+        {
+          onSuccess: () => setIsOpenForm(false),
+        }
+      )
     } else {
-      mutate(data)
+      mutate(data, {
+        onSuccess: () => setIsOpenForm(false),
+      })
     }
   }
   return (
-    <SheetContent side="right">
-      <SheetHeader>
-        <SheetTitle>{category ? "Edit" : "Add"} Category</SheetTitle>
-      </SheetHeader>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 px-4">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <Button
-            disabled={isPending || isUpdatePending}
-            type="submit"
-            className="mr-4"
+    <Sheet open={isOpenForm} onOpenChange={setIsOpenForm}>
+      <SheetTrigger asChild>{children}</SheetTrigger>
+      <SheetContent side="right">
+        <SheetHeader>
+          <SheetTitle>{category ? "Edit" : "Add"} Category</SheetTitle>
+        </SheetHeader>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-2 px-4"
           >
-            {isPending || isUpdatePending ? (
-              <Loader2Icon className="animate-spin" />
-            ) : category ? (
-              "Update"
-            ) : (
-              "Add"
-            )}
-          </Button>
-          <SheetClose asChild>
-            <Button disabled={isPending || isUpdatePending} variant="outline">
-              Close
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button
+              disabled={isPending || isUpdatePending}
+              type="submit"
+              className="mr-4"
+            >
+              {isPending || isUpdatePending ? (
+                <Loader2Icon className="animate-spin" />
+              ) : category ? (
+                "Update"
+              ) : (
+                "Add"
+              )}
             </Button>
-          </SheetClose>
-        </form>
-      </Form>
-    </SheetContent>
+            <SheetClose asChild>
+              <Button disabled={isPending || isUpdatePending} variant="outline">
+                Close
+              </Button>
+            </SheetClose>
+          </form>
+        </Form>
+      </SheetContent>
+    </Sheet>
   )
 }
 
