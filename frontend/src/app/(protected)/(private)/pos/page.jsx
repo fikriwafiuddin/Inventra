@@ -36,9 +36,9 @@ import { useState } from "react"
 import { toast } from "sonner"
 import { useGetAllCategories } from "@/services/hooks/category-hook"
 import AppPagination from "@/components/AppPagination"
-import ReceiptModal from "./ReceiptModal"
 import { useUser } from "@clerk/nextjs"
 import Link from "next/link"
+import ReceiptModal from "@/components/ReceiptModal"
 
 function PosPage() {
   const [cart, setCart] = useState([])

@@ -5,115 +5,26 @@ import {
   DialogHeader,
   DialogTitle,
   Dialog,
-  DialogTrigger,
   DialogFooter,
-  DialogClose,
   DialogDescription,
 } from "@/components/ui/dialog"
-import { CircleXIcon, Loader2Icon, PrinterIcon } from "lucide-react"
-
-// Ini adalah tipe untuk data order Anda, sesuaikan jika ada perbedaan
-// Jika Anda menggunakan TypeScript, ini akan sangat membantu
-// type OrderItem = {
-//   id: string;
-//   name: string;
-//   sku: string;
-//   quantity: number;
-//   price: number;
-// };
-
-// type Order = {
-//   orderId: string;
-//   amount: number;
-//   date: Date;
-//   items: OrderItem[];
-// };
-
-const sampleOrder = {
-  orderId: "ORD-2024-001",
-  amount: 125000,
-  date: new Date(),
-  items: [
-    {
-      id: "1",
-      name: "Kopi Arabica Premium",
-      sku: "KAP-001",
-      quantity: 2,
-      price: 35000,
-    },
-    {
-      id: "2",
-      name: "Roti Croissant",
-      sku: "RC-002",
-      quantity: 3,
-      price: 18000,
-    },
-    {
-      id: "3",
-      name: "Es Teh Manis",
-      sku: "ETM-003",
-      quantity: 1,
-      price: 7000,
-    },
-    {
-      id: "3",
-      name: "Es Teh Manis",
-      sku: "ETM-003",
-      quantity: 1,
-      price: 7000,
-    },
-    {
-      id: "3",
-      name: "Es Teh Manis",
-      sku: "ETM-003",
-      quantity: 1,
-      price: 7000,
-    },
-    {
-      id: "3",
-      name: "Es Teh Manis",
-      sku: "ETM-003",
-      quantity: 1,
-      price: 7000,
-    },
-  ],
-}
+import { PrinterIcon } from "lucide-react"
+import { toast } from "sonner"
+import { formatCurrency, formatDate } from "@/lib/formatters"
 
 const ReceiptModal = ({ isOpen, onClose, orderData, user }) => {
   const receiptRef = useRef()
 
   if (!orderData) {
-    return null // Jangan render modal jika tidak ada data
-  }
-
-  // Fungsi untuk memformat tanggal
-  const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }
-    return new Date(dateString).toLocaleDateString("id-ID", options)
-  }
-
-  // Fungsi untuk memformat mata uang
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-    }).format(amount)
+    return null
   }
 
   const handlePrint = () => {
     const printContent = receiptRef.current
-    const originalContents = document.body.innerHTML
     const printWindow = window.open("", "", "height=600,width=800")
 
     if (printWindow) {
       printWindow.document.write("<html><head><title>Struk Pesanan</title>")
-      // Anda bisa menambahkan styling CSS kustom untuk print di sini jika diperlukan
       printWindow.document.write("<style>")
       printWindow.document.write(`
         body { font-family: sans-serif; margin: 20px; }
@@ -136,24 +47,22 @@ const ReceiptModal = ({ isOpen, onClose, orderData, user }) => {
       printWindow.print()
       printWindow.close()
     } else {
-      alert(
-        "Browser Anda memblokir pop-up. Mohon izinkan pop-up untuk mencetak struk."
+      toast.error(
+        "Your browser is blocking pop-ups. Please allow pop-ups to print receipts."
       )
     }
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      {/* PENTING: Tambahkan `className="flex flex-col h-[90vh]"` pada DialogContent */}
       <DialogContent className="flex flex-col max-h-[90vh] sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Struk Pesanan</DialogTitle>
+          <DialogTitle>Order Receipt</DialogTitle>
           <DialogDescription>
-            Berikut adalah detail pesanan yang baru saja berhasil.
+            Below are the details of a recently successful order.
           </DialogDescription>
         </DialogHeader>
 
-        {/* Konten Struk yang Akan Dicetak - Tambahkan `flex-grow overflow-y-auto` di sini */}
         <div
           ref={receiptRef}
           className="flex-grow overflow-y-auto p-4 border border-dashed print:border-none print:p-0"
@@ -168,21 +77,21 @@ const ReceiptModal = ({ isOpen, onClose, orderData, user }) => {
 
           <div className="info mb-4 text-sm">
             <p>
-              <strong>ID Pesanan:</strong> {orderData.orderId}
+              <strong>Order ID:</strong> {orderData.orderId}
             </p>
             <p>
-              <strong>Tanggal:</strong> {formatDate(orderData.date)}
+              <strong>Date:</strong> {formatDate(orderData.date)}
             </p>
           </div>
 
           <div className="item-list mb-4">
-            <h4 className="font-semibold mb-2">Item:</h4>
+            <h4 className="font-semibold mb-2">Items:</h4>
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-dashed border-gray-300">
-                  <th className="py-1 text-left">Nama</th>
+                  <th className="py-1 text-left">Name</th>
                   <th className="py-1 text-right">Qty</th>
-                  <th className="py-1 text-right">Harga</th>
+                  <th className="py-1 text-right">Price</th>
                   <th className="py-1 text-right">Subtotal</th>
                 </tr>
               </thead>
@@ -208,24 +117,20 @@ const ReceiptModal = ({ isOpen, onClose, orderData, user }) => {
 
           <div className="total-section pt-2 border-t border-dashed border-gray-300">
             <div className="flex justify-between font-bold text-base mt-2">
-              <span>Total Pembayaran:</span>
+              <span>Total payment:</span>
               <span>{formatCurrency(orderData.amount)}</span>
             </div>
           </div>
 
           <div className="footer mt-4 text-center text-xs">
-            <p>Terima kasih telah berbelanja!</p>
-            <p>
-              Barang yang sudah dibeli tidak dapat dikembalikan kecuali ada
-              kesepakatan.
-            </p>
+            <p>Thank you for shopping!</p>
+            <p>Purchased items cannot be returned unless otherwise agreed.</p>
           </div>
         </div>
 
-        {/* DialogFooter tidak perlu diubah, karena sudah fixed di bawah */}
         <DialogFooter className="flex justify-between sm:justify-between mt-4 no-print">
           <Button variant="outline" onClick={onClose}>
-            Tutup
+            Close
           </Button>
           <Button onClick={handlePrint}>
             <PrinterIcon /> Print
