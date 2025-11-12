@@ -1,32 +1,12 @@
 "use client"
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+import ReceiptModal from "@/components/ReceiptModal"
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  Dialog,
-  DialogTrigger,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog"
 import { formatCurrency, formatDate } from "@/lib/formatters"
-import { EyeIcon, Trash2Icon } from "lucide-react"
-import ReceiptModal from "./ReceiptModal"
+import { EyeIcon } from "lucide-react"
+import { useState } from "react"
 
-const columnOrders = [
+const columnOrders = (user) => [
   {
     accessorKey: "orderId",
     header: "Order Id",
@@ -47,10 +27,21 @@ const columnOrders = [
     header: "Actions",
     cell: ({ row }) => {
       const order = row.original
+      const [showReceiptModal, setShowReceiptModal] = useState(false)
       return (
-        <div className="space-x-2">
-          <ReceiptModal orderData={order} />
-        </div>
+        <>
+          <div className="space-x-2">
+            <Button onClick={() => setShowReceiptModal(true)}>
+              <EyeIcon />
+            </Button>
+          </div>
+          <ReceiptModal
+            isOpen={showReceiptModal}
+            onClose={() => setShowReceiptModal(false)}
+            orderData={order}
+            user={user}
+          />
+        </>
       )
     },
   },
