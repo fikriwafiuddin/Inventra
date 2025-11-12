@@ -69,7 +69,7 @@ function ApplicationSetting() {
               </SelectContent>
             </Select>
           </div>
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label>Display Language</Label>
             <Select onValueChange={setLanguage} value={language}>
               <SelectTrigger className="w-full">
@@ -83,7 +83,7 @@ function ApplicationSetting() {
                 ))}
               </SelectContent>
             </Select>
-          </div>
+          </div> */}
         </CardContent>
       </Card>
 
