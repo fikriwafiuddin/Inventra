@@ -40,10 +40,10 @@ function DetailPurchase({ invoice }) {
         <Card>
           <CardHeader className="p-6 pb-0">
             <CardTitle className="text-2xl font-bold">
-              Detail Pembelian
+              Purchase Details
             </CardTitle>
             <CardDescription>
-              Informasi lengkap terkait pembelian ini.
+              Complete information regarding this purchase.
             </CardDescription>
           </CardHeader>
 

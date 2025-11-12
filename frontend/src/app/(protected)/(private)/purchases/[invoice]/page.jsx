@@ -20,7 +20,7 @@ async function DetailPurchasePage({ params }) {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Detail</BreadcrumbPage>
+            <BreadcrumbPage>Details</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
