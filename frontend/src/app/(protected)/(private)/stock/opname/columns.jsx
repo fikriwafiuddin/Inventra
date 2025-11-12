@@ -9,7 +9,7 @@ import Link from "next/link"
 const columns = [
   {
     accessorKey: "name",
-    header: "Nama Sesi",
+    header: "End Date",
     cell: ({ row }) => (
       <span className="font-medium">{row.getValue("name")}</span>
     ),
@@ -26,11 +26,13 @@ const columns = [
   },
   {
     accessorKey: "endDate",
-    header: "Tanggal Selesai",
+    header: "Completion Date",
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
         <CalendarIcon className="size-4" />
-        <span>{formatDate(row.getValue("endDate"))}</span>
+        <span>
+          {row.getValue("endDate") ? formatDate(row.getValue("endDate")) : "-"}
+        </span>
       </div>
     ),
   },
@@ -47,7 +49,7 @@ const columns = [
   },
   {
     accessorKey: "productsCount",
-    header: "Jumlah Produk",
+    header: "Products Count",
     cell: ({ row }) => {
       const opname = row.original
       return opname.items ? opname.items.length : 0
@@ -55,7 +57,7 @@ const columns = [
   },
   {
     accessorKey: "totalDifference",
-    header: "Total Selisih",
+    header: "Total Difference",
     cell: ({ row }) => {
       const totalDifference = row.getValue("totalDifference")
       if (totalDifference === null) {
@@ -75,13 +77,13 @@ const columns = [
   },
   {
     id: "actions",
-    header: "Aksi",
+    header: "Actions",
     cell: ({ row }) => {
       const opname = row.original
       return (
         <Link href={`/stock/opname/${opname._id}`}>
           <Button variant="outline">
-            {opname.status === "incomplete" ? "Lanjutkan" : "Lihat Detail"}
+            {opname.status === "incomplete" ? "Continue" : "View Details"}
           </Button>
         </Link>
       )

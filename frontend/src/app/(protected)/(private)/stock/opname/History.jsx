@@ -36,6 +36,7 @@ function History() {
     data: opnames,
     error,
   } = useGetAllOpnames(start, end, status)
+  console.log(opnames)
 
   if (fetching) {
     return (
@@ -141,7 +142,7 @@ function History() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <PackageIcon className="w-5 h-5" />
-            Daftar Sesi Stock Opname
+            List of Stock Opname Sessions
           </CardTitle>
         </CardHeader>
         <CardContent>

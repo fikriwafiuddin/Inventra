@@ -27,7 +27,7 @@ function DetailOpnamePage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/stock/opname">Opaname</BreadcrumbLink>
+            <BreadcrumbLink href="/stock/opname">Opname</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>

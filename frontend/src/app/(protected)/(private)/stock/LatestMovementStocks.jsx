@@ -62,7 +62,7 @@ function LatestMovementStocks() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <History className="h-5 w-5 text-muted-foreground" />
-          Pergerakan Stock Terbaru
+          Latest Stock Movements
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -100,7 +100,7 @@ function LatestMovementStocks() {
             <Link href="/stock/history" passHref>
               <Button variant="outline" className="w-full mt-4">
                 <History className="h-4 w-4 mr-2" />
-                Lihat Riwayat Lengkap
+                View Full History
               </Button>
             </Link>
           </>

@@ -104,32 +104,32 @@ function Counting({ opname }) {
             <DialogTitle>{selectedProduct?.name}</DialogTitle>
           </DialogHeader>
           <div className="space-y-2">
-            <Label htmlFor="physical-count">Jumlah Fisik Dihitung</Label>
+            <Label htmlFor="physical-count">Physical Quantity Counted</Label>
             <Input
               id="physical-count"
               type="number"
-              placeholder="Masukkan jumlah fisik..."
+              placeholder="Enter the physical quantity..."
               value={physicalCount}
               onChange={(e) => setPhysicalCount(e.target.value)}
             />
           </div>
           <Button onClick={addCountedProduct} disabled={!physicalCount}>
             <PlusIcon className="w-4 h-4 mr-2" />
-            Tambah ke Penghitungan
+            Add to Calculation
           </Button>
         </DialogContent>
       </Dialog>
 
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold">Penghitungan Stock Opname</h1>
+          <h1 className="text-3xl font-bold">Stocktaking Calculation</h1>
           <p className="text-muted-foreground">{opname?.name}</p>
         </div>
         <div className="text-right">
           <p className="text-sm text-gray-500">
-            Sesi dimulai: {formatDate(opname?.startDate)}
+            Session starts: {formatDate(opname?.startDate)}
           </p>
-          <Badge variant="info">Sedang Berlangsung</Badge>
+          <Badge variant="info">Ongoing</Badge>
         </div>
       </div>
 
@@ -138,12 +138,12 @@ function Counting({ opname }) {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ScanIcon className="w-5 h-5" />
-              Input Penghitungan
+              Calculation Input
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 relative">
             <div className="space-y-2">
-              <Label htmlFor="product-search">Cari Produk</Label>
+              <Label htmlFor="product-search">Search for Products</Label>
               <div className="relative">
                 <SearchIcon className="w-4 h-4 absolute left-3 top-3 text-muted-foreground" />
                 <Input
@@ -189,7 +189,7 @@ function Counting({ opname }) {
 
         <Card className="">
           <CardHeader>
-            <CardTitle>Progress Penghitungan</CardTitle>
+            <CardTitle>Calculation Progress</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -198,7 +198,7 @@ function Counting({ opname }) {
               ) : (
                 <>
                   <div className="flex justify-between text-sm">
-                    <span>Produk Dihitung</span>
+                    <span>Product Counted</span>
                     <span>
                       {items.length} / {statistic.totalProduct}
                     </span>
@@ -222,7 +222,7 @@ function Counting({ opname }) {
                 ) : (
                   <>
                     <SaveIcon className="w-4 h-4 mr-1" />
-                    Simpan Sementara
+                    Temporary Save
                   </>
                 )}
               </Button>
@@ -237,7 +237,7 @@ function Counting({ opname }) {
                 ) : (
                   <>
                     <CheckCircleIcon className="w-4 h-4 mr-1" />
-                    Selesaikan Sesi
+                    Complete Session
                   </>
                 )}
               </Button>
@@ -249,7 +249,7 @@ function Counting({ opname }) {
       <div className="">
         <Card>
           <CardHeader>
-            <CardTitle>Produk yang Sudah Dihitung</CardTitle>
+            <CardTitle>Counted Products</CardTitle>
           </CardHeader>
           <CardContent>
             <DataTable columns={columns} data={items} />

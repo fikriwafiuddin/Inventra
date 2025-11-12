@@ -68,22 +68,22 @@ const StockOpnamePage = () => {
         <div>
           <h1 className="text-3xl font-bold">Stock Opname</h1>
           <p className="text-muted-foreground">
-            Kelola sesi stock opname dan penghitungan stok fisik
+            Manage stock taking sessions and physical stock counting
           </p>
         </div>
         <Dialog>
           <DialogTrigger asChild>
             <Button>
               <Plus className="w-4 h-4 mr-2" />
-              Mulai Sesi Stock Opname Baru
+              Start a New Stocktaking Session
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Mulai Sesi Stock Opname Baru</DialogTitle>
+              <DialogTitle>Start a New Stocktaking Session</DialogTitle>
               <DialogDescription>
-                Buat sesi stock opname baru untuk memulai penghitungan fisik
-                stok
+                Create a new stocktaking session to begin the physical stock
+                count.
               </DialogDescription>
             </DialogHeader>
             <Form {...form}>
@@ -95,11 +95,11 @@ const StockOpnamePage = () => {
                     render={({ field }) => (
                       <FormItem>
                         <div className="space-y-2">
-                          <FormLabel>Nama Sesi</FormLabel>
+                          <FormLabel>Session Name</FormLabel>
                           <FormControl>
                             <Input
                               type="text"
-                              placeholder="Contoh: Stock Opname Akhir Tahun 2025"
+                              placeholder="Example: Stocktaking at the end of 2025"
                               {...field}
                             />
                           </FormControl>
@@ -114,7 +114,7 @@ const StockOpnamePage = () => {
                     ) : (
                       <>
                         <CheckCircle className="w-4 h-4 mr-2" />
-                        Mulai Sekarang
+                        Start Now
                       </>
                     )}
                   </Button>

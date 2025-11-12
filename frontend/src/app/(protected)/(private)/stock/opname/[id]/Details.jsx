@@ -15,23 +15,23 @@ function Details({ opname }) {
   return (
     <>
       <div>
-        <h1 className="text-3xl font-bold">Detail Sesi Stock Opname</h1>
+        <h1 className="text-3xl font-bold">Stock Opname Session Details</h1>
         <p className="text-muted-foreground">{opname?.name}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Informasi Sesi</CardTitle>
+            <CardTitle className="text-lg">Session Information</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               <div>
-                <p className="text-sm text-muted-foreground">Tanggal Mulai</p>
+                <p className="text-sm text-muted-foreground">Start Date</p>
                 <p className="font-medium">{formatDate(opname?.startDate)}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Tanggal Selesai</p>
+                <p className="text-sm text-muted-foreground">Completion Date</p>
                 <p className="font-medium">{formatDate(opname?.endDate)}</p>
               </div>
               <div>
@@ -50,19 +50,19 @@ function Details({ opname }) {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Statistik</CardTitle>
+            <CardTitle className="text-lg">Statistics</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               <div>
                 <p className="text-sm text-muted-foreground">
-                  Total Produk Dihitung
+                  Total Products Calculated
                 </p>
                 <p className="text-2xl font-bold">{opname?.items.length}</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">
-                  Produk dengan Selisih
+                  Products with Difference
                 </p>
                 <p className="text-2xl font-bold text-warning">
                   {opname?.items.filter((p) => p.difference !== 0).length}
@@ -74,12 +74,12 @@ function Details({ opname }) {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Total Selisih Nilai</CardTitle>
+            <CardTitle className="text-lg">Total Difference in Value</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">
-                Nilai Selisih Keseluruhan
+                Overall Difference Value
               </p>
               <p
                 className={`text-2xl font-bold ${
@@ -96,23 +96,23 @@ function Details({ opname }) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            Laporan Selisih Stok
-            <div className="flex gap-2">
+            Stock Difference Report
+            {/* <div className="flex gap-2">
               <Button
-              // onClick={adjustStockAutomatically}
-              // className="bg-blue-600 hover:bg-blue-700"
+              onClick={adjustStockAutomatically}
+              className="bg-blue-600 hover:bg-blue-700"
               >
                 <RefreshCwIcon className="w-4 h-4 mr-2" />
                 Sesuaikan Stok Otomatis
               </Button>
               <Button
-                //   onClick={exportReport}
+                  onClick={exportReport}
                 variant="outline"
               >
                 <DownloadIcon className="w-4 h-4 mr-2" />
                 Ekspor Laporan
               </Button>
-            </div>
+            </div> */}
           </CardTitle>
         </CardHeader>
         <CardContent>

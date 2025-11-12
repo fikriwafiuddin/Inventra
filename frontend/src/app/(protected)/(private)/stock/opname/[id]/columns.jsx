@@ -1,8 +1,7 @@
 "use client"
 
 import { Badge } from "@/components/ui/badge"
-
-const { formatCurrency } = require("@/lib/formatters")
+import { formatCurrency } from "@/lib/formatters"
 
 const columns = [
   {
@@ -55,9 +54,9 @@ const columns = [
     cell: ({ row }) => {
       const difference = row.getValue("difference")
       if (difference === 0) {
-        return <Badge variant="success">Sesuai</Badge>
+        return <Badge variant="success">Match</Badge>
       }
-      return <Badge variant="destructive">Ada selisih</Badge>
+      return <Badge variant="destructive">Difference</Badge>
     },
   },
 ]

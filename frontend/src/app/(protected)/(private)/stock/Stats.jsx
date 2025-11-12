@@ -27,17 +27,17 @@ function Stats() {
             icon={<PackageIcon />}
           />
           <StatCard
-            title="Stock Habis"
+            title="Out of Stock"
             value={data?.outOfStock?.toLocaleString() || 0}
             icon={<AlertCircleIcon className="text-destructive" />}
           />
           <StatCard
-            title="Stock Rendah"
+            title="Low Stock"
             value={data?.lowStock?.toLocaleString() || 0}
             icon={<AlertTriangleIcon className="text-warning" />}
           />
           <StatCard
-            title="Pergerakan Hari Ini"
+            title="Today's Movement"
             value={data?.todayStockMovementCount?.toLocaleString() || 0}
             icon={<RefreshCwIcon className="text-info" />}
           />

@@ -145,7 +145,7 @@ function FormSupplierReturn() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Search className="h-5 w-5" />
-            Pencarian Transaksi Pembelian
+            Purchase Transaction Search
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -154,7 +154,7 @@ function FormSupplierReturn() {
               <Label htmlFor="searchValue">Invoice</Label>
               <Input
                 id="searchValue"
-                placeholder="Masukkan invoice..."
+                placeholder="Enter invoice..."
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSearch()}
@@ -166,7 +166,7 @@ function FormSupplierReturn() {
               ) : (
                 <>
                   <Search className="h-4 w-4 mr-2" />
-                  Cari Transaksi
+                  Search Transactions
                 </>
               )}
             </Button>
@@ -180,33 +180,33 @@ function FormSupplierReturn() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileText className="h-5 w-5" />
-              Ringkasan Transaksi
+              Transaction Summary
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 rounded-lg">
               <div>
-                <h4 className="font-semibold mb-2">Informasi Transaksi</h4>
+                <h4 className="font-semibold mb-2">Transaction Information</h4>
                 <div className="space-y-1 text-sm">
                   <p>
                     <span className="font-medium">Invoice:</span>{" "}
                     {selectedTransaction.invoice}
                   </p>
                   <p>
-                    <span className="font-medium">Tanggal:</span>{" "}
+                    <span className="font-medium">Date:</span>{" "}
                     {formatDate(selectedTransaction.date)}
                   </p>
                   <p>
-                    <span className="font-medium">Total Transaksi: </span>
+                    <span className="font-medium">Total Transactions: </span>
                     {getTotalTransaction()}
                   </p>
                 </div>
               </div>
               <div>
-                <h4 className="font-semibold mb-2">Statistik</h4>
+                <h4 className="font-semibold mb-2">Statistics</h4>
                 <div className="space-y-1 text-sm">
                   <p>
-                    <span className="font-medium">Jumlah Item:</span>{" "}
+                    <span className="font-medium">Number of Items:</span>{" "}
                     {selectedTransaction.items.length}
                   </p>
                   <p>
@@ -229,7 +229,7 @@ function FormSupplierReturn() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ShoppingCart className="h-5 w-5" />
-              Daftar Item untuk Retur
+              List of Items for Return
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -237,10 +237,10 @@ function FormSupplierReturn() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Produk</TableHead>
-                    <TableHead>Qty Dibeli</TableHead>
-                    <TableHead>Qty Retur</TableHead>
-                    <TableHead>Kondisi</TableHead>
+                    <TableHead>Product</TableHead>
+                    <TableHead>Qty Purchased</TableHead>
+                    <TableHead>Qty Return</TableHead>
+                    <TableHead>Condition</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -285,14 +285,12 @@ function FormSupplierReturn() {
                           disabled={item.returnQuantity === 0}
                         >
                           <SelectTrigger className="w-40">
-                            <SelectValue placeholder="Pilih kondisi" />
+                            <SelectValue placeholder="Choose condition" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="good">
-                              Baik/Layak Jual
-                            </SelectItem>
-                            <SelectItem value="damaged">Rusak</SelectItem>
-                            <SelectItem value="defective">Cacat</SelectItem>
+                            <SelectItem value="good">Good/Saleable</SelectItem>
+                            <SelectItem value="damaged">Damaged</SelectItem>
+                            <SelectItem value="defective">Defective</SelectItem>
                           </SelectContent>
                         </Select>
                       </TableCell>
@@ -309,16 +307,16 @@ function FormSupplierReturn() {
       {selectedTransaction && getTotalReturnQuantity() > 0 && (
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle>Ringkasan Pengembalian</CardTitle>
+            <CardTitle>Return Summary</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div className="p-4 bg-muted rounded-lg">
-                  <h4 className="font-semibold mb-2">Total Pengembalian</h4>
+                  <h4 className="font-semibold mb-2">Total Return</h4>
                   <div className="space-y-2">
                     <p className="text-sm">
-                      <span className="font-medium">Total Item Diretur:</span>{" "}
+                      <span className="font-medium">Total Items Returned:</span>{" "}
                       {getTotalReturnQuantity()} unit
                     </p>
                   </div>
@@ -326,10 +324,10 @@ function FormSupplierReturn() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="notes">Catatan Tambahan</Label>
+                <Label htmlFor="notes">Additional Notes</Label>
                 <Textarea
                   id="notes"
-                  placeholder="Tambahkan catatan mengenai retur ini..."
+                  placeholder="Add a note regarding this return..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   rows={4}
@@ -353,7 +351,7 @@ function FormSupplierReturn() {
             }}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Batal
+            Cancel
           </Button>
           <Button
             onClick={handleSubmitReturn}
@@ -365,7 +363,7 @@ function FormSupplierReturn() {
             ) : (
               <>
                 <Check className="h-4 w-4 mr-2" />
-                Proses Retur
+                Return Process
               </>
             )}
           </Button>

@@ -10,9 +10,9 @@ function LowStockAlert() {
   const { isPending, data } = useGetStockAlert(1, 4)
   const getStockStatus = (current, min) => {
     if (current === 0)
-      return { status: "Habis", color: "bg-red-100 text-destructive" }
+      return { status: "Out of Stock", color: "bg-red-100 text-destructive" }
     if (current <= min)
-      return { status: "Rendah", color: "bg-yellow-100 text-warning" }
+      return { status: "Low", color: "bg-yellow-100 text-warning" }
     return { status: "Normal", color: "bg-green-100 text-success" }
   }
 
@@ -55,7 +55,7 @@ function LowStockAlert() {
             <Link href="/stock/alert" passHref>
               <Button variant="outline" className="w-full mt-4">
                 <EyeIcon className="h-4 w-4 mr-2" />
-                Lihat Semua Alert
+                View All Alerts
               </Button>
             </Link>
           </>
