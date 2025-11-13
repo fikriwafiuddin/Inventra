@@ -5,6 +5,7 @@ import { useUser } from "@clerk/nextjs"
 import CompanyInformation from "./CompanyInformation"
 import ApplicationSetting from "./ApplicationSetting"
 import { Loader2Icon } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 
 function SettingsPage() {
   const { isLoaded, isSignedIn, user } = useUser()
@@ -22,6 +23,7 @@ function SettingsPage() {
       <CompanyInformation user={user} />
       <Separator className="my-6" />
       <ApplicationSetting />
+      <Badge variant="ghost">v1.0.0</Badge>
     </div>
   )
 }

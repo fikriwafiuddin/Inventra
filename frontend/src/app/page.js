@@ -3,17 +3,11 @@ import { auth } from "@clerk/nextjs/server"
 import {
   Package,
   BarChart3,
-  Users,
   Shield,
   Zap,
   CheckCircle,
-  ArrowRight,
   Star,
-  Menu,
-  X,
-  ChevronDown,
   GlobeIcon,
-  ArrowRightIcon,
 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -22,39 +16,38 @@ import MobileNavigation from "@/components/MobileNavigation"
 const features = [
   {
     icon: <Package className="w-6 h-6" />,
-    title: "Manajemen Stok Real-time",
+    title: "Real-time Stock Management",
     description:
-      "Pantau stok produk secara real-time dengan notifikasi otomatis untuk stok menipis",
+      "Monitor product stock in real time and get automatic low-stock alerts",
   },
   {
     icon: <BarChart3 className="w-6 h-6" />,
     title: "Analytics & Reporting",
     description:
-      "Dashboard analitik komprehensif dengan laporan penjualan dan performa inventori",
+      "Comprehensive analytics dashboard with sales and inventory performance reports",
   },
   {
     icon: <GlobeIcon className="w-6 h-6" />,
     title: "Access Anywhere",
-    description:
-      "Kelola tim dengan berbagai tingkat akses dan permission yang dapat dikustomisasi",
+    description: "Manage and monitoring your business from anywhere",
   },
   {
     icon: <Shield className="w-6 h-6" />,
-    title: "Keamanan Data",
+    title: "Data Security",
     description:
-      "Enkripsi end-to-end dan backup otomatis untuk melindungi data bisnis Anda",
+      "Encrypted storage and automated backups to protect your business data",
   },
   {
     icon: <Zap className="w-6 h-6" />,
-    title: "Automasi Workflow",
+    title: "Workflow Automation",
     description:
-      "Otomatisasi proses pemesanan, restock, dan transfer antar gudang",
+      "Automate purchase orders, restocking, and transfers between locations",
   },
   {
     icon: <CheckCircle className="w-6 h-6" />,
-    title: "Integrasi Mudah",
+    title: "Easy Integrations",
     description:
-      "Integrasi seamless dengan platform e-commerce dan sistem akuntansi populer",
+      "Seamless integrations with popular e‑commerce platforms and accounting systems",
   },
 ]
 
@@ -62,19 +55,19 @@ const testimonials = [
   {
     name: "Budi Santoso",
     company: "PT. Maju Bersama",
-    text: "Inventra membantu kami mengurangi stok mati hingga 40% dan meningkatkan efisiensi operasional.",
+    text: "Inventra helped us reduce dead stock by 40% and improved our operational efficiency.",
     rating: 5,
   },
   {
     name: "Sari Wijaya",
     company: "Toko Elektronik Jaya",
-    text: "Interface yang user-friendly dan fitur analytics yang powerful. Sangat recommended!",
+    text: "User-friendly interface and powerful analytics features. Highly recommended!",
     rating: 5,
   },
   {
     name: "Ahmad Rifai",
     company: "CV. Sentosa Makmur",
-    text: "Customer support yang responsif dan sistem yang sangat reliable untuk bisnis kami.",
+    text: "Responsive customer support and a very reliable system for our business.",
     rating: 5,
   },
 ]
@@ -83,11 +76,11 @@ const pricingPlans = [
   {
     name: "Starter",
     price: "299,000",
-    period: "per bulan",
-    description: "Cocok untuk bisnis kecil",
+    period: "per month",
+    description: "Good for small businesses",
     features: [
-      "Hingga 1,000 produk",
-      "2 lokasi gudang",
+      "Up to 1,000 products",
+      "2 warehouse locations",
       "Basic analytics",
       "Email support",
       "Mobile app access",
@@ -97,27 +90,27 @@ const pricingPlans = [
   {
     name: "Professional",
     price: "799,000",
-    period: "per bulan",
-    description: "Untuk bisnis yang berkembang",
+    period: "per month",
+    description: "For growing businesses",
     features: [
-      "Hingga 10,000 produk",
-      "5 lokasi gudang",
+      "Up to 10,000 products",
+      "5 warehouse locations",
       "Advanced analytics",
       "Priority support",
       "API access",
       "Custom reports",
-      "Multi-user (10 users)",
+      "Multi-user (up to 10 users)",
     ],
     popular: true,
   },
   {
     name: "Enterprise",
     price: "Custom",
-    period: "hubungi kami",
-    description: "Solusi untuk perusahaan besar",
+    period: "contact us",
+    description: "Solutions for large organizations",
     features: [
-      "Unlimited produk",
-      "Unlimited lokasi",
+      "Unlimited products",
+      "Unlimited locations",
       "AI-powered insights",
       "24/7 phone support",
       "Custom integrations",
@@ -149,25 +142,25 @@ async function InventraLanding() {
                 href="#features"
                 className="text-foreground hover:text-primary transition-colors"
               >
-                Fitur
+                Features
               </a>
               <a
                 href="#pricing"
                 className="text-foreground hover:text-primary transition-colors"
               >
-                Harga
+                Pricing
               </a>
               <a
                 href="#testimonials"
                 className="text-foreground hover:text-primary transition-colors"
               >
-                Testimoni
+                Testimonials
               </a>
               <a
                 href="#contact"
                 className="text-foreground hover:text-primary transition-colors"
               >
-                Kontak
+                Contact
               </a>
             </div>
 
@@ -201,13 +194,13 @@ async function InventraLanding() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
-              Kelola Inventori dengan
-              <span className="block text-primary">Mudah & Efisien</span>
+              Manage Inventory
+              <span className="block text-primary">Easily & Efficiently</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-              Inventra adalah solusi SaaS inventory management yang membantu
-              bisnis Anda mengelola stok, melacak penjualan, dan mengoptimalkan
-              operasional dengan teknologi terdepan.
+              Inventra is a straightforward inventory management app that helps
+              small and medium businesses manage stock, track sales, and
+              streamline operations — honestly presented and easy to use.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {userId ? (
@@ -239,7 +232,7 @@ async function InventraLanding() {
               )}
             </div>
             <div className="mt-8 text-sm text-muted-foreground">
-              ✓ Tidak perlu kartu kredit ✓ Setup dalam 5 menit ✓ Support 24/7
+              ✓ No credit card required ✓ Setup in minutes ✓ 100% free to use
             </div>
           </div>
         </div>
@@ -250,11 +243,10 @@ async function InventraLanding() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              Fitur Lengkap untuk Bisnis Modern
+              Powerful Features for Modern Businesses
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Dapatkan semua tools yang Anda butuhkan untuk mengelola inventori
-              dengan efisien
+              Get the essential tools you need to manage inventory efficiently.
             </p>
           </div>
 
@@ -285,11 +277,11 @@ async function InventraLanding() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-4xl font-bold text-primary mb-2">5000+</div>
-              <div className="text-muted-foreground">Bisnis Terdaftar</div>
+              <div className="text-muted-foreground">Businesses Registered</div>
             </div>
             <div>
               <div className="text-4xl font-bold text-primary mb-2">10M+</div>
-              <div className="text-muted-foreground">Produk Dikelola</div>
+              <div className="text-muted-foreground">Products Managed</div>
             </div>
             <div>
               <div className="text-4xl font-bold text-primary mb-2">99.9%</div>
@@ -308,10 +300,10 @@ async function InventraLanding() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              Dipercaya oleh Ribuan Bisnis
+              Trusted by Businesses
             </h2>
             <p className="text-xl text-muted-foreground">
-              Lihat apa kata pengguna Inventra tentang pengalaman mereka
+              See what Inventra users say about their experience
             </p>
           </div>
 
@@ -349,14 +341,14 @@ async function InventraLanding() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              Pilih Paket yang Tepat untuk Bisnis Anda
+              Choose the Right Plan
             </h2>
             <p className="text-xl text-muted-foreground">
-              Mulai gratis dan upgrade sesuai kebutuhan bisnis Anda
+              Start free — 100% free to use
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          {/* <div className="grid md:grid-cols-3 gap-8">
             {pricingPlans.map((plan, index) => (
               <div
                 key={index}
@@ -369,7 +361,7 @@ async function InventraLanding() {
                 {plan.popular && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                     <span className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold">
-                      Paling Populer
+                      Most Popular
                     </span>
                   </div>
                 )}
@@ -408,11 +400,11 @@ async function InventraLanding() {
                       : "border border-border hover:bg-accent"
                   }`}
                 >
-                  {plan.price === "Custom" ? "Hubungi Sales" : "Mulai Sekarang"}
+                  {plan.price === "Custom" ? "Contact Sales" : "Get Started"}
                 </button>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -420,11 +412,11 @@ async function InventraLanding() {
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Siap untuk Mengoptimalkan Inventori Anda?
+            Ready to Optimize Your Inventory?
           </h2>
           <p className="text-xl opacity-90 mb-8">
-            Bergabunglah dengan ribuan bisnis yang sudah merasakan manfaat
-            Inventra. Coba gratis sekarang, tidak perlu kartu kredit.
+            Join thousands of businesses using Inventra. Try it now — 100% free
+            to use, no credit card required.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {userId ? (
@@ -475,16 +467,17 @@ async function InventraLanding() {
                 </span>
               </div>
               <p className="text-muted-foreground mb-4">
-                Solusi inventory management terdepan untuk bisnis modern.
+                A straightforward inventory management solution for modern
+                businesses.
               </p>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Produk</h4>
+              <h4 className="font-semibold mb-4">Product</h4>
               <ul className="space-y-2 text-muted-foreground">
                 <li>
                   <a href="#" className="hover:text-primary transition-colors">
-                    Fitur
+                    Features
                   </a>
                 </li>
                 <li>
@@ -499,7 +492,7 @@ async function InventraLanding() {
                 </li>
                 <li>
                   <a href="#" className="hover:text-primary transition-colors">
-                    Integrasi
+                    Integrations
                   </a>
                 </li>
               </ul>
@@ -510,12 +503,12 @@ async function InventraLanding() {
               <ul className="space-y-2 text-muted-foreground">
                 <li>
                   <a href="#" className="hover:text-primary transition-colors">
-                    Dokumentasi
+                    Documentation
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-primary transition-colors">
-                    Tutorial
+                    Tutorials
                   </a>
                 </li>
                 <li>
@@ -525,18 +518,18 @@ async function InventraLanding() {
                 </li>
                 <li>
                   <a href="#" className="hover:text-primary transition-colors">
-                    Kontak
+                    Contact
                   </a>
                 </li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Perusahaan</h4>
+              <h4 className="font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-muted-foreground">
                 <li>
                   <a href="#" className="hover:text-primary transition-colors">
-                    Tentang Kami
+                    About Us
                   </a>
                 </li>
                 <li>
@@ -546,7 +539,7 @@ async function InventraLanding() {
                 </li>
                 <li>
                   <a href="#" className="hover:text-primary transition-colors">
-                    Karir
+                    Careers
                   </a>
                 </li>
                 <li>
@@ -577,6 +570,8 @@ async function InventraLanding() {
               </a>
             </div>
           </div>
+
+          <p className="text-muted-foreground text-sm text-right">v1.0.0</p>
         </div>
       </footer>
     </div>
