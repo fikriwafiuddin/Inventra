@@ -1,18 +1,6 @@
 "use client"
 
-import {
-  Calendar,
-  LayoutDashboard,
-  Inbox,
-  ShoppingCartIcon,
-  Settings,
-  ChartAreaIcon,
-  FolderClosedIcon,
-  TruckIcon,
-  TouchpadIcon,
-  PackageIcon,
-  BoxIcon,
-} from "lucide-react"
+import { PackageIcon } from "lucide-react"
 
 import {
   Sidebar,
@@ -24,6 +12,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar"
 import { Separator } from "./ui/separator"
 import Link from "next/link"
@@ -32,6 +21,7 @@ import navLinks from "@/lib/constants/navLinks"
 
 export function AppSidebar() {
   const pathname = usePathname()
+  const { isMobile, setOpenMobile } = useSidebar()
 
   return (
     <Sidebar collapsible="icon">
@@ -65,7 +55,12 @@ export function AppSidebar() {
                         "bg-sidebar-accent text-sidebar-accent-foreground"
                       }
                     >
-                      <Link href={item.url}>
+                      <Link
+                        href={item.url}
+                        onClick={() => {
+                          if (isMobile) setOpenMobile(false)
+                        }}
+                      >
                         <item.icon />
                         <span>{item.title}</span>
                       </Link>
