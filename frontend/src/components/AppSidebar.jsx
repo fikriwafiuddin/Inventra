@@ -26,48 +26,9 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { Separator } from "./ui/separator"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-
-const navLinks = [
-  {
-    label: "",
-    items: [
-      {
-        label: "",
-        title: "Dashboard",
-        url: "/dashboard",
-        icon: LayoutDashboard,
-      },
-    ],
-  },
-  {
-    label: "Master Data",
-    items: [
-      { title: "Products", url: "/products", icon: Inbox },
-      { title: "Categories", url: "/categories", icon: FolderClosedIcon },
-      { title: "Suppliers", url: "/suppliers", icon: TruckIcon },
-      { title: "Stock", url: "/stock", icon: BoxIcon },
-    ],
-  },
-  {
-    label: "Transaction",
-    items: [
-      { title: "POS", url: "/pos", icon: TouchpadIcon },
-      { title: "Orders", url: "/orders", icon: Calendar },
-      { title: "Purchases", url: "/purchases", icon: ShoppingCartIcon },
-    ],
-  },
-  ,
-  {
-    label: "Analysis & More",
-    items: [
-      { title: "Analysis", url: "/analysis", icon: ChartAreaIcon },
-      { title: "Settings", url: "/settings", icon: Settings },
-    ],
-  },
-]
+import navLinks from "@/lib/constants/navLinks"
 
 export function AppSidebar() {
   const pathname = usePathname()

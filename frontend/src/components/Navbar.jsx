@@ -1,22 +1,19 @@
 "use client"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
-import { LogOutIcon, Moon, Sun, UserIcon } from "lucide-react"
+import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import { SidebarTrigger } from "./ui/sidebar"
-import Link from "next/link"
 import { Input } from "./ui/input"
 import { usePathname } from "next/navigation"
 import { SignedIn, UserButton } from "@clerk/nextjs"
+import CommandMenu from "./CommandMenu"
 
 function Navbar() {
   const { setTheme } = useTheme()
@@ -32,11 +29,7 @@ function Navbar() {
         <h2>{title}</h2>
       </div>
       <div className="flex gap-3">
-        <Input
-          type="search"
-          placeholder="Search"
-          className="hidden sm:inline"
-        />
+        <CommandMenu />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
