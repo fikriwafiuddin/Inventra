@@ -4,15 +4,16 @@ import { useState } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useAuth } from "@clerk/nextjs"
 
 export default function MobileNavigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { userId } = useAuth()
 
   return (
     <div className="md:hidden">
       {/* Mobile Menu Button */}
       <button
-        className=""
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         aria-expanded={mobileMenuOpen}
         aria-controls="mobile-menu-items"
@@ -34,49 +35,46 @@ export default function MobileNavigation() {
             <a
               href="#features"
               className="text-foreground hover:text-primary transition-colors"
-              onClick={() => setMobileMenuOpen(false)} // Tutup menu saat klik link
+              onClick={() => setMobileMenuOpen(false)}
             >
-              Fitur
+              Features
             </a>
             <a
               href="#pricing"
               className="text-foreground hover:text-primary transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Harga
+              Pricing
             </a>
             <a
               href="#testimonials"
               className="text-foreground hover:text-primary transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Testimoni
+              Testimonials
             </a>
             <a
               href="#contact"
               className="text-foreground hover:text-primary transition-colors"
-              onClick={() => setMobileOpen(false)}
+              onClick={() => setMobileMenuOpen(false)}
             >
-              Kontak
+              Contact
             </a>
             <div className="flex flex-col space-y-2 pt-4 border-t border-border">
-              <Link href="/auth/sign-in" passHref>
-                <Button
-                  variant="ghost"
-                  className="justify-start"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Sign-in
-                </Button>
-              </Link>
-              <Link href="/auth/sign-up" passHref>
-                <Button
-                  className="justify-start"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Sign-up
-                </Button>
-              </Link>
+              {userId ? (
+                <Link href="/dashboard" passHref>
+                  <Button>Dashboard</Button>
+                </Link>
+              ) : (
+                <>
+                  <Link href="/auth/sign-up" passHref>
+                    <Button variant="ghost">Sign-up</Button>
+                  </Link>
+                  <Link href="/auth/sign-in" passHref>
+                    <Button>Sign-in</Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
